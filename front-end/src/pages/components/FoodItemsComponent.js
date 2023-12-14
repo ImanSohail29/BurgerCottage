@@ -43,7 +43,7 @@ const FoodItemsComponent = ({ getFoodItems, categories }) => {
                         {
                             categories.map((categoryItem, idx) => {
                                 return (
-                                <LinkContainer style={{ cursor: "pointer" }} to={`/foodItem-list/category/${categoryItem.name}`}>
+                                <LinkContainer key={idx} style={{ cursor: "pointer" }} to={`/foodItem-list/category/${categoryItem.name}`}>
                                     <ListGroup.Item key={idx}>
                                         <Image style={{ maxWidth: "50px", maxHeight: "50px" }} crossOrigin="anonymous" src={categoryItem.image}></Image>
                                         {categoryItem.name}
