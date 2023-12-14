@@ -28,7 +28,7 @@ const AdminVendorsListComponent = ({ fetchVendors ,  deleteVendor }) => {
     return (
         <Row className="m-5">
             <Col md={12}>
-                <h1>Vendors List{"  "}<LinkContainer to="/admin/vendors/">
+                <h1>Vendors List{"  "}<LinkContainer to="/admin/create-new-vendor">
             <Button variant="primary" size="lg">
               Create new
             </Button>
