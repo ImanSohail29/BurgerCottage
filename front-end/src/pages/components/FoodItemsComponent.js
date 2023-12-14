@@ -37,7 +37,7 @@ const FoodItemsComponent = ({ getFoodItems, categories }) => {
 
     return (
         <Container fluid >
-            <Row>
+            <Row style={{height:"100vh"}}>
                 <Col className="" style={{ backgroundColor: " rgb(148, 30, 22)" }} md={3}>
                     <ListGroup variant="flush">
                         {
