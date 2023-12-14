@@ -38,7 +38,7 @@ const FoodItemsComponent = ({ getFoodItems, categories }) => {
     return (
         <Container fluid >
             <Row style={{height:"100vh"}}>
-                <Col className="" style={{ backgroundColor: " rgb(148, 30, 22)" }} md={3}>
+                <Col xs={3} style={{ backgroundColor: " rgb(148, 30, 22)" }}>
                     <ListGroup variant="flush">
                         {
                             categories.map((categoryItem, idx) => {
@@ -56,12 +56,13 @@ const FoodItemsComponent = ({ getFoodItems, categories }) => {
                         }
                     </ListGroup>
                 </Col>
-                <Col md={9}>
+                <Col xs={8}>
                     {loading ? (<h1>Loading Items...</h1>) : error ? (<h1>Error while loading food Items...</h1>) : (foodItems.map((foodItem) => {
                         return (
-
+                            <Row key={foodItem._id} xs={1} md={2} className="g-4">
+<Col>
                             <FoodItemForListComponent
-                                key={foodItem._id}
+                                
                                 foodItemId={foodItem._id}
                                 image={foodItem.image}
                                 name={foodItem.name}
@@ -69,7 +70,7 @@ const FoodItemsComponent = ({ getFoodItems, categories }) => {
                                 price={foodItem.price}
                             >
                             </FoodItemForListComponent>
-
+</Col></Row>
                         )
                     }))}
                     {paginationLinksNumber > 1 ? (

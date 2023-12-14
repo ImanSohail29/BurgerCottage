@@ -4,9 +4,7 @@ import { LinkContainer } from "react-router-bootstrap"
 const FoodItemForListComponent = ({ foodItemId, name, description, price, image }) => {
     const cursorP = { cursor: "pointer" }
     return (
-        <Container>
-            <Row xs={1} md={2}>
-                <Card className="bg-danger text-white p-1 m-1 bg-opacity-50 border-start" style={{ maxWidth: "600px", backgroundColor: " rgb(255, 30, 22)", color: "white" }}>
+                <Card className="bg-danger text-white p-1 m-1 bg-opacity-50 border-start" style={{ backgroundColor: " rgb(255, 30, 22)", color: "white" }}>
                     <LinkContainer style={cursorP} to={`/foodItem-detail/${foodItemId}`}>
                     <Row>
                         <Col lg={5}>
@@ -27,8 +25,6 @@ const FoodItemForListComponent = ({ foodItemId, name, description, price, image 
                     </Row>
                     </LinkContainer>
                 </Card>
-            </Row>
-        </Container>
     )
 };
 export default FoodItemForListComponent;
