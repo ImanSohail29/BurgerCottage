@@ -1,4 +1,26 @@
-const FoodItemDetailPage=()=>{
+import FoodItemDetailComponent from "./components/FoodItemDetailComponent";
+import { useDispatch, useSelector } from "react-redux";
+import {addToCart} from "../redux/slices/cartSlice"
+import axios from 'axios'
 
+const getFoodItemDetails = async(id) => {
+    const { data } = await axios.get(`/api/foodItems/get-one/${id}`);
+    return data
 }
-export default FoodItemDetailPage
+
+const writeReviewApiRequest = async (foodItemId, formInputs) => {
+    const { data } = await axios.post(`/api/users/review/${foodItemId}`, { ...formInputs });
+    return data;
+}
+
+const FoodItemDetailPage = () => {
+
+    const dispatch = useDispatch()
+
+    //const userInfo = useSelector((state) => state.userRegisterLogin.userInfo);
+
+
+  return <FoodItemDetailComponent  addToCartReduxAction={addToCart} reduxDispatch={dispatch} getFoodItemDetails={getFoodItemDetails} writeReviewApiRequest={writeReviewApiRequest} />;
+};
+
+export default FoodItemDetailPage;
