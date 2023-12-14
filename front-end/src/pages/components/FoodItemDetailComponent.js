@@ -112,14 +112,14 @@ import {
                   
                           <Image
                             crossOrigin="anonymous"
-                            fluid
+                            fluid width={"100%"}
                             src={`${product.image.path ?? null}`}/>
             
                   : null}
               </Col>
               <Col md={8}>
                 <Row>
-                  <Col md={8}>
+                  <Col md={6}>
                     <ListGroup variant="flush">
                       <ListGroup.Item>
                         <h1>{product.name}</h1>
@@ -138,7 +138,7 @@ import {
                       <ListGroup.Item>{product.description}</ListGroup.Item>
                     </ListGroup>
                   </Col>
-                  <Col md={4}>
+                  <Col md={6}>
                     <ListGroup>
                       <ListGroup.Item>
                         Status: {product.count > 0 ? "in stock" : "out of stock"}

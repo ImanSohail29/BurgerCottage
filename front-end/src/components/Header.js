@@ -3,23 +3,27 @@ import { LinkContainer } from "react-router-bootstrap"
 import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBurger } from '@fortawesome/free-solid-svg-icons'
-import { Link,useNavigate } from "react-router-dom"
-import { Dropdown, DropdownButton, InputGroup,Navbar,Container, NavDropdown, Nav, Badge } from 'react-bootstrap';
+import { Link, useNavigate } from "react-router-dom"
+import { Dropdown, DropdownButton, InputGroup, Navbar, Container, NavDropdown, Nav, Badge } from 'react-bootstrap';
 import { getCategories } from "../redux/slices/categorySlice";
+import { logout } from "../redux/slices/userSlice";
 
-const Header=()=>{
-    const navigate=useNavigate()
-    const dispatch=useDispatch()
+const Header = () => {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const { userInfo } = useSelector((state) => state.user)
+  const itemsCount = useSelector((state) => state.cart.itemsCount)
+  const { categories } = useSelector((state) => state.category)
 
-    useEffect(()=>{
-dispatch(getCategories())
-    },[dispatch])
-    return(
-        <Navbar collapseOnSelect expand="lg" style={{background: "rgba(0, 0, 0, 0.3)"}} variant="dark">
+  useEffect(() => {
+    dispatch(getCategories())
+  }, [dispatch])
+  return (
+    <Navbar collapseOnSelect expand="lg" style={{ background: "rgba(0, 0, 0, 0.3)" }} variant="dark">
       <Container>
         <LinkContainer to='/'>
           <Navbar.Brand href="/">
-          <FontAwesomeIcon icon={faBurger}  />
+            <FontAwesomeIcon icon={faBurger} />
             BURGER COTTAGE</Navbar.Brand>
         </LinkContainer>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -38,29 +42,41 @@ dispatch(getCategories())
 
           </Nav>
           <Nav>
-
-
-            
-              <LinkContainer to='/admin/orders'>
-                <Nav.Link>Admin
-                  <i className="bi bi-circle-fill text-danger"></i>
-                </Nav.Link>
-              </LinkContainer>
-            
-              <NavDropdown title={""} id="collasible-nav-dropdown">
-                <NavDropdown.Item eventKey="/" as={Link} to="/" >My orders</NavDropdown.Item>
-                <NavDropdown.Item eventKey="/" as={Link} to="/" >My Profile</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item onClick={() => {}} >Logout</NavDropdown.Item>
-              </NavDropdown>
-              <LinkContainer to='/cart'>
+            <LinkContainer to='/cart'>
               <Nav.Link >
-                <Badge pill bg="danger">{1}</Badge>
+                <Badge pill bg="danger">{itemsCount === 0 ? "" : itemsCount}</Badge>
                 <i className="bi bi-cart2"></i>
                 <span className="ms-1">Cart</span>
               </Nav.Link>
             </LinkContainer>
-              <LinkContainer to='/login'>
+
+          </Nav>
+          <Nav>
+
+
+            {userInfo.isAdmin ? (
+              <LinkContainer to='/admin/vendors'>
+                <Nav.Link>Admin
+                  <i className="bi bi-circle-fill text-danger"></i>
+                </Nav.Link>
+              </LinkContainer>
+            ) : userInfo.name && !userInfo.isAdmin ? (<>
+              <NavDropdown title={`${userInfo.name}`} id="collasible-nav-dropdown">
+                <NavDropdown.Item eventKey="/user/my-orders" as={Link} to="/user/my-orders" >My orders</NavDropdown.Item>
+                <NavDropdown.Item eventKey="/user" as={Link} to="/user" >My Profile</NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item onClick={() => { dispatch(logout()) }} >Logout</NavDropdown.Item>
+              </NavDropdown>
+              <LinkContainer to='/cart'>
+                <Nav.Link >
+                  <Badge pill bg="danger">{itemsCount === 0 ? "" : itemsCount}</Badge>
+                  <i className="bi bi-cart2"></i>
+                  <span className="ms-1">Cart</span>
+                </Nav.Link>
+              </LinkContainer>
+            </>
+
+            ) : (<> <LinkContainer to='/login'>
               <Nav.Link >
                 Login
               </Nav.Link>
@@ -69,11 +85,14 @@ dispatch(getCategories())
                 <Nav.Link >
                   Register
                 </Nav.Link>
-              </LinkContainer>
+              </LinkContainer></>)}
+
+
+
           </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>
-    )
+  )
 }
 export default Header

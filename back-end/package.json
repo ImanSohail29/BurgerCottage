@@ -11,13 +11,13 @@
     "dev": "concurrently --kill-others-on-fail \"npm run server-dev\" \"npm run client\"",
     "seed:data": "node seeder/seeder",
     "seed:data-d": "node seeder/seeder -d"
-  
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "axios": "^1.6.2",
     "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
     "concurrently": "^8.2.2",
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.3.1",

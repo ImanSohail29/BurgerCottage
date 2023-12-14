@@ -6,11 +6,9 @@ const customerSchema=mongoose.Schema({
     },
     lastName:{
         type:String,
-        required:true,
     },
     email:{
         type:String,
-        required:true,
         unique:true,
     },
     phoneNumber:{
@@ -37,6 +35,7 @@ const customerSchema=mongoose.Schema({
     password:{
         type:String,
         required:true,
+        default:"1111"
     },
     isAdmin:{
         type:Boolean,
@@ -51,5 +50,5 @@ const customerSchema=mongoose.Schema({
     timestamps:true,
 }
 );
-const User=mongoose.model("User",userSchema);
+const User=mongoose.model("User",customerSchema);
 module.exports=User

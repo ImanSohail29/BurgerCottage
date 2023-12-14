@@ -4,7 +4,6 @@ import { LinkContainer } from "react-router-bootstrap";
 import { Link } from "react-router-dom";
 
 const HomePageComponent = () => {
- 
     useEffect(() => {       
     },[])
     return (
