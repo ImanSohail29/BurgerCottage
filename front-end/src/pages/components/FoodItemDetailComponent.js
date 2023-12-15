@@ -1,101 +1,101 @@
 import {
-    Row,
-    Col,
-    Container,
-    Image,
-    ListGroup,
-    Form,
-    Button,
-    Alert,
-  } from "react-bootstrap";
-  import { Rating } from "react-simple-star-rating";
-  
-  import ImageZoom from "js-image-zoom";
-  import { useEffect, useState, useRef } from "react";
-  import AddedToCartMessageComponent from "../../components/AddedToCartMessageComponent"
-  import { useParams } from "react-router-dom";
-  
-  const FoodItemDetailComponent = ({
-    addToCartReduxAction,
-    reduxDispatch,
-    getFoodItemDetails,
-    writeReviewApiRequest
-  }) => {
-    const { id } = useParams();
-    const [quantity, setQuantity] = useState(1);
-    const [showCartMessage, setShowCartMessage] = useState(false);
-    const [product, setProduct] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(false);
-    const [productReviewed, setProductReviewed] = useState(false);
-  
-    const messagesEndRef = useRef(null);
-  
-    const addToCartHandler = () => {
-      reduxDispatch(addToCartReduxAction(id, quantity));
-      setShowCartMessage(true);
-    };
-  
-    useEffect(() => {
-      if (productReviewed) {
-          setTimeout(() => {
-               messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-          }, 200)
-      }  
-    }, [productReviewed])
-  
-    useEffect(() => {
-      if (product.images) {
-        var options = {
-          // width: 400,
-          // zoomWidth: 500,
-          // fillContainer: true,
-          // zoomPosition: "bottom",
-          scale: 2,
-          offset: { vertical: 0, horizontal: 0 },
-        };
-  
-        product.images.map(
-          (image, id) =>
-            new ImageZoom(document.getElementById(`imageId${id + 1}`), options)
-        );
-      }
-    });
-  
-    useEffect(() => {
-      getFoodItemDetails(id)
-        .then((data) => {
-          setProduct(data);
-          setLoading(false);
-        })
-        .catch((er) =>
-          setError(
-            er.response.data.message ? er.response.data.message : er.response.data
-          )
-        );
-    }, [id, productReviewed]);
-  
-    const sendReviewHandler = (e) => {
-       e.preventDefault();
-       const form = e.currentTarget.elements;
-       const formInputs = {
-           comment: form.comment.value,
-           rating: form.rating.value,
-       }
-       if (e.currentTarget.checkValidity() === true) {
-           writeReviewApiRequest(product._id, formInputs)
-           .then(data => {
-               if (data === "review created") {
-                   setProductReviewed("You successfuly reviewed the page!");
-               }
-           })
-           .catch((er) => setProductReviewed(er.response.data.message ? er.response.data.message : er.response.data));
-       }
+  Row,
+  Col,
+  Container,
+  Image,
+  ListGroup,
+  Form,
+  Button,
+  Alert,
+  InputGroup,
+  DropdownButton,
+  Dropdown,
+} from "react-bootstrap";
+import { Rating } from "react-simple-star-rating";
+
+import ImageZoom from "js-image-zoom";
+import { useEffect, useState, useRef } from "react";
+import AddedToCartMessageComponent from "../../components/AddedToCartMessageComponent"
+import { useParams } from "react-router-dom";
+
+const FoodItemDetailComponent = ({
+  addToCartReduxAction,
+  reduxDispatch,
+  getFoodItemDetails,
+  writeReviewApiRequest
+}) => {
+  const { id } = useParams();
+  const [quantity, setQuantity] = useState(1);
+  const [showCartMessage, setShowCartMessage] = useState(false);
+  const [product, setProduct] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const [productReviewed, setProductReviewed] = useState(false);
+  const [size, setSize] = useState()
+  const [instructions,setInstructions]=useState("")
+  const messagesEndRef = useRef(null);
+
+  const addToCartHandler = () => {
+    const sameProduct = false
+    reduxDispatch(addToCartReduxAction({ id, quantity,size,instructions, sameProduct }))
+    setShowCartMessage(true)
+  };
+
+  useEffect(() => {
+    if (productReviewed) {
+      setTimeout(() => {
+        messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+      }, 200)
     }
-  
-    return (
-        <>
-        <Container>
+  }, [productReviewed])
+
+
+  useEffect(() => {
+    getFoodItemDetails(id)
+      .then((data) => {
+        setSize(data.size[0]);
+      })
+      .catch((er) =>
+        setError(
+          er.response.data.message ? er.response.data.message : er.response.data
+        )
+      );
+  }, []);
+
+  useEffect(() => {
+    getFoodItemDetails(id)
+      .then((data) => {
+        setProduct(data);
+        setLoading(false);
+      })
+      .catch((er) =>
+        setError(
+          er.response.data.message ? er.response.data.message : er.response.data
+        )
+      );
+  }, [id, productReviewed,size]);
+
+  const sendReviewHandler = (e) => {
+    e.preventDefault();
+    const form = e.currentTarget.elements;
+    const formInputs = {
+      comment: form.comment.value,
+      rating: form.rating.value,
+    }
+    if (e.currentTarget.checkValidity() === true) {
+      writeReviewApiRequest(product._id, formInputs)
+        .then(data => {
+          if (data === "review created") {
+            setProductReviewed("You successfuly reviewed the page!");
+          }
+        })
+        .catch((er) => setProductReviewed(er.response.data.message ? er.response.data.message : er.response.data));
+    }
+  }
+
+  return (
+    <>
+      <Container>
         <AddedToCartMessageComponent
           showCartMessage={showCartMessage}
           setShowCartMessage={setShowCartMessage}
@@ -108,13 +108,13 @@ import {
           ) : (
             <>
               <Col style={{ zIndex: 1 }} md={4}>
-                {product.image?
-                  
-                          <Image
-                            crossOrigin="anonymous"
-                            fluid width={"100%"}
-                            src={`${product.image.path ?? null}`}/>
-            
+                {product.image ?
+
+                  <Image
+                    crossOrigin="anonymous"
+                    fluid width={"100%"}
+                    src={`${product.image.path ?? null}`} />
+
                   : null}
               </Col>
               <Col md={8}>
@@ -124,42 +124,45 @@ import {
                       <ListGroup.Item>
                         <h1>{product.name}</h1>
                       </ListGroup.Item>
-                      <ListGroup.Item>
+                      {/* <ListGroup.Item>
                         <Rating
                           readonly
                           size={20}
                           initialValue={product.rating}
                         />{" "}
                         ({product.reviewsNumber})
+                      </ListGroup.Item> */}
+                      <ListGroup.Item>
+                        Price:  <span className="fw-bold">Rs{size.price}/-</span>
                       </ListGroup.Item>
                       <ListGroup.Item>
-                        Price <span className="fw-bold">${product.price}</span>
+                        <DropdownButton id="dropdown-basic-button" title={size.value} value={size.value} defaultValue={product.size[0]}>
+                          {product.size.map((values,idx) => (
+                            <Dropdown.Item key={idx} onClick={() => setSize(values)}>{values.value}</Dropdown.Item>
+                          ))}
+                        </DropdownButton>
                       </ListGroup.Item>
+                 
                       <ListGroup.Item>{product.description}</ListGroup.Item>
                     </ListGroup>
                   </Col>
                   <Col md={6}>
                     <ListGroup>
-                      <ListGroup.Item>
+                      {/* <ListGroup.Item>
                         Status: {product.count > 0 ? "in stock" : "out of stock"}
-                      </ListGroup.Item>
+                      </ListGroup.Item> */}
                       <ListGroup.Item>
-                        Price: <span className="fw-bold">${product.price}</span>
+                        Total Price: <span className="fw-bold">Rs { size?(size.price*quantity):(0) }/-</span>
                       </ListGroup.Item>
                       <ListGroup.Item>
                         Quantity:
-                        <Form.Select
-                          value={quantity}
-                          onChange={(e) => setQuantity(e.target.value)}
-                          size="lg"
-                          aria-label="Default select example"
-                        >
-                          {[...Array(product.count).keys()].map((x) => (
-                            <option key={x + 1} value={x + 1}>
-                              {x + 1}
-                            </option>
-                          ))}
-                        </Form.Select>
+                        <Button onClick={() => setQuantity((value) => value - 1)}>-</Button>
+                        <input type="number" min={0} className="w-25" value={quantity} onChange={(event) => {
+                          setQuantity(event.target.value)
+                          return (event.target.value)
+                        }}></input>
+                        <Button onClick={() => setQuantity((value) => value + 1)}>+</Button>
+
                       </ListGroup.Item>
                       <ListGroup.Item>
                         <Button onClick={addToCartHandler} variant="danger">
@@ -183,13 +186,13 @@ import {
                             {review.comment}
                           </ListGroup.Item>
                         ))}
-                        <div ref={messagesEndRef} />
+                      <div ref={messagesEndRef} />
                     </ListGroup>
                   </Col>
                 </Row>
                 <hr />
                 {/* {!userInfo.name && <Alert variant="danger">Login first to write a review</Alert>} */}
-                
+
                 {/* <Form onSubmit={sendReviewHandler}>
                   <Form.Group
                     className="mb-3"
@@ -216,10 +219,9 @@ import {
           )}
         </Row>
       </Container>
-        </>
-      
-    );
-  };
-  
-  export default FoodItemDetailComponent;
-  
+    </>
+
+  );
+};
+
+export default FoodItemDetailComponent;

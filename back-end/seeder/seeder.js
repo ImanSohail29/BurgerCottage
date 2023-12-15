@@ -14,11 +14,11 @@ const InventoryOrderPayment = require("../models/InventoryOrderPaymentModel")
 const FoodItem=require("../models/FoodItemModel")
 const importData = async () => {
     try {
-        await User.collection.dropIndexes()
-        await User.collection.deleteMany({})
+        await FoodItem.collection.dropIndexes()
+        await FoodItem.collection.deleteMany({})
 
         if (process.argv[2] !== "-d") {
-            await User.insertMany(userData)  
+            await FoodItem.insertMany(foodItemsData)  
             console.log("Seeder data processed successfully")
             process.exit()
             return

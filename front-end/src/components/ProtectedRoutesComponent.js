@@ -13,7 +13,7 @@ const ProtectedRoutesComponent = ({ admin }) => {
              setIsAuth(data.data.token);
          }
          return isAuth;
-     }) 
+     }).catch((er)=>{setIsAuth("")}) 
   }, [isAuth])
 
   if (isAuth === undefined) return <LoginPage />;

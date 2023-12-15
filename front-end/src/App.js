@@ -17,6 +17,7 @@ import RegisterPage from "./pages/RegisterPage";
 import CartPage from "./pages/CartPage";
 import ProtectedRoutesComponent from "./components/ProtectedRoutesComponent";
 import HomePageComponent from "./pages/components/HomePageComponent";
+import AdminCartDetailsPage from "./pages/admin/billing/AdminCartDetailsPage";
 
 function App() {
   return (
@@ -41,7 +42,7 @@ function App() {
          <Route element={<ProtectedRoutesComponent admin={false} />}>
           <Route path="/user" element={<HomePage />} />
           <Route path="/user/my-orders" element={<HomePage />} />
-          <Route path="/user/cart-details" element={<HomePage />} />
+          <Route path="/user/cart-details" element={<AdminCartDetailsPage />} />
           <Route
             path="/user/order-details/:id"
             element={<HomePageComponent />}

@@ -9,9 +9,9 @@ const FoodOrderModel=mongoose.Schema({
                 priceofitem:{type:Number,required:true}
                 }],
                 countofitems:{type:Number,required:true},
-                priceofitems:{type:Number,required:true}
+                totalPrice:{type:Number,required:true},
+                discount:{type:Number,required:true},
             },
-            instructions:{type:String},
             deliveryAddress:{type:String,required:true},
             serviceMode:{type:String,enum:['Delivery','Take away','Dine in'],default:'delivery',required:true},
             transactionResult: {

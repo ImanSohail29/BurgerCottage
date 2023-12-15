@@ -67,7 +67,7 @@ const FoodItemsComponent = ({ getFoodItems, categories }) => {
                                 image={foodItem.image}
                                 name={foodItem.name}
                                 description={foodItem.description}
-                                price={foodItem.price}
+                                price={foodItem.size.price}
                             >
                             </FoodItemForListComponent>
 </Col></Row>

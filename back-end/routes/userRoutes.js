@@ -9,7 +9,7 @@ router.post("/login", loginUser)
 // user logged in routes:
 router.use(verifyIsLoggedIn);
 router.put("/profile", updateUserProfile);
-router.get('/profile/:id', getUserProfile)
+router.get('/profile/:userId', getUserProfile)
 router.post('/review/:productId', writeReview)
 
 // admin routes:

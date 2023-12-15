@@ -21,6 +21,10 @@ const FoodItemSchema=mongoose.Schema({
         default:"unique blend of flavours"
     },
     image:imageSchema,
+    size:{
+        type:[
+        "Mixed"
+    ]},
     attributes: {
           type: [
             "Mixed"
