@@ -3,17 +3,15 @@ const FoodItem=require("./FoodItemModel")
 const Customer=require("./CustomerModel")
 
 const FoodOrderModel=mongoose.Schema({
-    customer:{type:mongoose.Schema.Types.ObjectId,ref:Customer,required:true},
-    cartitem:{foodItems:[{item:{type:mongoose.Schema.Types.ObjectId,ref:FoodItem,required:true},
-                quantity:{type:Number,required:true},
-                priceofitem:{type:Number,required:true}
-                }],
-                countofitems:{type:Number,required:true},
-                totalPrice:{type:Number,required:true},
-                discount:{type:Number,required:true},
-            },
-            deliveryAddress:{type:String,required:true},
-            serviceMode:{type:String,enum:['Delivery','Take away','Dine in'],default:'delivery',required:true},
+    orderTotal:{
+        itemsCount:{type:Number},
+        cartSubtotal:{type:Number},
+    },
+    cartItems: {type: ["Mixed"]},
+    customerInfo:{type:{}},
+    deliveryAddress:{type:String},
+    orderPlacedAt:{type:Date,default:Date.now()},
+    serviceMode:{type:String,enum:['delivery','takeAway','dineIn'],default:'delivery',required:true},
             transactionResult: {
                 status: {type: String},
                 createTime: {type: String},
@@ -39,4 +37,14 @@ const FoodOrderModel=mongoose.Schema({
             deliveredAt: {
                 type: Date,
             }
+}, {
+    timestamps: true,
 })
+const FoodOrder = mongoose.model("FoodOrder", FoodOrderModel)
+FoodOrder.watch().on("change", (data) => {
+    
+    if (data.operationType === "insert") {
+        io.emit("newFoodOrder", data.fullDocument);
+    }
+})
+module.exports = FoodOrder

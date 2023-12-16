@@ -38,12 +38,13 @@ const FoodItemsComponent = ({ getFoodItems, categories }) => {
     return (
         <Container fluid >
             <Row style={{height:"100vh"}}>
-                <Col xs={3} style={{ backgroundColor: " rgb(148, 30, 22)" }}>
+                <Col xs={3}  className="bg-dark text-white bg-opacity-50">
+                    Categories
                     <ListGroup variant="flush">
                         {
                             categories.map((categoryItem, idx) => {
                                 return (
-                                <LinkContainer key={idx} style={{ cursor: "pointer" }} to={`/foodItem-list/category/${categoryItem.name}`}>
+                                <LinkContainer   className="bg-dark text-white bg-opacity-50" key={idx} style={{ cursor: "pointer" }} to={`/foodItem-list/category/${categoryItem.name}`}>
                                     <ListGroup.Item key={idx}>
                                         <Image style={{ maxWidth: "50px", maxHeight: "50px" }} crossOrigin="anonymous" src={categoryItem.image}></Image>
                                         {categoryItem.name}
@@ -67,7 +68,7 @@ const FoodItemsComponent = ({ getFoodItems, categories }) => {
                                 image={foodItem.image}
                                 name={foodItem.name}
                                 description={foodItem.description}
-                                price={foodItem.size.price}
+                                size={foodItem.size}
                             >
                             </FoodItemForListComponent>
 </Col></Row>

@@ -3,6 +3,7 @@ const customerSchema=mongoose.Schema({
     name:{
         type:String,
         required:true,
+        default:"Customer"
     },
     lastName:{
         type:String,

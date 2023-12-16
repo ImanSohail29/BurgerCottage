@@ -13,8 +13,8 @@ const CartItemComponent = ({ item, orderCreated = false,changeCount=false,remove
                     <Col xs={2} ><br/><b>Rs {item.size.price*item.quantity} /-</b></Col>
                     <Col xs={3} ><br/>
                         <InputGroup>
-                        <Button className="text-light"  disabled={item.quantity===0}  onClick={() => changeCount(item.productId,item.quantity-1,item.size,item.instructions)}>-</Button>
-                        <input type="number" min={0} style={{textAlign:"center"}} className="w-25 bg-light text-dark border border-primary" value={item.quantity} onChange={(event)=>{
+                        <Button className="text-light"  disabled={item.quantity===1}  onClick={() => changeCount(item.productId,item.quantity-1,item.size,item.instructions)}>-</Button>
+                        <input type="number" min={1} style={{textAlign:"center"}} className="w-25 bg-light text-dark border border-primary" value={item.quantity} onChange={(event)=>{
                           changeCount(item.productId,event.target.value)
                           return (event.target.value)}}></input>
                         <Button className="text-light"onClick={() => changeCount(item.productId,item.quantity+1,item.size,item.instructions)}>+</Button>

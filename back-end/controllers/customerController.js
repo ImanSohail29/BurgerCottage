@@ -60,6 +60,41 @@ const registerUser = async (req, res, next) => {
     next(err);
   }
 };
+const registerUserFromAdmin = async (req, res, next) => {
+  try {
+    const { name, phoneNumber,email,address} = req.body;
+
+const isAdmin=false;
+    const userExists = await Customer.findOne({ phoneNumber });
+    if (userExists) {
+      userExists.address = address || userExists.address;
+      await user.save();
+      res.send("user updated");
+    } else {
+      const user = await Customer.create({
+        name,
+        phoneNumber,
+        email,
+        address,
+        isAdmin
+      });
+      res.status(201)
+        .json({
+          success: "User created",
+          userCreated: {
+            _id: user._id,
+            name: user.name,
+            phoneNumber: user.phoneNumber,
+            email:user.email,
+            address:user.address,
+            isAdmin: user.isAdmin,
+          },
+        });
+    }
+  } catch (err) {
+    next(err);
+  }
+};
 
 const loginUser = async (req, res, next) => {
   try {
@@ -240,4 +275,4 @@ const deleteUser = async (req, res, next) => {
     }
 }
 
-module.exports = { getUsers, registerUser, loginUser, updateUserProfile, getUserProfile, writeReview, getUser, updateUser, deleteUser };
+module.exports = { getUsers, registerUser, loginUser, updateUserProfile, getUserProfile, writeReview, getUser, updateUser, deleteUser,registerUserFromAdmin };

@@ -42,7 +42,7 @@ const AdminPayInventoryOrderComponent = ({createNewVendorApiRequest}) => {
         <Container className="mt-5">
             <Row className="justify-content-md-center mt-5">
                 <Col md={1}>
-                    <Link to="/" className="btn btn-warning my-3">Go Back</Link>
+                    <Link to="admin/vendors" className="btn btn-warning my-3">Go Back</Link>
                 </Col>
                 <Col md={6} className="mb-3">
                     <h3>Inventory Order</h3>

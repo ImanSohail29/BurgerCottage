@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const { verifyIsLoggedIn, verifyIsAdmin } = require("../middlewares/verifyAuthToken");
-const {getUsers, registerUser, loginUser, updateUserProfile, getUserProfile, writeReview, getUser, updateUser, deleteUser} = require("../controllers/customerController")
+const {getUsers, registerUser, loginUser, updateUserProfile, getUserProfile, writeReview, getUser, updateUser, deleteUser, registerUserFromAdmin} = require("../controllers/customerController")
 
 router.post("/register", registerUser)
 router.post("/login", loginUser)
@@ -14,6 +14,7 @@ router.post('/review/:productId', writeReview)
 
 // admin routes:
 router.use(verifyIsAdmin);
+router.post('/register-admin', registerUserFromAdmin)
 router.get("/", getUsers)
 router.get("/:id", getUser);
 router.put('/:id', updateUser)

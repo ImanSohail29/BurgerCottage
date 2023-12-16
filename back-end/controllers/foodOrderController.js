@@ -1,5 +1,5 @@
-const Order = require("../models/OrderModel");
-const Product = require("../models/ProductModel");
+const Order = require("../models/FoodOrderModel");
+const Product = require("../models/FoodItemModel");
 const ObjectId = require("mongodb").ObjectId;
 
 const getUserOrders = async (req, res, next) => {
@@ -34,12 +34,12 @@ const createOrder = async (req, res, next) => {
             return Number(item.quantity);
         })
 
-        await Product.find({ _id: { $in: ids } }).then((products) => {
-            products.forEach(function (product, idx) {
-                product.sales += qty[idx];
-                product.save();
-            })
-        })
+        // await Product.find({ _id: { $in: ids } }).then((products) => {
+        //     products.forEach(function (product, idx) {
+        //         product.sales += qty[idx];
+        //         product.save();
+        //     })
+        // })
 
         const order = new Order({
             user: ObjectId(req.user._id),

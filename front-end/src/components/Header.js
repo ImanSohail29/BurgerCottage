@@ -21,11 +21,14 @@ const Header = () => {
   return (
     <Navbar collapseOnSelect expand="lg" style={{ background: "rgba(0, 0, 0, 0.3)" }} variant="dark">
       <Container>
-        <LinkContainer to='/'>
-          <Navbar.Brand href="/">
+      {userInfo.isAdmin ? ( <Navbar.Brand href="/home">
             <FontAwesomeIcon icon={faBurger} />
-            BURGER COTTAGE</Navbar.Brand>
-        </LinkContainer>
+            BURGER COTTAGE</Navbar.Brand>):(
+              <Navbar.Brand href="/">
+              <FontAwesomeIcon icon={faBurger} />
+              BURGER COTTAGE</Navbar.Brand>
+            )}
+         
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
@@ -55,11 +58,16 @@ const Header = () => {
 
 
             {userInfo.isAdmin ? (
+              <>
               <LinkContainer to='/admin/vendors'>
                 <Nav.Link>Admin
                   <i className="bi bi-circle-fill text-danger"></i>
                 </Nav.Link>
               </LinkContainer>
+              <Nav.Link onClick={() => dispatch(logout())}>Logout</Nav.Link>
+
+              </>
+              
             ) : userInfo.name && !userInfo.isAdmin ? (<>
               <NavDropdown title={`${userInfo.name}`} id="collasible-nav-dropdown">
                 <NavDropdown.Item eventKey="/user/my-orders" as={Link} to="/user/my-orders" >My orders</NavDropdown.Item>

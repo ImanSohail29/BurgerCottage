@@ -1,7 +1,7 @@
 import { Button, Card, Col, Container, Row } from "react-bootstrap"
 import { LinkContainer } from "react-router-bootstrap"
 
-const FoodItemForListComponent = ({ foodItemId, name, description, price, image }) => {
+const FoodItemForListComponent = ({ foodItemId, name, description, size, image }) => {
     const cursorP = { cursor: "pointer" }
     return (
                 <Card className="bg-danger text-white p-1 m-1 bg-opacity-50 border-start" style={{ backgroundColor: " rgb(255, 30, 22)", color: "white" }}>
@@ -19,7 +19,7 @@ const FoodItemForListComponent = ({ foodItemId, name, description, price, image 
                                 <Card.Text>
                                     {description}
                                 </Card.Text>
-                                <Card.Text className="h4">{price}/-{"  "}</Card.Text>
+                                <Card.Text className="h4">Rs.{size[0].price}/-{"  "}</Card.Text>
                             </Card.Body>
                         </Col>
                     </Row>

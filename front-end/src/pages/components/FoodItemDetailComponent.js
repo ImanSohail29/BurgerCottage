@@ -156,8 +156,8 @@ const FoodItemDetailComponent = ({
                       </ListGroup.Item>
                       <ListGroup.Item>
                         Quantity:
-                        <Button onClick={() => setQuantity((value) => value - 1)}>-</Button>
-                        <input type="number" min={0} className="w-25" value={quantity} onChange={(event) => {
+                        <Button disabled={quantity===1} onClick={() => setQuantity((value) => value - 1)}>-</Button>
+                        <input type="number" min={1} className="w-25" value={quantity} onChange={(event) => {
                           setQuantity(event.target.value)
                           return (event.target.value)
                         }}></input>

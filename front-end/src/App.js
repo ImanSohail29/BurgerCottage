@@ -26,12 +26,21 @@ function App() {
       <ScrollToTop></ScrollToTop>
         <Header></Header>
         <Routes>
+        <Route element={<ProtectedRoutesComponent admin={true} />}>
+        <Route path="/home" element={<HomePage/>}></Route>
+         <Route path="/admin/vendors" element={<AdminVendorsListPage></AdminVendorsListPage>}></Route>
+          <Route path="/admin/create-new-vendor" element={<AdminCreateNewVendorPage></AdminCreateNewVendorPage>}></Route>
+          <Route path="/admin/edit-vendor/:id" element={<AdminEditVendorPage></AdminEditVendorPage>}></Route>
+          <Route path="/admin/vendors/:vendorId/" element={<AdminVendorDetailsPage></AdminVendorDetailsPage>}></Route>
+          <Route path="/admin/vendors/:vendorId/add-inventoryOrder" element={<AdminAddNewInventoryOrder></AdminAddNewInventoryOrder>}></Route>
+          
+       </Route>
         <Route path="*" element="Page not exists 404" />
-          <Route path="/" element={<HomePage/>}></Route>
+          <Route path="/" element={<FoodItemsPage/>}></Route>
           <Route path="/login" element={<LoginPage/>}></Route>
           <Route path="/register" element={<RegisterPage/>}></Route>
           <Route path="/cart" element={<CartPage/>}></Route>
-         <Route path="/foodItem-detail" element={<FoodItemDetailPage/>}></Route>
+          <Route path="/foodItem-detail" element={<FoodItemDetailPage/>}></Route>
           <Route path="/foodItem-detail/:id" element={<FoodItemDetailPage/>}></Route>
           <Route path="/foodItem-list" element={<FoodItemsPage/>} />
           <Route path="/foodItem-list/:pageNum" element={<FoodItemsPage/>} />
@@ -51,14 +60,7 @@ function App() {
 
 
          {/* admin protected routes: */}
-         <Route element={<ProtectedRoutesComponent admin={true} />}>
-         <Route path="/admin/vendors" element={<AdminVendorsListPage></AdminVendorsListPage>}></Route>
-          <Route path="/admin/create-new-vendor" element={<AdminCreateNewVendorPage></AdminCreateNewVendorPage>}></Route>
-          <Route path="/admin/edit-vendor/:id" element={<AdminEditVendorPage></AdminEditVendorPage>}></Route>
-          <Route path="/admin/vendors/:vendorId/" element={<AdminVendorDetailsPage></AdminVendorDetailsPage>}></Route>
-          <Route path="/admin/vendors/:vendorId/add-inventoryOrder" element={<AdminAddNewInventoryOrder></AdminAddNewInventoryOrder>}></Route>
-          
-       </Route>
+         
         </Routes>
         <Footer></Footer>
       </BrowserRouter>

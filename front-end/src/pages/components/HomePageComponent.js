@@ -1,6 +1,5 @@
-import { Button, Card, Container, Row } from "react-bootstrap";
-import { useEffect, useState } from "react";
-import { LinkContainer } from "react-router-bootstrap";
+import {  Card, Container, Row } from "react-bootstrap";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 const HomePageComponent = () => {
