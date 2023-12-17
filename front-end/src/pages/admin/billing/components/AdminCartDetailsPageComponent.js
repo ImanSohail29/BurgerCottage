@@ -25,7 +25,7 @@ const AdminCartDetailsPageComponent = ({ cartItems, itemsCount, cartSubtotal, us
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [userAddress, setUserAddress] = useState(false);
   const [missingAddress, setMissingAddress] = useState("");
-  const [paymentMethod, setPaymentMethod] = useState("pp");
+  const [paymentMethod, setPaymentMethod] = useState("cash");
   const [serviceMode, setServiceMode] = useState("delivery");
 
 
@@ -83,7 +83,7 @@ const removeFromCartHandler=(productId,quantity,size,instructions)=>{
 
   const orderHandler = () => {
     if(user){
-    registerUserApiRequestFromAdmin(user.name, user.phoneNumber, user.email)
+    registerUserApiRequestFromAdmin(user.name, user.phoneNumber, user.email,user.address)
       .then((data) => {
         setEnterUserResponseState({
           success: data.success,
@@ -99,20 +99,25 @@ const removeFromCartHandler=(productId,quantity,size,instructions)=>{
       );
     }
     const orderData = {
-      orderTotal: {
-        itemsCount: itemsCount,
-        cartSubtotal: cartSubtotal,
+      cart:
+      {
+        cartItems:cartItems,
+        itemsCount:itemsCount,
+        cartSubtotal:cartSubtotal
       },
-      cartItems: cartItems,
+      orderTotal:{
+        itemsCount:itemsCount,
+        cartSubtotal:cartSubtotal
+      },
       paymentMethod: paymentMethod,
-      customer: user ,
+      customerInfo: user ,
       serviceMode:  serviceMode 
     }
     console.log(JSON.stringify(orderData))
     createOrder(orderData)
       .then(data => {
         if (data) {
-          navigate("/user/order-details/" + data._id);
+          navigate("/admin/order-details/" + data._id);
         }
       })
       .catch((err) => console.log(err));
@@ -253,7 +258,7 @@ const removeFromCartHandler=(productId,quantity,size,instructions)=>{
           </Row>
           <br />
           <h2>Order items</h2>
-          <ListGroup variant="flush">
+          <ListGroup className="overflow-auto" variant="flush">
             {console.log("cartItems: "+JSON.stringify(cartItems))}
             {
             cartItems.map((item, idx) => (
@@ -265,8 +270,8 @@ const removeFromCartHandler=(productId,quantity,size,instructions)=>{
         <Row className="mb-4 p-4">
                 <h2>Payment method</h2>
                 <Form.Select onChange={choosePayment}>
-                  <option value="op">Online</option>
-                  <option value="cp">Cash</option>
+                <option value="cash">Cash</option>
+                  <option value="online">Online</option>
                 </Form.Select>
               </Row>
               <Row className="mb-4 p-4">

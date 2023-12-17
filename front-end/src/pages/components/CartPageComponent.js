@@ -27,7 +27,7 @@ const removeFromCartHandler=(productId,quantity,size,instructions)=>{
           {cartItems.length === 0 ? (
             <Alert variant="info">Your cart is empty</Alert>
           ) : (
-            <ListGroup variant="flush">
+            <ListGroup className="overflow-auto"  variant="flush">
               {cartItems.map((item, idx) => (
                 <CartItemComponent
                   item={item}

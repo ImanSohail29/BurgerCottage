@@ -5,20 +5,23 @@ const userData = require("./users")
 const inventoryOrdersData = require("./inventoryOrders")
 const inventoryOrderPaymentsData = require("./inventoryOrderPayments")
 const foodItemsData=require("./foodItems")
+const foodOrdersData=require("./foodOrders")
 
-const User = require("../models/CustomerModel")
+
+const User = require("../models/UserModel")
 const Category = require("../models/CategoryModel")
 const Ingredient = require("../models/IngredientModel")
 const InventoryOrder = require("../models/InventoryOrderModel")
 const InventoryOrderPayment = require("../models/InventoryOrderPaymentModel")
 const FoodItem=require("../models/FoodItemModel")
+const FoodOrder=require("../models/FoodOrderModel")
 const importData = async () => {
     try {
-        await FoodItem.collection.dropIndexes()
-        await FoodItem.collection.deleteMany({})
+        await FoodOrder.collection.dropIndexes()
+        await FoodOrder.collection.deleteMany({})
 
         if (process.argv[2] !== "-d") {
-            await FoodItem.insertMany(foodItemsData)  
+            await FoodOrder.insertMany(foodOrdersData)  
             console.log("Seeder data processed successfully")
             process.exit()
             return

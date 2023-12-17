@@ -33,10 +33,11 @@ export const cartSlice = createSlice({
             state.cartSubtotal = state.cartSubtotal - (action.payload.size.price * action.payload.quantity)
         },
         resetCart:(state)=>{
-            document.location.href="/foodItem-list"
-            localStorage.removeItem("cart")
-            state.cart={}
-
+            return {
+                cartItems: [],
+                itemsCount: 0,
+                cartSubtotal: 0,
+            }
         }
     },
     extraReducers: (builder) => {

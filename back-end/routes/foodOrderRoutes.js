@@ -6,7 +6,7 @@ const {getUserOrders, getOrder, createOrder, updateOrderToPaid, updateOrderToDel
 // user routes
 router.use(verifyIsLoggedIn)
 router.get("/", getUserOrders)
-router.get("/user/:id", getOrder);
+router.get("/user/:orderId", getOrder);
 router.post("/", createOrder);
 router.put("/paid/:id", updateOrderToPaid);
 

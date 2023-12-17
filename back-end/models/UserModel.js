@@ -1,5 +1,5 @@
 const mongoose=require("mongoose");
-const customerSchema=mongoose.Schema({
+const userSchema=mongoose.Schema({
     name:{
         type:String,
         required:true,
@@ -51,5 +51,5 @@ const customerSchema=mongoose.Schema({
     timestamps:true,
 }
 );
-const User=mongoose.model("User",customerSchema);
+const User=mongoose.model("User",userSchema);
 module.exports=User

@@ -4,7 +4,7 @@ import RemoveFromCartComponent from "./RemoveFromCartComponent";
 const CartItemComponent = ({ item, orderCreated = false,changeCount=false,removeFromCartHandler=false }) => {
     return (
         <>
-            <ListGroup.Item className="bg-dark text-white text-center  bg-opacity-50">
+            <ListGroup.Item className="bg-dark text-white text-center bg-opacity-50" style={{minWidth:"600px"}}>
                 <Row>
                     <Col xs={2} >
                         <Image crossOrigin="anonymous" src={item.image ? (item.image.path ?? null) : null} fluid></Image>
@@ -13,11 +13,11 @@ const CartItemComponent = ({ item, orderCreated = false,changeCount=false,remove
                     <Col xs={2} ><br/><b>Rs {item.size.price*item.quantity} /-</b></Col>
                     <Col xs={3} ><br/>
                         <InputGroup>
-                        <Button className="text-light"  disabled={item.quantity===1}  onClick={() => changeCount(item.productId,item.quantity-1,item.size,item.instructions)}>-</Button>
-                        <input type="number" min={1} style={{textAlign:"center"}} className="w-25 bg-light text-dark border border-primary" value={item.quantity} onChange={(event)=>{
+                        <Button className="text-light"  disabled={item.quantity===1 || orderCreated}  onClick={() => changeCount(item.productId,item.quantity-1,item.size,item.instructions)}>-</Button>
+                        <input disabled={orderCreated} type="number" min={1} style={{textAlign:"center"}} className="w-25 bg-light text-dark border border-primary" value={item.quantity} onChange={(event)=>{
                           changeCount(item.productId,event.target.value)
                           return (event.target.value)}}></input>
-                        <Button className="text-light"onClick={() => changeCount(item.productId,item.quantity+1,item.size,item.instructions)}>+</Button>
+                        <Button className="text-light" disabled={orderCreated} onClick={() => changeCount(item.productId,item.quantity+1,item.size,item.instructions)}>+</Button>
                         </InputGroup>
                        </Col>
                     <Col xs={3} ><br/>

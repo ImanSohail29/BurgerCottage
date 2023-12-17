@@ -1,6 +1,5 @@
 {
   "name": "front-end",
-  "proxy": "http://localhost:5000",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -27,6 +26,7 @@
     "react-router-dom": "^6.20.1",
     "react-scripts": "^5.0.1",
     "react-simple-star-rating": "^5.1.7",
+    "react-to-print": "^2.14.15",
     "redux": "^5.0.0",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^3.1.0",

@@ -18,6 +18,8 @@ import CartPage from "./pages/CartPage";
 import ProtectedRoutesComponent from "./components/ProtectedRoutesComponent";
 import HomePageComponent from "./pages/components/HomePageComponent";
 import AdminCartDetailsPage from "./pages/admin/billing/AdminCartDetailsPage";
+import AdminOrderDetailsPage from "./pages/admin/billing/AdminOrderDetailsPage";
+import AdminOrdersPage from "./pages/admin/billing/AdminOrdersPage";
 
 function App() {
   return (
@@ -33,6 +35,11 @@ function App() {
           <Route path="/admin/edit-vendor/:id" element={<AdminEditVendorPage></AdminEditVendorPage>}></Route>
           <Route path="/admin/vendors/:vendorId/" element={<AdminVendorDetailsPage></AdminVendorDetailsPage>}></Route>
           <Route path="/admin/vendors/:vendorId/add-inventoryOrder" element={<AdminAddNewInventoryOrder></AdminAddNewInventoryOrder>}></Route>
+          <Route path="/admin/orders" element={<AdminOrdersPage />} />
+          <Route
+            path="/admin/order-details/:orderId"
+            element={<AdminOrderDetailsPage />}
+          />
           
        </Route>
         <Route path="*" element="Page not exists 404" />
@@ -52,11 +59,7 @@ function App() {
           <Route path="/user" element={<HomePage />} />
           <Route path="/user/my-orders" element={<HomePage />} />
           <Route path="/user/cart-details" element={<AdminCartDetailsPage />} />
-          <Route
-            path="/user/order-details/:id"
-            element={<HomePageComponent />}
-          />
-        </Route>
+          </Route>
 
 
          {/* admin protected routes: */}

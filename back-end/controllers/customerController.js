@@ -1,4 +1,4 @@
-const Customer = require("../models/CustomerModel");
+const Customer = require("../models/UserModel");
 const Review = require("../models/ReviewModel");
 const FoodItem = require("../models/FoodItemModel");
 const { hashPassword, comparePasswords } = require("../utils/hashPassword");
@@ -68,7 +68,7 @@ const isAdmin=false;
     const userExists = await Customer.findOne({ phoneNumber });
     if (userExists) {
       userExists.address = address || userExists.address;
-      await user.save();
+      await userExists.save();
       res.send("user updated");
     } else {
       const user = await Customer.create({
