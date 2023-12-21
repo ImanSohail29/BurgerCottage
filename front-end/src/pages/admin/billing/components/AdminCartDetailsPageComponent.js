@@ -117,7 +117,12 @@ const removeFromCartHandler=(productId,quantity,size,instructions)=>{
     createOrder(orderData)
       .then(data => {
         if (data) {
+          if(userInfo.isAdmin){
           navigate("/admin/order-details/" + data._id);
+          }
+          else{
+            navigate("/");
+          }
         }
       })
       .catch((err) => console.log(err));
@@ -218,10 +223,12 @@ const removeFromCartHandler=(productId,quantity,size,instructions)=>{
                   </Col>
                 </Row>
               </Container>) : <>
+              <Container>
                 <h2>Shipping</h2>
-                <b>Name</b>: {user.name}<br />
-                <b>Address</b>: {userAddress.address} {userAddress.city} {userAddress.state} {userAddress.zipCode} <br />
-                <b>Phone</b>: {user.phoneNumber}
+                Name: {userInfo.name}<br />
+                Address: {userInfo.address} <br />
+                Phone: {userInfo.phoneNumber}
+                </Container>
               </>}
 {/* </Col> */}
             {/* <Col md={6}> */}

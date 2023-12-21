@@ -75,13 +75,7 @@ const Header = () => {
                 <NavDropdown.Divider />
                 <NavDropdown.Item onClick={() => { dispatch(logout()) }} >Logout</NavDropdown.Item>
               </NavDropdown>
-              <LinkContainer to='/cart'>
-                <Nav.Link >
-                  <Badge pill bg="danger">{itemsCount === 0 ? "" : itemsCount}</Badge>
-                  <i className="bi bi-cart2"></i>
-                  <span className="ms-1">Cart</span>
-                </Nav.Link>
-              </LinkContainer>
+              
             </>
 
             ) : (<> <LinkContainer to='/login'>

@@ -165,6 +165,7 @@ const updateUserProfile = async (req, res, next) => {
         _id: user._id,
         name: user.name,
         phoneNumber: user.phoneNumber,
+        address:user.address,
         isAdmin: user.isAdmin,
       },
     });
