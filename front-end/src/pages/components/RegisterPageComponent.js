@@ -33,11 +33,7 @@ const RegisterPageComponent = ({
     const phoneNumber = form.phoneNumber.value;
     const password = form.password.value;
     if (
-      event.currentTarget.checkValidity() === true &&
-      phoneNumber &&
-      password &&
-      name &&
-      form.password.value === form.confirmPassword.value
+      event.currentTarget.checkValidity() === true &&phoneNumber &&password &&name &&form.password.value === form.confirmPassword.value
     ) {
       setRegisterUserResponseState({ loading: true });
       registerUserApiRequest(name, phoneNumber,password)
@@ -79,7 +75,7 @@ const RegisterPageComponent = ({
               </Form.Control.Feedback>
             </Form.Group>
            
-            <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Group className="mb-3" controlId="formBasicPhoneNumber">
               <Form.Label>Phone number</Form.Label>
               <Form.Control
                 name="phoneNumber"
