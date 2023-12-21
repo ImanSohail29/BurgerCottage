@@ -4,9 +4,10 @@ const ObjectId = require("mongodb").ObjectId
 const InventoryOrder = require("../models/InventoryOrderModel")
 
 const InventoryOrderPayment = require("../models/InventoryOrderPaymentModel")
+const InventoryTransactionsByDate = require("../models/InventoryTransactionsByDate")
 const getInventoryOrdersVendor = async (req, res, next) => {
     try {
-        const inventoryOrdersVendor = await InventoryOrder.find({ vendor:new ObjectId(req.params.vendorId) }).orFail()
+        const inventoryOrdersVendor = await InventoryOrder.find({ vendor: new ObjectId(req.params.vendorId) }).sort({ date: "desc" }).orFail()
         return res.json(inventoryOrdersVendor)
     } catch (error) {
         next(error)
@@ -22,30 +23,58 @@ const getInventoryOrderVendor = async (req, res, next) => {
 }
 const createNewInventoryOrder = async (req, res, next) => {
     try {
-        const vendorId = req.params.vendorId
-        const { ingredientId, quantity, pricePerItem, totalAmount, expiryDate } = req.body
-        if (!(ingredientName && quantity && totalAmount)) {
+        console.log("req : " + req.body.vendorId)
+        const { vendorId, itemName, quantity, pricePerItem, totalAmount } = req.body
+        if (!(vendorId && itemName && totalAmount)) {
             return res.status(400).send("Enter all required Inputs!")
         }
         else {
-            await Vendor.find({ vendor: ObjectId(vendorId) }).then((vendor) => {
-
-                vendor.RemainingAmount += totalAmount;
+            await Vendor.findById(vendorId).then((vendor) => {
+                console.log("vendor: " + vendor)
+                vendor.totalAmount += parseInt(totalAmount);
                 vendor.save();
             })
-
+            const dateTimeNow = new Date()
+            const dateNow = dateTimeNow.toDateString()
+            console.log("dateNow : " + dateNow)
             await InventoryOrder.create({
-                vendor: ObjectId(vendorId),
-                ingredient: ObjectId(ingredientId),
+                vendor: new ObjectId(vendorId),
+                ingredient: itemName,
                 quantity: quantity,
                 pricePerItem: pricePerItem,
                 totalAmount: totalAmount,
-                expiryDate: expiryDate,
                 date: Date.now(),
             })
+            const vendorTransaction = await InventoryTransactionsByDate.findOne({ vendor: vendorId })
+            console.log("vendorTransaction : " + vendorTransaction)
+            if (vendorTransaction) {
+                const vendorTransactionDateIndex = vendorTransaction.transactions.findIndex((trans) => trans.date === dateNow)
+                if (vendorTransactionDateIndex === -1) {
+                    vendorTransaction.transactions.push({
+                        amountPaid:0,
+                        amountToBePaid: totalAmount,
+                        date: dateNow
+                    })
+                }
+                else {
+                    vendorTransaction.transactions[vendorTransactionDateIndex].amountToBePaid = parseInt(vendorTransaction.transactions[vendorTransactionDateIndex].amountToBePaid) + parseInt(totalAmount)
+                }
+            }
+            else {
+                const vendorTransactionCreated = await InventoryTransactionsByDate.create({
+                    vendor: vendorId,
+                    transactions: [{
+                        amountToBePaid: totalAmount,
+                        amountPaid: 0,
+                        date: dateNow
+                    }]
+                })
+            }
+            console.log("Updated VendorTransaction : " + vendorTransaction)
+            vendorTransaction.save()
             return res.status(201).json(
                 {
-                    success: "inventory Order created!",
+                    success: "inventory order created!",
                 }
             )
         }
@@ -54,38 +83,64 @@ const createNewInventoryOrder = async (req, res, next) => {
         next(error)
     }
 }
-const getVendorInventoryOrdersByDate=async(req,res,next)=>{
+const getInventoryTransactions = async (req, res, next) => {
     try {
-        const inventoryOrdersVendor = await InventoryOrder.find({ vendor: ObjectId(req.params.vendorId) }).aggregate(
-            [{$group:
-                {
-                _id:{date:"$date"} ,
-                totalAmount:{$sum:"$totalAmount"},
-                count:{$sum:1}
-                }
-            }]
-        ).orFail()
-        return res.status(201).json(inventoryOrdersVendor)
+        const inventoryTransactionsByDate = await InventoryTransactionsByDate.findOne({ vendor: new ObjectId(req.params.vendorId) }).sort({ date: "desc" }).orFail()
+        return res.json(inventoryTransactionsByDate)
     } catch (error) {
         next(error)
     }
 }
-const getVendorInventoryPaymentByDate=async(req,res,next)=>{
-    try {
-        const inventoryPaymentVendor = await InventoryOrderPayment.find({ vendor: ObjectId(req.params.vendorId) }).aggregate(
-            [{$group:
-                {
-                _id:{date:"$date"} ,
-                totalAmount:{$sum:"$amountPaid"},
-                count:{$sum:1}
-                }
-            }]
-        ).orFail()
-        return res.status(201).json(inventoryPaymentVendor)
-    } catch (error) {
-        next(error)
-    }
-}
+
+// const getVendorInventoryOrdersByDate = async (req, res, next) => {
+//     try {
+//         console.log("inventoryOrdersVendor req: " + req.params.vendorId)
+//         const inventoryOrdersVendor = await InventoryOrder.aggregate([
+//             {
+//                 $match:
+//                 {
+//                     vendor: new ObjectId(req.params.vendorId)
+//                 }
+//             },
+//             {
+//                 $group:
+//                 {
+//                     _id: { $dateToString: { format: "%Y-%m-%d", date: "$date" } },
+//                     totalAmount: { $sum: "$totalAmount" },
+//                     count: { $sum: 1 }
+//                 }
+//             }])
+//         console.log("inventoryOrdersVendor: " + inventoryOrdersVendor)
+//         return res.status(201).json(inventoryOrdersVendor)
+//     } catch (error) {
+//         next(error)
+//     }
+// }
+// const getVendorInventoryPaymentsByDate = async (req, res, next) => {
+//     try {
+//         const inventoryPaymentVendor = await InventoryOrderPayment
+//             .findById(req.params.vendorId).aggregate(
+//                 [
+//                     {
+//                         $match:
+//                         {
+//                             vendor: new ObjectId(req.params.vendorId)
+//                         }
+//                     },
+//                     {
+//                         $group:
+//                         {
+//                             _id: { $dateToString: { format: "%Y-%m-%d", date: "$date" } },
+//                             amountPaidTotal: { $sum: "$amountPaid" },
+//                             count: { $sum: 1 }
+//                         }
+//                     }]
+//             ).orFail()
+//         return res.status(201).json(inventoryPaymentVendor)
+//     } catch (error) {
+//         next(error)
+//     }
+// }
 const PayVendor = async (req, res, next) => {
     try {
         const vendorId = req.params.vendorId
@@ -95,17 +150,48 @@ const PayVendor = async (req, res, next) => {
         }
         else {
             const payVendor = new InventoryOrderPayment({
-                vendor: ObjectId(vendorId),
+                vendor: new ObjectId(vendorId),
                 amountPaid: amountPaid,
                 date: Date.now()
             })
-
-            await Vendor.find({ vendor: ObjectId(vendorId) }).then((vendor) => {
-
-                vendor.RemainingAmount -= amountPaid;
-                vendor.save();
-            })
+            const dateTimeNow = new Date()
+            const dateNow = dateTimeNow.toDateString()
+            console.log("dateNow:" +dateNow)
+            const vendor = await Vendor.findById(req.params.vendorId).orFail()
+            vendor.totalAmountPaid = parseInt(vendor.totalAmountPaid) + parseInt(amountPaid);
+            vendor.save();
             const paymentToVendor = await payVendor.save()
+
+            const vendorTransaction = await InventoryTransactionsByDate.findOne({ vendor: vendorId })
+            if (vendorTransaction) {
+                console.log("Hi there:"+vendorTransaction.transactions[0].date)
+
+                console.log("Hi there:"+vendorTransaction.transactions[0].date.toString() === dateNow.toString())
+                const vendorTransactionDateIndex = vendorTransaction.transactions.findIndex((trans) => trans.date === dateNow)
+                console.log(vendorTransactionDateIndex)
+                if (vendorTransactionDateIndex === -1) {
+                    vendorTransaction.transactions.push({
+                        amountPaid: amountPaid,
+                        amountToBePaid:0,
+                        date: dateNow
+                    })
+                }
+                else {
+                    console.log("Hi there")
+                    vendorTransaction.transactions[vendorTransactionDateIndex].amountPaid = parseInt(vendorTransaction.transactions[vendorTransactionDateIndex].amountPaid) + parseInt(amountPaid)
+                }
+            }
+            else {
+                const vendorTransactionCreated = await InventoryTransactionsByDate.create({
+                    vendor: vendorId,
+                    transactions: [{
+                        amountToBePaid: 0,
+                        amountPaid: totalAmount,
+                        date: dateNow
+                    }]
+                })
+            }
+            vendorTransaction.save()
             return res.status(201).json(
                 {
                     success: "payment done",
@@ -138,7 +224,13 @@ const updateInventoryOrder = async (req, res, next) => {
 
 const deleteInventoryOrder = async (req, res, next) => {
     try {
-        const inventoryOrder = await InventoryOrder.findById(req.params.id).orFail()
+        const inventoryOrder = await InventoryOrder.findById(req.params.orderId).orFail()
+        await Vendor.findById(inventoryOrder.vendor).then((vendor) => {
+            console.log("vendor: " + vendor)
+            vendor.totalAmount -= parseInt(inventoryOrder.totalAmount);
+            vendor.save();
+        })
+        inventoryOrder.totalAmount
         await inventoryOrder.deleteOne()
         return res.send("inventory Order removed")
     }
@@ -146,4 +238,4 @@ const deleteInventoryOrder = async (req, res, next) => {
         next(error)
     }
 }
-module.exports = { getInventoryOrdersVendor, getInventoryOrderVendor, createNewInventoryOrder, updateInventoryOrder, getVendorInventoryOrdersByDate,getVendorInventoryPaymentByDate,deleteInventoryOrder, PayVendor }
+module.exports = { getInventoryOrdersVendor, getInventoryOrderVendor, createNewInventoryOrder, updateInventoryOrder, deleteInventoryOrder, PayVendor, getInventoryTransactions }

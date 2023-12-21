@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Col, Container, Row, Form, Button, Spinner, Alert } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
-const AdminAddNewInventoryOrderComponent = ({createNewVendorApiRequest}) => {
+const AdminAddNewInventoryOrderComponent = ({addNewInventoryOrderApiRequest}) => {
     const navigate=useNavigate()
+    const {vendorId}=useParams()
     const [validated, setValidated] = useState(false);
     const [createNewInventoryOrderResponseState, setCreateNewInventoryOrderResponseState] = useState({ success: "", error: "", loading: false })
 
@@ -16,6 +17,7 @@ const AdminAddNewInventoryOrderComponent = ({createNewVendorApiRequest}) => {
         const pricePerItem = form.pricePerItem.value
         const totalAmount = form.totalAmount.value
         const formInputs = {
+            vendorId:vendorId,
             itemName: itemName,
             quantity: quantity,
             pricePerItem: pricePerItem,
@@ -23,11 +25,12 @@ const AdminAddNewInventoryOrderComponent = ({createNewVendorApiRequest}) => {
         }
         if (event.currentTarget.checkValidity() === true && itemName && quantity&& totalAmount) {
             setCreateNewInventoryOrderResponseState({ loading: true })
-            createNewVendorApiRequest(formInputs).then(
+            addNewInventoryOrderApiRequest(formInputs).then(
                 (data) => {
+                    console.log("hi")
                     if (data.success === "inventory order created!") {
                         setCreateNewInventoryOrderResponseState({ success: data.success, loading: false })
-                        navigate("/admin/vendors");
+                        navigate(`/admin/vendors/${vendorId}`);
                     }
                 }
             ).catch(

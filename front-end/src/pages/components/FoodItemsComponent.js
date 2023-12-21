@@ -37,19 +37,21 @@ const FoodItemsComponent = ({ getFoodItems, categories }) => {
 
     return (
         <Container fluid >
-            <Row style={{height:"100vh"}}>
-                <Col xs={3}  className="bg-dark text-white bg-opacity-50">
+            <Row style={{ height: "100vh" }}>
+                <Col xs={3} className="bg-dark text-white bg-opacity-50">
+                    <h3>
                     Categories
+                    </h3>
                     <ListGroup variant="flush">
                         {
                             categories.map((categoryItem, idx) => {
                                 return (
-                                <LinkContainer   className="bg-dark text-white bg-opacity-50" key={idx} style={{ cursor: "pointer" }} to={`/foodItem-list/category/${categoryItem.name}`}>
-                                    <ListGroup.Item key={idx}>
-                                        <Image style={{ maxWidth: "50px", maxHeight: "50px" }} crossOrigin="anonymous" src={categoryItem.image}></Image>
-                                        {categoryItem.name}
-                                    </ListGroup.Item>
-                                </LinkContainer>
+                                    <LinkContainer className="bg-dark text-white bg-opacity-50" key={idx} style={{ cursor: "pointer" }} to={`/foodItem-list/category/${categoryItem.name}`}>
+                                        <ListGroup.Item key={idx}>
+                                            <Image style={{ maxWidth: "50px", maxHeight: "50px" }} crossOrigin="anonymous" src={categoryItem.image}></Image>
+                                            {categoryItem.name}
+                                        </ListGroup.Item>
+                                    </LinkContainer>
                                 )
 
                             }
@@ -58,22 +60,33 @@ const FoodItemsComponent = ({ getFoodItems, categories }) => {
                     </ListGroup>
                 </Col>
                 <Col xs={8}>
-                    {loading ? (<h1>Loading Items...</h1>) : error ? (<h1>Error while loading food Items...</h1>) : (foodItems.map((foodItem) => {
-                        return (
-                            <Row key={foodItem._id} xs={1} md={2} className="g-4">
-<Col>
-                            <FoodItemForListComponent
-                                
-                                foodItemId={foodItem._id}
-                                image={foodItem.image}
-                                name={foodItem.name}
-                                description={foodItem.description}
-                                size={foodItem.size}
-                            >
-                            </FoodItemForListComponent>
-</Col></Row>
-                        )
-                    }))}
+
+                    {loading ? (<h1>Loading Items...</h1>) : error ? (<h1>Error while loading food Items...</h1>) : (
+                        <>
+                            {categoryName ? (
+                                <h1>{categoryName}</h1>
+                            ) : (<h1>All Items</h1>)}
+                            {
+                            foodItems.map((foodItem) => {
+                                return (
+                                    <Row key={foodItem._id} xs={1} md={2} className="g-4">
+                                        <Col>
+
+                                            <FoodItemForListComponent
+
+                                                foodItemId={foodItem._id}
+                                                image={foodItem.image}
+                                                name={foodItem.name}
+                                                description={foodItem.description}
+                                                size={foodItem.size}
+                                            >
+                                            </FoodItemForListComponent>
+                                        </Col></Row>
+                                )
+                            }
+                            )
+                            }
+                        </>)}
                     {paginationLinksNumber > 1 ? (
 
                         <PaginationComponent

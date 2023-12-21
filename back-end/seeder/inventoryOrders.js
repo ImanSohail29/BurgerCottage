@@ -7,7 +7,7 @@ const inventoryOrders=[{
     pricePerItem:12,
     totalAmount:120,
     expiryDate:Date.now(),
-    date:Date.now()
+    date:Date.now(),
 }]
 
 module.exports=inventoryOrders

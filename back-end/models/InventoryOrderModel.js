@@ -6,7 +6,7 @@ const InventoryOrderSchema=mongoose.Schema({
     ingredient:{type:String,required:true},
     quantity:{type:Number,required:true},
     pricePerItem:{type:Number},
-    totalAmount:{type:Number,required:true},
+    totalAmount:{type:Number,required:true}, //jub bhi createInventoryOrder ho toh isme Add ho
     expiryDate:{type:Date},
     date:{type:Date}
 })
