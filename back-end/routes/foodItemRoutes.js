@@ -23,11 +23,12 @@ router.use(verifyIsLoggedIn)
 router.use(verifyIsAdmin)
 
 router.get("/admin", adminGetFoodItems)
-router.delete("/admin/:id", adminDeleteFoodItem)
-router.delete("/admin/image/:imagePath/:productId", adminDeleteFoodItem)
-router.put("/admin/:id", adminUpdateFoodItem)
 router.post("/admin", adminCreateFoodItem)
+router.put("/admin/:id", adminUpdateFoodItem)
+router.delete("/admin/:id", adminDeleteFoodItem)
+
 router.post("/admin/upload", adminUpload)
+router.delete("/admin/image/:imagePath/:foodItemId", adminDeleteFoodItemImage)
 
 
 module.exports = router

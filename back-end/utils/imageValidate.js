@@ -1,6 +1,6 @@
 const imageValidate = (imagesTable) => {
-    if (imagesTable.length > 3) {
-        return { error: "Send only 3 images at once" }
+    if (imagesTable.length > 1) {
+        return { error: "Send only 1 image" }
     }
     for (let image of imagesTable) {
         const filetypes = /jpg|png|jpeg/

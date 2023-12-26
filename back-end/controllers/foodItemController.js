@@ -90,16 +90,14 @@ const adminDeleteFoodItem = async (req, res, next) => {
 const adminCreateFoodItem = async (req, res, next) => {
   try {
     const foodItem = new FoodItem();
-    const { name,category, description,attributes  } =req.body;
+    const { name,category, description,size  } =req.body;
+    console.log(name,category, description,size )
     foodItem.name = name;
     foodItem.category = category;
     foodItem.description = description;
+    foodItem.size = size;
 
-    if (attributes.length > 0) {
-      attributes.map((attribute) => {
-        foodItem.attributes.push(attribute);
-      });
-    }
+    
     await foodItem.save();
 
     res.json({
@@ -139,7 +137,8 @@ const adminUpload = async (req, res, next) => {
     if (req.query.cloudinary === "true") {
         try {
             let foodItem = await FoodItem.findById(req.query.foodItemId).orFail();
-            foodItem.image.push({ path: req.body.url });
+            foodItem.image=new Object()
+            foodItem.image.path=req.body.url;
             await foodItem.save();
         } catch (err) {
             next(err);

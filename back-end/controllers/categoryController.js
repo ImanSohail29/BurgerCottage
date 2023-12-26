@@ -1,4 +1,5 @@
 const Category = require("../models/CategoryModel")
+const imageValidate = require("../utils/imageValidate")
 
 const getCategories = async (req, res, next) => {
     try {
@@ -13,23 +14,26 @@ const getCategories = async (req, res, next) => {
 const newCategory = async (req, res, next) => {
     try {
         //res.send(!!req.body)
-        const { category } = req.body
-        console.log("category:"+category)
-        if (!category) {
+        const { name,description } = req.body
+        console.log("category:" + name)
+        if (!name) {
             res.status(400).send("Category input is required")
         }
-        const categoryExists = await Category.findOne({ name: category })
-        
+        const categoryExists = await Category.findOne({ name: name })
+
         if (categoryExists) {
             res.status(400).send("Category already exists")
         }
         else {
             const categoryCreated = await Category.create({
-                name: category
+                name: name,
+                description:description
             })
-            res.status(201).send({ categoryCreated: categoryCreated })
+            res.json({
+                message: "category created",
+                categoryCreated: categoryCreated
+            })
         }
-        res.send(category)
     }
     catch (err) {
         next(err)
@@ -80,13 +84,100 @@ const saveAttr = async (req, res, next) => {
                 categoryExists.attrs.push({ key: key, value: [val] })
             }
             await categoryExists.save()
-            let cat = await Category.find({}).sort({name: "asc"})
-            return res.status(201).json({categoriesUpdated: cat})
+            let cat = await Category.find({}).sort({ name: "asc" })
+            return res.status(201).json({ categoriesUpdated: cat })
         }
         catch (error) {
             next(error)
         }
     }
-
 }
-module.exports = { getCategories, newCategory, deleteCategory, saveAttr }
+const adminUpload = async (req, res, next) => {
+    if (req.query.cloudinary === "true") {
+        try {
+            let category = await Category.findById(req.query.categoryId).orFail();
+            category.image=req.body.url;
+            await category.save();
+        } catch (err) {
+            next(err);
+        }
+        return
+    }
+    try {
+        if (!req.files || !!req.files.images === false) {
+            return res.status(400).send("No files were uploaded.");
+        }
+
+        const validateResult = imageValidate(req.files.images);
+        if (validateResult.error) {
+            return res.status(400).send(validateResult.error);
+        }
+
+        const path = require("path");
+        const { v4: uuidv4 } = require("uuid");
+        const uploadDirectory = path.resolve(
+            __dirname,
+            "../../front-end",
+            "public",
+            "images",
+            "categories"
+        );
+
+        let category = await Category.findById(req.query.categoryId).orFail();
+
+        let imagesTable = [];
+        if (Array.isArray(req.files.images)) {
+            imagesTable = req.files.images;
+        } else {
+            imagesTable.push(req.files.images);
+        }
+
+        for (let image of imagesTable) {
+            var fileName = uuidv4() + path.extname(image.name);
+            var uploadPath = uploadDirectory + "/" + fileName;
+            category.images.push({ path: "/images/categories/" + fileName });
+            image.mv(uploadPath, function (err) {
+                if (err) {
+                    return res.status(500).send(err);
+                }
+            });
+        }
+        await category.save();
+        return res.send("Files uploaded!");
+    } catch (err) {
+        next(err);
+    }
+};
+
+const adminDeleteCategoryImage = async (req, res, next) => {
+    const imagePath = decodeURIComponent(req.params.imagePath);
+    if (req.query.cloudinary === "true") {
+        try {
+            await Category.findOneAndUpdate({ _id: req.params.categoryId }, { $pull: { image: { path: imagePath } } }).orFail();
+            return res.end();
+        } catch (er) {
+            next(er);
+        }
+        return
+    }
+    try {
+        const path = require("path");
+        const finalPath = path.resolve("../front-end/public") + imagePath;
+
+        const fs = require("fs");
+        fs.unlink(finalPath, (err) => {
+            if (err) {
+                res.status(500).send(err);
+            }
+        });
+        await FoodItem.findOneAndUpdate(
+            { _id: req.params.categoryId },
+            { $pull: { images: { path: imagePath } } }
+        ).orFail();
+        return res.end();
+    } catch (err) {
+        next(err);
+    }
+};
+
+module.exports = { getCategories, newCategory, deleteCategory, saveAttr, adminUpload, adminDeleteCategoryImage }

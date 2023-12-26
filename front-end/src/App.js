@@ -21,6 +21,8 @@ import AdminCartDetailsPage from "./pages/admin/billing/AdminCartDetailsPage";
 import AdminOrderDetailsPage from "./pages/admin/billing/AdminOrderDetailsPage";
 import AdminOrdersPage from "./pages/admin/billing/AdminOrdersPage";
 import EditUserPage from "./pages/EditUserPage";
+import AdminCreateProductPage from "./pages/admin/billing/AdminAddNewProductPage";
+import AdminAddNewCategoryPage from "./pages/admin/billing/AdminAddNewCategoryPage";
 
 function App() {
   return (
@@ -41,6 +43,23 @@ function App() {
             path="/admin/order-details/:orderId"
             element={<AdminOrderDetailsPage />}
           />
+          <Route
+            path="/admin/create-new-product"
+            element={<AdminCreateProductPage />}
+          />
+          <Route
+            path="/admin/edit-product/:id"
+            element={<AdminEditVendorPage />}
+          />
+           <Route
+            path="/admin/create-new-category"
+            element={<AdminAddNewCategoryPage />}
+          />
+          <Route
+            path="/admin/edit-category/:id"
+            element={<AdminEditVendorPage />}
+          />
+          <Route path="/admin/"></Route>
           
        </Route>
         <Route path="*" element="Page not exists 404" />

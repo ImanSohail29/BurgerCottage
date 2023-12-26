@@ -1,7 +1,5 @@
 import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
 import { useState, useEffect } from "react";
-
-
 const EditUserPageComponent = ({ updateUserApiRequest, fetchUser,login, userInfoFromRedux, reduxDispatch, localStorage, sessionStorage }) => {
   const [validated, setValidated] = useState(false);
   const [updateUserResponseState, setUpdateUserResponseState] = useState({ success: "", error: "" });
