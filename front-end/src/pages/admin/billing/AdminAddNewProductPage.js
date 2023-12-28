@@ -7,6 +7,10 @@ const createProductApiRequest = async (formInputs) => {
     const { data } = await axios.post("/api/foodItems/admin", { ...formInputs })
     return data
 }
+const addOnsApiRequest = async () => {
+    const { data } = await axios.get("/api/foodItems/admin/addOns")
+    return data
+}
 
 
 const AdminCreateProductPage = () => {
@@ -20,6 +24,7 @@ const AdminCreateProductPage = () => {
             uploadImagesApiRequest={uploadImagesApiRequest}
             uploadImagesCloudinaryApiRequest={uploadImagesCloudinaryApiRequest}
             reduxDispatch={reduxDispatch}
+            addOnsApiRequest={addOnsApiRequest}
         >
         </AdminCreateProductPageComponent>
     )

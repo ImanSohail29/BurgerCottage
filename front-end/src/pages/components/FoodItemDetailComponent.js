@@ -42,7 +42,7 @@ const FoodItemDetailComponent = ({
 
   const addToCartHandler = () => {
     const sameProduct = false
-    size.price=size.price+addOnAmount
+    size.price=Number(size.price)+Number(addOnAmount)
     console.log(size.price)
     reduxDispatch(addToCartReduxAction({ id, quantity, size, instructions, sameProduct,selectedAddOns }))
     setShowCartMessage(true)
@@ -172,7 +172,7 @@ const FoodItemDetailComponent = ({
                         ({product.reviewsNumber})
                       </ListGroup.Item> */}
                       <ListGroup.Item>
-                        Price:  <span className="fw-bold">Rs{size.price+addOnAmount}/-</span>
+                        Price:  <span className="fw-bold">Rs{size.price}/-</span>
                       </ListGroup.Item>
                       <ListGroup.Item>
                         <DropdownButton id="dropdown-basic-button" title={size.value} value={size.value} defaultValue={product.size[0]}>
@@ -181,7 +181,8 @@ const FoodItemDetailComponent = ({
                           ))}
                         </DropdownButton>
                       </ListGroup.Item>
-                      <ListGroup.Item>
+                      {product.addOns.length>0?(
+                        <ListGroup.Item>
                         <span className="fw-bold">Add Ons</span>
                         <Form>
                           {product.addOns.map((addOn, idx) => (
@@ -199,6 +200,8 @@ const FoodItemDetailComponent = ({
                           ))}
                         </Form>
                       </ListGroup.Item>
+                      ):("")}
+                      
 
                       <ListGroup.Item>{product.description}</ListGroup.Item>
                     </ListGroup>
@@ -209,7 +212,7 @@ const FoodItemDetailComponent = ({
                         Status: {product.count > 0 ? "in stock" : "out of stock"}
                       </ListGroup.Item> */}
                       <ListGroup.Item>
-                        Total Price: <span className="fw-bold">Rs {size ? (((size.price+addOnAmount) * quantity)) : (0)}/-</span>
+                        Total Price: <span className="fw-bold">Rs {size ? (((size.price) * quantity)) : (0)}/-</span>
                       </ListGroup.Item>
                       <ListGroup.Item>
                         Quantity:

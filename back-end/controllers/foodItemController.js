@@ -1,6 +1,7 @@
 const recordsPerPage = require("../config/pagination");
 const imageValidate = require("../utils/imageValidate");
 const FoodItem = require("../models/FoodItemModel");
+const AddOn = require("../models/AddOnModel");
 
 const getFoodItems = async (req, res, next) => {
   try {
@@ -236,6 +237,16 @@ const adminDeleteFoodItemImage = async (req, res, next) => {
     next(err);
   }
 };
+const getAddOns = async (req, res, next) => {
+  try {
+      const addons = await AddOn.find({}).sort({ name: "asc" }).orFail()
+      return res.json(addons)
+  }
+  catch (error) {
+      next(error)
+  }
+  res.send("Handling add ons routes, e.g. search for addons")
+}
 
 module.exports = {
   getFoodItems,
@@ -247,5 +258,6 @@ module.exports = {
   adminUpdateFoodItem,
   adminUpload,
   adminDeleteFoodItemImage,
-  adminGetFoodItemsByCategory
+  adminGetFoodItemsByCategory,
+  getAddOns
 };

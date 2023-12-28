@@ -4,11 +4,11 @@ import { LinkContainer } from "react-router-bootstrap"
 const FoodItemForListComponent = ({ foodItemId, name, description, size, image }) => {
     const cursorP = { cursor: "pointer" }
     return (
-                <Card className="bg-danger text-white p-1 m-1 bg-opacity-50 border-start" style={{ backgroundColor: " rgb(255, 30, 22)", color: "white" }}>
+                <Card className="bg-danger text-white p-1 m-1 bg-opacity-50 border-start" style={{ backgroundColor: " rgb(255, 30, 22)", color: "white",maxHeight:"400px" }}>
                     <LinkContainer style={cursorP} to={`/foodItem-detail/${foodItemId}`}>
                     <Row>
                         <Col lg={5}>
-                            <Card.Img
+                            <Card.Img style={{maxHeight:"200px", padding:"4px"}}
                                 crossOrigin='anonymous'
                                 variant="top"
                                 src={image ? image.path : ''} />

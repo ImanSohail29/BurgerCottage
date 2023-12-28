@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Alert, Button, CloseButton, Col, Container, Form, Row, Table } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 
-const AdminCreateProductPageComponent = ({ categories, createProductApiRequest, uploadImagesApiRequest, uploadImagesCloudinaryApiRequest, reduxDispatch }) => {
+const AdminCreateProductPageComponent = ({ categories, createProductApiRequest, uploadImagesApiRequest, uploadImagesCloudinaryApiRequest, reduxDispatch,addOnsApiRequest }) => {
     const sizeRef = useRef()
     const priceRef = useRef()
     const [validated, setValidated] = useState(false);
@@ -10,6 +10,9 @@ const AdminCreateProductPageComponent = ({ categories, createProductApiRequest, 
     const [sizeTable, setSizeTable] = useState([])
     const [sizeTableSize, setSizeTableSize] = useState(0)
     const [isCreating, setIsCreating] = useState("")
+    const [selectedAddOns, setSelectedAddOns] = useState([])
+    const [addOns, setAddOns] = useState([])
+    const [error, setError] = useState(false);
     const [createProductResponseState, setCreateProductResponseState] = useState({ message: "", error: "" })
     const navigate = useNavigate()
     const addSize = () => {
@@ -30,6 +33,29 @@ const AdminCreateProductPageComponent = ({ categories, createProductApiRequest, 
         sizeTable.splice(index, 1)
         setSizeTableSize(sizeTable.length)
     }
+    const selectAddOn = (e, addOn, idx) => {
+        const isChecked=e.target.checked;
+        if(isChecked){
+          setSelectedAddOns([...selectedAddOns,addOn])
+        }
+        else{
+          selectedAddOns.splice(idx,1)
+          setSelectedAddOns(selectedAddOns)
+    
+        }
+    }
+    useEffect(() => {
+        addOnsApiRequest()
+          .then((data) => {
+            setAddOns(data);
+          })
+          .catch((er) =>
+            setError(
+              er.response.data.message ? er.response.data.message : er.response.data
+            )
+          );
+      }, []);
+    
     useEffect(() => { }, [sizeTable])
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -73,7 +99,7 @@ const AdminCreateProductPageComponent = ({ categories, createProductApiRequest, 
         <Container className="mt-5">
             <Row className="justify-content-md-center mt-5">
                 <Col md={1}>
-                    <Link to="admin/products" className="btn btn-warning my-3">Go Back</Link>
+                    <Link to="/admin/products" className="btn btn-warning my-3">Go Back</Link>
                 </Col>
                 <Col md={6} className="mb-3">
                     <h3>Add Food Item</h3>
@@ -86,7 +112,17 @@ const AdminCreateProductPageComponent = ({ categories, createProductApiRequest, 
                             <Form.Label>Description</Form.Label>
                             <Form.Control name="description" required as="textarea" rows={3}></Form.Control>
                         </Form.Group>
-
+                        <Form.Group className="mb-3" controlId="formBasicCategory">
+                            <Form.Label>Category
+                                <CloseButton></CloseButton>(<small>remove selected</small>)
+                            </Form.Label>
+                            <Form.Select required name="category" aria-label="Default select example">
+                                <option value="">Choose category</option>
+                                {categories.map((category, idx) => {
+                                    return (<option key={idx} value={category.name}>{category.name}</option>)
+                                })}
+                            </Form.Select>
+                        </Form.Group>
                         <Form.Group className="mb-3" controlId="formBasicPrice">
                             <Row>
                                 <Col>
@@ -99,17 +135,6 @@ const AdminCreateProductPageComponent = ({ categories, createProductApiRequest, 
                                     <Button variant="danger" onClick={addSize}>Add</Button>
                                 </Col>
                             </Row>
-                        </Form.Group>
-                        <Form.Group className="mb-3" controlId="formBasicCategory">
-                            <Form.Label>Category
-                                <CloseButton></CloseButton>(<small>remove selected</small>)
-                            </Form.Label>
-                            <Form.Select required name="category" aria-label="Default select example">
-                                <option value="">Choose category</option>
-                                {categories.map((category, idx) => {
-                                    return (<option key={idx} value={category.name}>{category.name}</option>)
-                                })}
-                            </Form.Select>
                         </Form.Group>
                         {console.log(sizeTableSize)}
                         {
@@ -137,6 +162,24 @@ const AdminCreateProductPageComponent = ({ categories, createProductApiRequest, 
                                     </tbody>
                                 </Table>
                             ) : (<></>)}
+                        
+                        <Form.Label>Select Add ons</Form.Label>
+                        <Form>
+                          {addOns.map((addOn, idx) => (
+                            <div key={idx}>
+                              <Form.Check type="checkbox">
+                                <Form.Check.Input
+                                  type="checkbox"
+                                  onChange={(e) => selectAddOn(e,addOn, idx)}
+                                />
+                                <Form.Check.Label style={{ cursor: "pointer" }}>
+                                  {addOn.name}
+                                </Form.Check.Label>
+                              </Form.Check>
+                            </div>
+                          ))}
+                        </Form>
+                        
                         <Form.Group className="mb-3" controlId="formBasicImages">
                             <Form.Label>Images</Form.Label>
                             <Form.Control name="image" required type="file" multiple onChange={(e) => uploadHandler(e.target.files)}>

@@ -28,8 +28,8 @@ const FoodItemsComponent = ({ getFoodItems, categories, addProductApiRequest }) 
         getFoodItems(categoryName, pageNumParam)
             .then(data => {
                 setFoodItems(data.foodItems)
-                setPaginationLinksNumber(foodItems.paginationLinksNumber)
-                setPageNum(foodItems.pageNum)
+                setPaginationLinksNumber(data.paginationLinksNumber)
+                setPageNum(data.pageNum)
                 setLoading(false)
             })
             .catch((er) => setError(er.response.data.message ? er.response.data.message : er.response.data))
@@ -38,7 +38,7 @@ const FoodItemsComponent = ({ getFoodItems, categories, addProductApiRequest }) 
     return (
         <Container fluid >
             <Row style={{ minHeight: "100vh" }}>
-                <Col xs={3} className="bg-dark text-white bg-opacity-50">
+                <Col xs={4} md={3} className="bg-dark text-white bg-opacity-50">
                     <h3>
                         Categories{"  "}
                         <LinkContainer to={"/admin/create-new-category"}>
@@ -49,10 +49,10 @@ const FoodItemsComponent = ({ getFoodItems, categories, addProductApiRequest }) 
                         {
                             categories.map((categoryItem, idx) => {
                                 return (
-                                    <LinkContainer className="bg-dark text-white bg-opacity-50" key={idx} style={{ cursor: "pointer" }} to={`/foodItem-list/category/${categoryItem.name}`}>
-                                        <ListGroup.Item key={idx}>
-                                            <Image style={{ maxWidth: "50px", maxHeight: "50px" }} crossOrigin="anonymous" src={categoryItem.image}></Image>
-                                            {categoryItem.name}
+                                    <LinkContainer className="bg-dark text-white bg-opacity-50" key={idx} style={{minHeight:"100px", minWidth:"100px",cursor:"pointer"}} to={`/foodItem-list/category/${categoryItem.name}`}>
+                                        <ListGroup.Item key={idx} >
+                                            <Image style={{ maxWidth: "100px", maxHeight: "100px" }} crossOrigin="anonymous" src={categoryItem.image}></Image>
+                                            {" "}{categoryItem.name}
                                         </ListGroup.Item>
                                     </LinkContainer>
                                 )
@@ -62,7 +62,7 @@ const FoodItemsComponent = ({ getFoodItems, categories, addProductApiRequest }) 
                         }
                     </ListGroup>
                 </Col>
-                <Col xs={8}>
+                <Col xs={8} className="mb-5">
 
                     {loading ? (<h1>Loading Items...</h1>) : error ? (<h1>Error while loading food Items...</h1>) : (
                         <>
@@ -87,8 +87,7 @@ const FoodItemsComponent = ({ getFoodItems, categories, addProductApiRequest }) 
                             {
                                 foodItems.map((foodItem) => {
                                     return (
-                                        <Row key={foodItem._id} xs={1} md={2} className="g-4">
-                                            <Col>
+                                        
 
                                                 <FoodItemForListComponent
 
@@ -99,7 +98,7 @@ const FoodItemsComponent = ({ getFoodItems, categories, addProductApiRequest }) 
                                                     size={foodItem.size}
                                                 >
                                                 </FoodItemForListComponent>
-                                            </Col></Row>
+                                         
                                     )
                                 }
                                 )

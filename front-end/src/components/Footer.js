@@ -4,7 +4,7 @@ const Footer=()=>{
     return (
         <footer>
             <Container fluid>
-                <Row className="mt-5">
+                <Row>
                     <Col className="bg-dark text-white text-center py-5  bg-opacity-50">
                         Copyright &copy; Shop Best Burgers Online
                     </Col>

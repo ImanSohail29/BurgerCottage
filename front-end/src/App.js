@@ -75,9 +75,9 @@ function App() {
           <Route path="/foodItem-detail" element={<FoodItemDetailPage/>}></Route>
           <Route path="/foodItem-detail/:id" element={<FoodItemDetailPage/>}></Route>
           <Route path="/foodItem-list" element={<FoodItemsPage/>} />
-          <Route path="/foodItem-list/:pageNum" element={<FoodItemsPage/>} />
+          <Route path="/foodItem-list/:pageNumParam" element={<FoodItemsPage/>} />
           <Route path="/foodItem-list/category/:categoryName" element={<FoodItemsPage />} />
-          <Route path="/foodItem-list/category/:categoryName/:pageNum" element={<FoodItemsPage />} />
+          <Route path="/foodItem-list/category/:categoryName/:pageNumParam" element={<FoodItemsPage />} />
         
          {/* user protected routes: */}
          <Route element={<ProtectedRoutesComponent admin={false} />}>
