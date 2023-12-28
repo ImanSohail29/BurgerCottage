@@ -38,7 +38,7 @@ const AdminAddNewCategoryComponent = ({ categories, createCategoryApiRequest, up
                     }
                     if (data.message === "category created"){ 
                         reduxDispatch(insertCategory(data))
-                        navigate("/home")}
+                        navigate("/admin/products")}
                 }).catch((er) => setCreateCategoryResponseState({ error: er.response.data.message ? er.response.data.message : er.response.data }))
         }
         setValidated(true);
@@ -61,7 +61,7 @@ const AdminAddNewCategoryComponent = ({ categories, createCategoryApiRequest, up
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="formBasicProductDescription">
                             <Form.Label>Description</Form.Label>
-                            <Form.Control name="description" required as="textarea" rows={3}></Form.Control>
+                            <Form.Control name="description" as="textarea" rows={3}></Form.Control>
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="formBasicImages">
                             <Form.Label>Images</Form.Label>

@@ -2,6 +2,7 @@ const mongoose=require("mongoose")
 const Review=require("./ReviewModel")
 const Category=require("./CategoryModel")
 const Ingredient=require("./IngredientModel")
+const AddOn=require('./AddOnModel')
 const imageSchema=mongoose.Schema({
     path:{type:String,required:true}
 })
@@ -34,6 +35,12 @@ const FoodItemSchema=mongoose.Schema({
     price:{
         type:Number,
     },
+    addOns:[
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:AddOn
+        }
+    ],
     ingredients:[
         {
             type:mongoose.Schema.Types.ObjectId,

@@ -11,6 +11,15 @@ const getCategories = async (req, res, next) => {
     }
     res.send("Handling category routes, e.g. search for category")
 }
+const getCategoryById = async (req, res, next) => {
+    try {
+      const category = await Category.findById(req.params.id)
+        .orFail();
+      res.json(category);
+    } catch (err) {
+      next(err);
+    }
+  };
 const newCategory = async (req, res, next) => {
     try {
         //res.send(!!req.body)
@@ -39,20 +48,28 @@ const newCategory = async (req, res, next) => {
         next(err)
     }
 }
+const adminUpdateCategory = async (req, res, next) => {
+    try {
+      const category = await Category.findById(req.params.id).orFail();
+      const { name, description } =req.body;
+      category.name = name || category.name;
+      category.description = description || category.description;
+      await category.save();
+      res.json({
+        message: "category updated",
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
 const deleteCategory = async (req, res, next) => {
     try {
-        if (req.params.category !== "Choose category") {
-            const categoryExists = await Category.findOne({
-                name: decodeURIComponent(req.params.category)
-            }).orFail()
-            console.log(categoryExists)
-            await categoryExists.deleteOne()
-            res.json({ categoryDeleted: true })
-        }
-    }
-    catch (error) {
-        next(error)
-    }
+        const category = await Category.findById(req.params.categoryId).orFail();
+        await category.deleteOne();
+        res.json({ message: "category removed" });
+      } catch (err) {
+        next(err);
+      }
 }
 const saveAttr = async (req, res, next) => {
 
@@ -180,4 +197,4 @@ const adminDeleteCategoryImage = async (req, res, next) => {
     }
 };
 
-module.exports = { getCategories, newCategory, deleteCategory, saveAttr, adminUpload, adminDeleteCategoryImage }
+module.exports = { getCategories,getCategoryById, newCategory, deleteCategory, saveAttr, adminUpload, adminDeleteCategoryImage,adminUpdateCategory }

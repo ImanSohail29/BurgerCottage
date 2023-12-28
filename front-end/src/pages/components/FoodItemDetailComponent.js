@@ -32,13 +32,52 @@ const FoodItemDetailComponent = ({
   const [error, setError] = useState(false);
   const [productReviewed, setProductReviewed] = useState(false);
   const [size, setSize] = useState()
-  const [instructions,setInstructions]=useState("")
+  const [addOnAmount,setAddOnAmount]=useState(0)
+  const [instructions, setInstructions] = useState([])
+  const [addOns, setAddOns] = useState([])
+  const [selectedAddOns, setSelectedAddOns] = useState([])
   const messagesEndRef = useRef(null);
+  const myRefs = useRef([]);
+
 
   const addToCartHandler = () => {
     const sameProduct = false
-    reduxDispatch(addToCartReduxAction({ id, quantity,size,instructions, sameProduct }))
+    size.price=size.price+addOnAmount
+    console.log(size.price)
+    reduxDispatch(addToCartReduxAction({ id, quantity, size, instructions, sameProduct,selectedAddOns }))
     setShowCartMessage(true)
+    setSize(product.size[0])
+    setQuantity(1)
+    
+  };
+
+  const selectAddOn = (e, addOn, idx) => {
+    const isChecked=e.target.checked;
+    if(isChecked){
+      setSelectedAddOns([...selectedAddOns,addOn])
+      setAddOnAmount((amount)=>amount+addOn.price)
+    }
+    else{
+      selectedAddOns.splice(idx,1)
+      setSelectedAddOns(selectedAddOns)
+      setAddOnAmount((amount)=>amount-addOn.price)
+
+    }
+
+    // let sum=0
+    // let amount=0
+    // console.log(selectedAddOns)
+    // console.log(selectedAddOns.length)
+    // if(selectedAddOns.length>0){
+    //   console.log("hi")
+    //   amount=selectedAddOns.forEach(addOn=>sum+=addOn.price)
+    // }
+    // size.price=size.price+amount
+    // console.log(amount)
+
+    // console.log(addOn.price)
+
+    // console.log(size.price)
   };
 
   useEffect(() => {
@@ -73,7 +112,7 @@ const FoodItemDetailComponent = ({
           er.response.data.message ? er.response.data.message : er.response.data
         )
       );
-  }, [id, productReviewed,size]);
+  }, [id, productReviewed, size]);
 
   const sendReviewHandler = (e) => {
     e.preventDefault();
@@ -133,16 +172,34 @@ const FoodItemDetailComponent = ({
                         ({product.reviewsNumber})
                       </ListGroup.Item> */}
                       <ListGroup.Item>
-                        Price:  <span className="fw-bold">Rs{size.price}/-</span>
+                        Price:  <span className="fw-bold">Rs{size.price+addOnAmount}/-</span>
                       </ListGroup.Item>
                       <ListGroup.Item>
                         <DropdownButton id="dropdown-basic-button" title={size.value} value={size.value} defaultValue={product.size[0]}>
-                          {product.size.map((values,idx) => (
+                          {product.size.map((values, idx) => (
                             <Dropdown.Item key={idx} onClick={() => setSize(values)}>{values.value}</Dropdown.Item>
                           ))}
                         </DropdownButton>
                       </ListGroup.Item>
-                 
+                      <ListGroup.Item>
+                        <span className="fw-bold">Add Ons</span>
+                        <Form>
+                          {product.addOns.map((addOn, idx) => (
+                            <div key={idx}>
+                              <Form.Check type="checkbox">
+                                <Form.Check.Input
+                                  type="checkbox"
+                                  onChange={(e) => selectAddOn(e,addOn, idx)}
+                                />
+                                <Form.Check.Label style={{ cursor: "pointer" }}>
+                                  {addOn.name}
+                                </Form.Check.Label>
+                              </Form.Check>
+                            </div>
+                          ))}
+                        </Form>
+                      </ListGroup.Item>
+
                       <ListGroup.Item>{product.description}</ListGroup.Item>
                     </ListGroup>
                   </Col>
@@ -152,11 +209,11 @@ const FoodItemDetailComponent = ({
                         Status: {product.count > 0 ? "in stock" : "out of stock"}
                       </ListGroup.Item> */}
                       <ListGroup.Item>
-                        Total Price: <span className="fw-bold">Rs { size?(size.price*quantity):(0) }/-</span>
+                        Total Price: <span className="fw-bold">Rs {size ? (((size.price+addOnAmount) * quantity)) : (0)}/-</span>
                       </ListGroup.Item>
                       <ListGroup.Item>
                         Quantity:
-                        <Button disabled={quantity===1} onClick={() => setQuantity((value) => value - 1)}>-</Button>
+                        <Button disabled={quantity === 1} onClick={() => setQuantity((value) => value - 1)}>-</Button>
                         <input type="number" min={1} className="w-25" value={quantity} onChange={(event) => {
                           setQuantity(event.target.value)
                           return (event.target.value)

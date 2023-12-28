@@ -10,6 +10,7 @@ const {
     adminUpdateFoodItem,
     adminUpload,
     adminDeleteFoodItemImage,
+    adminGetFoodItemsByCategory,
 } = require("../controllers/foodItemController")
 const { verifyIsLoggedIn, verifyIsAdmin } = require("../middlewares/verifyAuthToken")
 
@@ -23,6 +24,9 @@ router.use(verifyIsLoggedIn)
 router.use(verifyIsAdmin)
 
 router.get("/admin", adminGetFoodItems)
+router.get("/admin/category/:categoryName", adminGetFoodItemsByCategory)
+router.get("/get-one/:id",getFoodItemById)
+
 router.post("/admin", adminCreateFoodItem)
 router.put("/admin/:id", adminUpdateFoodItem)
 router.delete("/admin/:id", adminDeleteFoodItem)

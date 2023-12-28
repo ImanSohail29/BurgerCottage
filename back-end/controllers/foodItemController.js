@@ -7,6 +7,7 @@ const getFoodItems = async (req, res, next) => {
     let query = {};
     let queryCondition = false;
     const categoryName = req.params.categoryName || "";
+    console.log(categoryName)
     if (categoryName) {
         queryCondition=true
         categoryQueryCondition = {
@@ -24,8 +25,10 @@ console.log(query)
     let select = {};
     const foodItems = await FoodItem.find(query)
       .select(select)
+      .populate("addOns")
       .skip(recordsPerPage * (pageNum - 1))
       .limit(recordsPerPage);
+      console.log(foodItems)
 
     res.json({
       foodItems,
@@ -38,9 +41,11 @@ console.log(query)
 };
 
 const getFoodItemById = async (req, res, next) => {
+  
   try {
     const foodItem = await FoodItem.findById(req.params.id)
       .populate("reviews")
+      .populate("addOns")
       .orFail();
     res.json(foodItem);
   } catch (err) {
@@ -69,6 +74,7 @@ const getBestsellers = async (req, res, next) => {
 const adminGetFoodItems = async (req, res, next) => {
   try {
     const foodItems = await FoodItem.find({})
+      .populate("addOns")
       .sort({ category: 1 })
       .select("name price category");
     return res.json(foodItems);
@@ -76,6 +82,18 @@ const adminGetFoodItems = async (req, res, next) => {
     next(err);
   }
 };
+const adminGetFoodItemsByCategory = async (req, res, next) => {
+  try {
+    const categoryName = req.params.categoryName || "";
+    const foodItems = await FoodItem.find({category:categoryName})
+      .populate("addOns")
+      .select("name price category");
+    return res.json(foodItems);
+  } catch (err) {
+    next(err);
+  }
+};
+
 
 const adminDeleteFoodItem = async (req, res, next) => {
   try {
@@ -90,14 +108,15 @@ const adminDeleteFoodItem = async (req, res, next) => {
 const adminCreateFoodItem = async (req, res, next) => {
   try {
     const foodItem = new FoodItem();
-    const { name,category, description,size  } =req.body;
-    console.log(name,category, description,size )
+    const { name,category, description,size,addOns  } =req.body;
+    console.log(name,category, description,size,addOns )
     foodItem.name = name;
     foodItem.category = category;
     foodItem.description = description;
-    foodItem.size = size;
+    foodItem.addOns = addOns;
+    foodItem.size = size.sort();
 
-    
+
     await foodItem.save();
 
     res.json({
@@ -111,19 +130,15 @@ const adminCreateFoodItem = async (req, res, next) => {
 
 const adminUpdateFoodItem = async (req, res, next) => {
   try {
+    console.log(req.params.id)
     const foodItem = await FoodItem.findById(req.params.id).orFail();
-    const { name,category, description,attributes } =req.body;
+    console.log(foodItem)
+    const { name,category, description,size,addOns } =req.body;
     foodItem.name = name || foodItem.name;
     foodItem.category = category || foodItem.category;
     foodItem.description = description || foodItem.description;
-    if (attributes.length > 0) {
-      foodItem.attributes = [];
-      attributes.map((attribute) => {
-        foodItem.attributes.push(attribute);
-      });
-    } else {
-      foodItem.attributes = [];
-    }
+    foodItem.size=size||foodItem.size;
+    foodItem.addOns=addOns||foodItem.addOns;
     await foodItem.save();
     res.json({
       message: "food Item updated",
@@ -195,7 +210,7 @@ const adminDeleteFoodItemImage = async (req, res, next) => {
     const imagePath = decodeURIComponent(req.params.imagePath);
     if (req.query.cloudinary === "true") {
         try {
-           await FoodItem.findOneAndUpdate({ _id: req.params.foodItemId }, { $pull: { image: { path: imagePath } } }).orFail(); 
+           await FoodItem.findOneAndUpdate({ _id: req.params.foodItemId },  { image: { path: null } } ).orFail(); 
             return res.end();
         } catch(er) {
             next(er);
@@ -232,4 +247,5 @@ module.exports = {
   adminUpdateFoodItem,
   adminUpload,
   adminDeleteFoodItemImage,
+  adminGetFoodItemsByCategory
 };

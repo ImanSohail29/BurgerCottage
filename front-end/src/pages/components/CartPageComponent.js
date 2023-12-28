@@ -9,13 +9,13 @@ const CartPageComponent = ({
     cartSubtotal,
     reduxDispatch
 }) => {
-  const changeCount = (id, quantity,size,instructions) => {
+  const changeCount = (id, quantity,size,instructions,selectedAddOns) => {
     const sameProduct=true
-    reduxDispatch(addToCart({ id, quantity,size,instructions,sameProduct }))
+    reduxDispatch(addToCart({ id, quantity,size,instructions,sameProduct,selectedAddOns }))
 }
-const removeFromCartHandler=(productId,quantity,size,instructions)=>{
+const removeFromCartHandler=(productId,quantity,size,instructions,selectedAddOns,index)=>{
     if(window.confirm("Are you sure?")){
-        reduxDispatch(removeFromCart({productId,quantity,size,instructions}))
+        reduxDispatch(removeFromCart({productId,quantity,size,instructions,selectedAddOns,index}))
     }
 }
 
@@ -34,6 +34,7 @@ const removeFromCartHandler=(productId,quantity,size,instructions)=>{
                   key={idx}
                   changeCount={changeCount}
                   removeFromCartHandler={removeFromCartHandler}
+                  index={idx}
                 />
               ))}
             </ListGroup>

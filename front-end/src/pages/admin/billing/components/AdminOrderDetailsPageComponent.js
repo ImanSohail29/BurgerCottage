@@ -107,7 +107,7 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered }) => {
             <h2>Order items</h2>
             <ListGroup variant="flush">
               {cartItems.map((item, idx) => (
-                <CartItemComponent key={idx} item={item} orderCreated={true} />
+                <CartItemComponent key={idx} item={item} orderCreated={true} index={idx} />
               ))}
             </ListGroup>
           </Col>
