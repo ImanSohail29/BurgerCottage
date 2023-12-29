@@ -170,7 +170,7 @@ const adminDeleteCategoryImage = async (req, res, next) => {
     const imagePath = decodeURIComponent(req.params.imagePath);
     if (req.query.cloudinary === "true") {
         try {
-            await Category.findOneAndUpdate({ _id: req.params.categoryId }, { $pull: { image: { path: imagePath } } }).orFail();
+            await Category.findOneAndUpdate({ _id: req.params.categoryId }, { image:  imagePath }).orFail();
             return res.end();
         } catch (er) {
             next(er);
@@ -189,7 +189,7 @@ const adminDeleteCategoryImage = async (req, res, next) => {
         });
         await FoodItem.findOneAndUpdate(
             { _id: req.params.categoryId },
-            { $pull: { images: { path: imagePath } } }
+            { images: { path: imagePath } }
         ).orFail();
         return res.end();
     } catch (err) {

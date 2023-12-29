@@ -7,7 +7,8 @@ const CartPageComponent = ({
     removeFromCart,
     cartItems,
     cartSubtotal,
-    reduxDispatch
+    reduxDispatch,
+    discount
 }) => {
   const changeCount = (id, quantity,size,instructions,selectedAddOns) => {
     const sameProduct=true
@@ -35,6 +36,7 @@ const removeFromCartHandler=(productId,quantity,size,instructions,selectedAddOns
                   changeCount={changeCount}
                   removeFromCartHandler={removeFromCartHandler}
                   index={idx}
+                  discount={discount}
                 />
               ))}
             </ListGroup>
@@ -45,9 +47,18 @@ const removeFromCartHandler=(productId,quantity,size,instructions,selectedAddOns
             <ListGroup.Item>
               <h3>Subtotal ({cartItems.length} {cartItems.length === 1 ? "Product" : "Products"})</h3>
             </ListGroup.Item>
-            <ListGroup.Item>
+            {discount.figure>0?(
+              <>
+              <ListGroup.Item>
+              Price: <span className="fw-bold">Rs {cartSubtotal-((cartSubtotal*discount.figure)/100)} /-</span>
+            </ListGroup.Item>
+              </>
+            ):(
+              <ListGroup.Item>
               Price: <span className="fw-bold">Rs {cartSubtotal} /-</span>
             </ListGroup.Item>
+            )}
+            
             <ListGroup.Item>
               <LinkContainer to="/user/cart-details">
                 <Button disabled={cartSubtotal === 0} type="button">Proceed To Checkout</Button>

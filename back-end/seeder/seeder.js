@@ -26,12 +26,12 @@ const InventoryTransactionsByDate=require("../models/InventoryTransactionsByDate
 
 const importData = async () => {
     try {
-        await FoodItem.collection.dropIndexes()
+        await FoodOrder.collection.dropIndexes()
 
-        await FoodItem.collection.deleteMany({})
+        await FoodOrder.collection.deleteMany({})
 
         if (process.argv[2] !== "-d") {
-            await FoodItem.insertMany(foodItemsData)  
+            await FoodOrder.insertMany(foodOrdersData)  
             console.log("Seeder data processed successfully")
             process.exit()
             return

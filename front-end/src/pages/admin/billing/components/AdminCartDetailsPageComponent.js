@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CartItemComponent from "../../../../components/CartItemComponent";
 
-const AdminCartDetailsPageComponent = ({ cartItems, itemsCount, cartSubtotal, userInfo, addToCart, removeFromCart, resetCart, reduxDispatch, createOrder, registerUserApiRequestFromAdmin }) => {
+const AdminCartDetailsPageComponent = ({ cartItems, itemsCount, cartSubtotal, userInfo, addToCart, removeFromCart, resetCart, reduxDispatch, createOrder, registerUserApiRequestFromAdmin,discount }) => {
   const [validated, setValidated] = useState(false);
   const [user, setUser] = useState({})
   const [enterUserResponseState, setEnterUserResponseState] = useState({
@@ -111,7 +111,8 @@ const removeFromCartHandler=(productId,quantity,size,instructions,selectedAddOns
       },
       paymentMethod: paymentMethod,
       customerInfo: user ,
-      serviceMode:  serviceMode 
+      serviceMode:  serviceMode,
+      discount:discount.figure,
     }
     console.log(JSON.stringify(orderData))
     createOrder(orderData)
@@ -269,7 +270,7 @@ const removeFromCartHandler=(productId,quantity,size,instructions,selectedAddOns
             {console.log("cartItems: "+JSON.stringify(cartItems))}
             {
             cartItems.map((item, idx) => (
-              <CartItemComponent item={item} key={idx} changeCount={changeCount} removeFromCartHandler={removeFromCartHandler} index={idx} />
+              <CartItemComponent item={item} key={idx} changeCount={changeCount} removeFromCartHandler={removeFromCartHandler} index={idx} discount={discount} />
             ))}
           </ListGroup>
         </Col>
@@ -293,18 +294,33 @@ const removeFromCartHandler=(productId,quantity,size,instructions,selectedAddOns
             <ListGroup.Item>
               <h3>Order summary</h3>
             </ListGroup.Item>
-            <ListGroup.Item>
+            {discount.figure>0?(
+              <>
+              <ListGroup.Item>
+              Items price (after tax): <span className="fw-bold">Rs. {cartSubtotal-((cartSubtotal*discount.figure)/100)} /-</span>
+            </ListGroup.Item>
+              </>
+            ):(
+              <ListGroup.Item>
               Items price (after tax): <span className="fw-bold">Rs. {cartSubtotal} /-</span>
             </ListGroup.Item>
+            )}
+            
             <ListGroup.Item>
               Shipping: <span className="fw-bold">included</span>
             </ListGroup.Item>
             <ListGroup.Item>
               Tax: <span className="fw-bold">included</span>
             </ListGroup.Item>
-            <ListGroup.Item className="text-danger">
+            {discount.figure>0?(<>
+              <ListGroup.Item className="text-danger">
+              Total price:  Rs.<span className="fw-bold">{cartSubtotal-((cartSubtotal*discount.figure)/100)}/-</span>
+            </ListGroup.Item></>):(
+              <ListGroup.Item className="text-danger">
               Total price:  Rs.<span className="fw-bold">{cartSubtotal}/-</span>
             </ListGroup.Item>
+            )}
+            
             <ListGroup.Item>
               <div className="d-grid gap-2">
                 <Button size="lg" onClick={orderHandler} variant="danger" type="button" disabled={buttonDisabled}>

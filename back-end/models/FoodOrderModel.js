@@ -28,6 +28,11 @@ const FoodOrderModel=mongoose.Schema({
     serviceMode:{
         type:String,enum:['delivery','takeAway','dineIn'],default:'delivery',required:true
     },
+    discount:{
+        figure:{type:Number,
+            default:1}
+        
+    },
     orderPlacedAt:{
         type:Date,default:Date.now()
     },

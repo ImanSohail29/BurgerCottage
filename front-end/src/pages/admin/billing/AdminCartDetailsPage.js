@@ -9,6 +9,7 @@ const AdminCartDetailsPage = () => {
   const itemsCount = useSelector((state) => state.cart.itemsCount);
   const cartSubtotal = useSelector((state) => state.cart.cartSubtotal);
   const userInfo = useSelector((state) => state.user.userInfo);
+  const discount=useSelector((state)=>state.discount.discount)
 
   const reduxDispatch = useDispatch();
 
@@ -45,6 +46,7 @@ const AdminCartDetailsPage = () => {
       reduxDispatch={reduxDispatch}
       createOrder={createOrder}
       registerUserApiRequestFromAdmin={registerUserApiRequestFromAdmin}
+      discount={discount}
     />
   );
 };

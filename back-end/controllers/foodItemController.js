@@ -2,6 +2,7 @@ const recordsPerPage = require("../config/pagination");
 const imageValidate = require("../utils/imageValidate");
 const FoodItem = require("../models/FoodItemModel");
 const AddOn = require("../models/AddOnModel");
+const Discount = require("../models/DiscountModel");
 
 const getFoodItems = async (req, res, next) => {
   try {
@@ -49,6 +50,16 @@ const getFoodItemById = async (req, res, next) => {
       .populate("addOns")
       .orFail();
     res.json(foodItem);
+  } catch (err) {
+    next(err);
+  }
+};
+const getDiscountById = async (req, res, next) => {
+  
+  try {
+    const discount = await Discount.findById(req.params.discountId)
+      .orFail();
+    res.json(discount);
   } catch (err) {
     next(err);
   }
@@ -148,6 +159,23 @@ const adminUpdateFoodItem = async (req, res, next) => {
     next(err);
   }
 };
+const adminUpdateDiscount = async (req, res, next) => {
+  try {
+    console.log(req.params.id)
+    const discount = await Discount.findById(req.params.discountId).orFail();
+    console.log(discount)
+    const { figure, description } =req.body;
+    discount.figure = figure || discount.figure;
+    discount.description = description || discount.description;
+    const discountCreated=await discount.save();
+    res.json({
+      data:discountCreated,
+      message: "discount updated",
+    });
+  } catch (err) {
+    next(err);
+  }
+};
 
 const adminUpload = async (req, res, next) => {
     if (req.query.cloudinary === "true") {
@@ -230,12 +258,99 @@ const adminDeleteFoodItemImage = async (req, res, next) => {
     });
     await FoodItem.findOneAndUpdate(
       { _id: req.params.foodItemId },
-      { $pull: { images: { path: imagePath } } }
+      {  image: { path: imagePath } }
     ).orFail();
     return res.end();
   } catch (err) {
     next(err);
   }
+};
+const discountAdminUpload = async (req, res, next) => {
+  if (req.query.cloudinary === "true") {
+      try {
+          let discount = await Discount.findById(req.query.discountId).orFail();
+          discount.image=req.body.url;
+          await discount.save();
+      } catch (err) {
+          next(err);
+      }
+     return 
+  }
+try {
+  if (!req.files || !!req.files.images === false) {
+    return res.status(400).send("No files were uploaded.");
+  }
+
+  const validateResult = imageValidate(req.files.images);
+  if (validateResult.error) {
+    return res.status(400).send(validateResult.error);
+  }
+
+  const path = require("path");
+  const { v4: uuidv4 } = require("uuid");
+  const uploadDirectory = path.resolve(
+    __dirname,
+    "../../front-end",
+    "public",
+    "images",
+    "discount"
+  );
+
+  let foodItem = await FoodItem.findById(req.query.foodItemId).orFail();
+
+  let imagesTable = [];
+  if (Array.isArray(req.files.images)) {
+    imagesTable = req.files.images;
+  } else {
+    imagesTable.push(req.files.images);
+  }
+
+  for (let image of imagesTable) {
+    var fileName = uuidv4() + path.extname(image.name);
+    var uploadPath = uploadDirectory + "/" + fileName;
+    foodItem.image.push({ path: "/images/foodItems/" + fileName });
+    image.mv(uploadPath, function (err) {
+      if (err) {
+        return res.status(500).send(err);
+      }
+    });
+  }
+  await foodItem.save();
+  return res.send("Files uploaded!");
+} catch (err) {
+  next(err);
+}
+};
+
+const discountAdminDeleteImage = async (req, res, next) => {
+  const imagePath = decodeURIComponent(req.params.imagePath);
+  if (req.query.cloudinary === "true") {
+      try {
+         await Discount.findOneAndUpdate({ _id: req.params.discountId },  { image: null } ).orFail(); 
+          return res.end();
+      } catch(er) {
+          next(er);
+      }
+      return
+  }
+try {
+  const path = require("path");
+  const finalPath = path.resolve("../front-end/public") + imagePath;
+
+  const fs = require("fs");
+  fs.unlink(finalPath, (err) => {
+    if (err) {
+      res.status(500).send(err);
+    }
+  });
+  await FoodItem.findOneAndUpdate(
+    { _id: req.params.discountId },
+    { images:imagePath }
+  ).orFail();
+  return res.end();
+} catch (err) {
+  next(err);
+}
 };
 const getAddOns = async (req, res, next) => {
   try {
@@ -251,13 +366,17 @@ const getAddOns = async (req, res, next) => {
 module.exports = {
   getFoodItems,
   getFoodItemById,
+  getDiscountById,
   getBestsellers,
   adminGetFoodItems,
   adminDeleteFoodItem,
   adminCreateFoodItem,
   adminUpdateFoodItem,
+  adminUpdateDiscount,
   adminUpload,
   adminDeleteFoodItemImage,
   adminGetFoodItemsByCategory,
+  discountAdminUpload,
+  discountAdminDeleteImage,
   getAddOns
 };

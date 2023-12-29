@@ -58,3 +58,20 @@ export const CategoryUploadImagesCloudinaryApiRequest = (images, categoryId) => 
             })
     })
 }
+export const DiscountUploadImagesCloudinaryApiRequest = (images, discountId) => {
+    const url = "https://api.cloudinary.com/v1_1/dyqklwu1n/image/upload"
+    const formData = new FormData()
+    console.log("formData:" + images)
+    Array.from(images).forEach((image) => {
+        formData.append("file", image)
+        formData.append("upload_preset", "q7axspk2")
+        fetch(url, {
+            method: "POST",
+            body: formData,
+        }).then(response => { return response.json() })
+            .then(data => {
+                console.log("In DB:" + data.url)
+                axios.post("/api/fooditems/admin/discount/upload?cloudinary=true&discountId=" + discountId, data)
+            })
+    })
+}

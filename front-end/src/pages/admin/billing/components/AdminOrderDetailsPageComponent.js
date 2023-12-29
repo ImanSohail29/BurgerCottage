@@ -15,7 +15,7 @@ import { useDispatch } from "react-redux";
 import { logout } from "../../../../redux/slices/userSlice";
 import CartItemComponent from "../../../../components/CartItemComponent";
 
-const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered }) => {
+const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, discount }) => {
   const ref = useRef();
   const { orderId } = useParams();
   const dispatch = useDispatch();
@@ -29,6 +29,7 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered }) => {
   const [orderButtonMessage, setOrderButtonMessage] =
     useState("Mark as delivered");
   const [cartItems, setCartItems] = useState([]);
+  const [discounted, setDiscounted] = useState(1);
   const [orderPlacedAt, setOrderPlacedAt] = useState("");
   const [print, setPrint] = useState(false)
 
@@ -37,6 +38,7 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered }) => {
       .then((order) => {
         setUserInfo(order.customerInfo);
         setPaymentMethod(order.paymentMethod);
+        setDiscounted(order.discount)
         order.isPaid ? setIsPaid(order.paidAt) : setIsPaid(false);
         order.isDelivered
           ? setIsDelivered(order.deliveredAt)
@@ -106,9 +108,10 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered }) => {
             <br />
             <h2>Order items</h2>
             <ListGroup variant="flush">
-              {cartItems.map((item, idx) => (
-                <CartItemComponent key={idx} item={item} orderCreated={true} index={idx} />
-              ))}
+              {discounted ? (cartItems.map((item, idx) => (
+                <CartItemComponent key={idx} item={item} orderCreated={true} index={idx} discount={discounted} />
+              ))) : ("")}
+
             </ListGroup>
           </Col>
           <Col md={4}>
@@ -116,19 +119,25 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered }) => {
               <ListGroup.Item>
                 <h3>Order summary</h3>
               </ListGroup.Item>
-              <ListGroup.Item>
-                Items price (after tax):{" "}
-                <span className="fw-bold">Rs {cartSubtotal}/-</span>
-              </ListGroup.Item>
+              {discounted ? (
+                <ListGroup.Item>
+                  Items price (after tax):{" "}
+                  <span className="fw-bold">Rs {cartSubtotal - ((cartSubtotal * (discounted.figure)) / 100)}/-</span>
+                </ListGroup.Item>
+              ) : ("")}
+
               <ListGroup.Item>
                 Shipping: <span className="fw-bold">included</span>
               </ListGroup.Item>
               <ListGroup.Item>
                 Tax: <span className="fw-bold">included</span>
               </ListGroup.Item>
-              <ListGroup.Item className="text-danger">
-                Total price: <span className="fw-bold">Rs {cartSubtotal}/-</span>
-              </ListGroup.Item>
+              {discounted ? (
+                <ListGroup.Item className="text-danger">
+                  Total price: <span className="fw-bold">Rs {cartSubtotal - ((cartSubtotal * (discounted.figure)) / 100)}/-</span>
+                </ListGroup.Item>
+              ) : ("")}
+
               <ListGroup.Item>
                 <div className="d-grid gap-2">
                   <Button
@@ -180,7 +189,7 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered }) => {
 
         <Row className="mt-4 d-flex justify-content-center text-center text-dark">
           <Col md={6} className="bg-light">
-          <h1>Burger Cottage</h1>
+            <h1>Burger Cottage</h1>
             <br />
             <Row>
               {userInfo ? (<Col md={6}>
@@ -197,24 +206,28 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered }) => {
               {cartItems.map((item, idx) => (
                 <ListGroup.Item key={idx} className="bg-light text-center bg-opacity-50" style={{ minWidth: "600px" }}>
                   <Row>
-                  <Col xs={1} ><br />{idx+1} )</Col>
+                    <Col xs={1} ><br />{idx + 1} )</Col>
                     <Col xs={3} ><br />{item.name}</Col>
-                    <Col xs={3} ><br /><b> {item.size.value}</b></Col>
-                    <Col xs={2} ><br /><b>Rs</b> {item.size.price * item.quantity} /-</Col>
-                    <Col xs={3} ><br /><b>Quantity:</b> {item.quantity}</Col>
+                    {discounted ? (
+                      <>
+                        <Col xs={3} ><br /><b> {item.size.value}</b></Col>
+                        <Col xs={2} ><br /><b>Rs</b> {(item.size.price * item.quantity) - (((item.size.price * item.quantity) * (discounted.figure)) / 100)} /-</Col>
+                      </>
+                    ) : ("")}
+                    <Col xs={3} ><br /> {item.quantity}</Col>
 
                   </Row>
                 </ListGroup.Item>
               ))}
             </ListGroup>
-          
+
             <ListGroup>
               <ListGroup.Item>
                 <h3>Total</h3>
               </ListGroup.Item>
               <ListGroup.Item>
                 Items price (after tax):{" "}
-                <span className="fw-bold">Rs {cartSubtotal}/-</span>
+                <span className="fw-bold">Rs {cartSubtotal- ((cartSubtotal * (discounted.figure)) / 100)}/-</span>
               </ListGroup.Item>
               <ListGroup.Item>
                 Discount: <span className="fw-bold">included</span>
@@ -223,12 +236,12 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered }) => {
                 Tax: <span className="fw-bold">included</span>
               </ListGroup.Item>
               <ListGroup.Item className="text-danger">
-                Total price: <span className="fw-bold">Rs {cartSubtotal}/-</span>
+                Total price: <span className="fw-bold">Rs {cartSubtotal- ((cartSubtotal * (discounted.figure)) / 100)}/-</span>
               </ListGroup.Item>
               <ListGroup.Item>
               </ListGroup.Item>
             </ListGroup>
-            </Col>
+          </Col>
         </Row>
 
 

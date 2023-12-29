@@ -24,7 +24,7 @@ const getOrder = async (req, res, next) => {
 const createOrder = async (req, res, next) => {
     try {
         console.log(req.body)
-        const { cart, orderTotal, paymentMethod,customerInfo,serviceMode } = req.body;
+        const { cart, orderTotal, paymentMethod,customerInfo,serviceMode,discount } = req.body;
         if (!cart || !orderTotal || !paymentMethod) {
             return res.status(400).send("All inputs are required");
         }
@@ -49,7 +49,8 @@ const createOrder = async (req, res, next) => {
             orderTotal: orderTotal,
             cart: cart,
             paymentMethod: paymentMethod,
-            serviceMode:serviceMode
+            serviceMode:serviceMode,
+            discount:discount
         })
         const createdOrder = await order.save();
         res.status(201).send(createdOrder);

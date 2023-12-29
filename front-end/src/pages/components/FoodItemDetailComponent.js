@@ -22,7 +22,8 @@ const FoodItemDetailComponent = ({
   addToCartReduxAction,
   reduxDispatch,
   getFoodItemDetails,
-  writeReviewApiRequest
+  writeReviewApiRequest,
+  discount
 }) => {
   const { id } = useParams();
   const [quantity, setQuantity] = useState(1);
@@ -32,7 +33,7 @@ const FoodItemDetailComponent = ({
   const [error, setError] = useState(false);
   const [productReviewed, setProductReviewed] = useState(false);
   const [size, setSize] = useState()
-  const [addOnAmount,setAddOnAmount]=useState(0)
+  const [addOnAmount, setAddOnAmount] = useState(0)
   const [instructions, setInstructions] = useState([])
   const [addOns, setAddOns] = useState([])
   const [selectedAddOns, setSelectedAddOns] = useState([])
@@ -42,25 +43,25 @@ const FoodItemDetailComponent = ({
 
   const addToCartHandler = () => {
     const sameProduct = false
-    size.price=Number(size.price)+Number(addOnAmount)
+    size.price = Number(size.price) + Number(addOnAmount)
     console.log(size.price)
-    reduxDispatch(addToCartReduxAction({ id, quantity, size, instructions, sameProduct,selectedAddOns }))
+    reduxDispatch(addToCartReduxAction({ id, quantity, size, instructions, sameProduct, selectedAddOns }))
     setShowCartMessage(true)
     setSize(product.size[0])
     setQuantity(1)
-    
+
   };
 
   const selectAddOn = (e, addOn, idx) => {
-    const isChecked=e.target.checked;
-    if(isChecked){
-      setSelectedAddOns([...selectedAddOns,addOn])
-      setAddOnAmount((amount)=>amount+addOn.price)
+    const isChecked = e.target.checked;
+    if (isChecked) {
+      setSelectedAddOns([...selectedAddOns, addOn])
+      setAddOnAmount((amount) => amount + addOn.price)
     }
-    else{
-      selectedAddOns.splice(idx,1)
+    else {
+      selectedAddOns.splice(idx, 1)
       setSelectedAddOns(selectedAddOns)
-      setAddOnAmount((amount)=>amount-addOn.price)
+      setAddOnAmount((amount) => amount - addOn.price)
 
     }
 
@@ -171,9 +172,18 @@ const FoodItemDetailComponent = ({
                         />{" "}
                         ({product.reviewsNumber})
                       </ListGroup.Item> */}
-                      <ListGroup.Item>
-                        Price:  <span className="fw-bold">Rs{size.price}/-</span>
-                      </ListGroup.Item>
+                      {discount.figure > 0 ? (
+                        <>
+                          <ListGroup.Item>
+                            Price:  <span className="fw-bold">Rs{size.price-((size.price)*(discount.figure))/100}/-</span>
+                          </ListGroup.Item>
+                        </>
+                      ) : (
+                        <ListGroup.Item>
+                          Price:  <span className="fw-bold">Rs{size.price}/-</span>
+                        </ListGroup.Item>
+                      )}
+
                       <ListGroup.Item>
                         <DropdownButton id="dropdown-basic-button" title={size.value} value={size.value} defaultValue={product.size[0]}>
                           {product.size.map((values, idx) => (
@@ -181,39 +191,44 @@ const FoodItemDetailComponent = ({
                           ))}
                         </DropdownButton>
                       </ListGroup.Item>
-                      {product.addOns.length>0?(
+                      {product.addOns.length > 0 ? (
                         <ListGroup.Item>
-                        <span className="fw-bold">Add Ons</span>
-                        <Form>
-                          {product.addOns.map((addOn, idx) => (
-                            <div key={idx}>
-                              <Form.Check type="checkbox">
-                                <Form.Check.Input
-                                  type="checkbox"
-                                  onChange={(e) => selectAddOn(e,addOn, idx)}
-                                />
-                                <Form.Check.Label style={{ cursor: "pointer" }}>
-                                  {addOn.name}
-                                </Form.Check.Label>
-                              </Form.Check>
-                            </div>
-                          ))}
-                        </Form>
-                      </ListGroup.Item>
-                      ):("")}
-                      
+                          <span className="fw-bold">Add Ons</span>
+                          <Form>
+                            {product.addOns.map((addOn, idx) => (
+                              <div key={idx}>
+                                <Form.Check type="checkbox">
+                                  <Form.Check.Input
+                                    type="checkbox"
+                                    onChange={(e) => selectAddOn(e, addOn, idx)}
+                                  />
+                                  <Form.Check.Label style={{ cursor: "pointer" }}>
+                                    {addOn.name}
+                                  </Form.Check.Label>
+                                </Form.Check>
+                              </div>
+                            ))}
+                          </Form>
+                        </ListGroup.Item>
+                      ) : ("")}
+
 
                       <ListGroup.Item>{product.description}</ListGroup.Item>
                     </ListGroup>
                   </Col>
                   <Col md={6}>
                     <ListGroup>
-                      {/* <ListGroup.Item>
-                        Status: {product.count > 0 ? "in stock" : "out of stock"}
-                      </ListGroup.Item> */}
-                      <ListGroup.Item>
-                        Total Price: <span className="fw-bold">Rs {size ? (((size.price) * quantity)) : (0)}/-</span>
-                      </ListGroup.Item>
+                      {
+                      discount.figure > 0 ? (
+                          <ListGroup.Item>
+                            Total Discounted Price: <span className="fw-bold">Rs {size ? ((size.price) * quantity)-((((size.price) * quantity) * (discount.figure)) / 100) : (0)}/-</span>
+                          </ListGroup.Item>
+                        ) : (
+                          <ListGroup.Item>
+                            Total Price: <span className="fw-bold">Rs {size ? (((size.price) * quantity)) : (0)}/-</span>
+                          </ListGroup.Item>
+                        )
+                      }
                       <ListGroup.Item>
                         Quantity:
                         <Button disabled={quantity === 1} onClick={() => setQuantity((value) => value - 1)}>-</Button>

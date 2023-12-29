@@ -17,10 +17,9 @@ const FoodItemDetailPage = () => {
 
     const dispatch = useDispatch()
 
-    //const userInfo = useSelector((state) => state.userRegisterLogin.userInfo);
-
-
-  return <FoodItemDetailComponent  addToCartReduxAction={addToCart} reduxDispatch={dispatch} getFoodItemDetails={getFoodItemDetails} writeReviewApiRequest={writeReviewApiRequest} />;
+    const discount = useSelector((state) => state.discount.discount);
+console.log(discount)
+  return <FoodItemDetailComponent  addToCartReduxAction={addToCart} reduxDispatch={dispatch} getFoodItemDetails={getFoodItemDetails} writeReviewApiRequest={writeReviewApiRequest} discount={discount} />;
 };
 
 export default FoodItemDetailPage;

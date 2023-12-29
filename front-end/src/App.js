@@ -26,6 +26,7 @@ import AdminAddNewCategoryPage from "./pages/admin/billing/AdminAddNewCategoryPa
 import AdminProductsPage from "./pages/admin/billing/AdminProductsPage";
 import AdminEditProductPage from "./pages/admin/billing/AdminEditProductPage";
 import AdminEditCategoryPage from "./pages/admin/billing/AdminEditCategoryPage";
+import AdminEditDiscountPage from "./pages/admin/billing/AdminDiscountPage";
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
           <Route path="/admin/vendors/:vendorId/add-inventoryOrder" element={<AdminAddNewInventoryOrder></AdminAddNewInventoryOrder>}></Route>
           <Route path="/admin/orders" element={<AdminOrdersPage />} />
           <Route path="/admin/products" element={<AdminProductsPage />} />
+          <Route path="/admin/discount/:discountId" element={<AdminEditDiscountPage />} />
           <Route path="/admin/products/category/:categoryName" element={<AdminProductsPage />} />
           <Route
             path="/admin/order-details/:orderId"

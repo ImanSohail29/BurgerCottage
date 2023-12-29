@@ -6,6 +6,8 @@ import { faBurger } from '@fortawesome/free-solid-svg-icons'
 import { Link, useNavigate } from "react-router-dom"
 import { Dropdown, DropdownButton, InputGroup, Navbar, Container, NavDropdown, Nav, Badge } from 'react-bootstrap';
 import { getCategories } from "../redux/slices/categorySlice";
+import { getDiscounts } from "../redux/slices/discountSlice";
+
 import { logout } from "../redux/slices/userSlice";
 
 const Header = () => {
@@ -14,9 +16,11 @@ const Header = () => {
   const { userInfo } = useSelector((state) => state.user)
   const itemsCount = useSelector((state) => state.cart.itemsCount)
   const { categories } = useSelector((state) => state.category)
+  const { discount } = useSelector((state) => state.discount.discount)
 
   useEffect(() => {
     dispatch(getCategories())
+    dispatch(getDiscounts())
   }, [dispatch])
   return (
     <Navbar collapseOnSelect expand="lg" style={{ background: "rgba(0, 0, 0, 0.3)" }} variant="dark">

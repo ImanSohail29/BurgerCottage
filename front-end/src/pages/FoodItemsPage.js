@@ -9,8 +9,10 @@ const getFoodItems = async (categoryName="",pageNumParam=null) => {
 }
 const FoodItemsPage = () => {
     const {categories}=useSelector((state)=>state.category)
+    const discount=useSelector((state)=>state.discount.discount)
+    const { userInfo } = useSelector((state) => state.user)
     return (
-        <FoodItemsComponent getFoodItems={getFoodItems} categories={categories}></FoodItemsComponent>
+        <FoodItemsComponent getFoodItems={getFoodItems} categories={categories} discount={discount} userInfo={userInfo}></FoodItemsComponent>
     )
 }
 export default FoodItemsPage;
