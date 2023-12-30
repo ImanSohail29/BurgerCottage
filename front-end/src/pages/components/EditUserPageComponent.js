@@ -1,6 +1,6 @@
 import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
 import { useState, useEffect } from "react";
-const EditUserPageComponent = ({ updateUserApiRequest, fetchUser,login, userInfoFromRedux, reduxDispatch, localStorage, sessionStorage }) => {
+const EditUserPageComponent = ({ updateUserApiRequest, fetchUser, userInfoFromRedux, reduxDispatch,login, localStorage, sessionStorage }) => {
   const [validated, setValidated] = useState(false);
   const [updateUserResponseState, setUpdateUserResponseState] = useState({ success: "", error: "" });
   const [passwordsMatchState, setPasswordsMatchState] = useState(true);

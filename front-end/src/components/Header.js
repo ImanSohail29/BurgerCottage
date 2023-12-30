@@ -63,7 +63,7 @@ const Header = () => {
 
             {userInfo.isAdmin ? (
               <>
-              <LinkContainer to='/admin/vendors'>
+              <LinkContainer to='/home'>
                 <Nav.Link>Admin
                   <i className="bi bi-circle-fill text-danger"></i>
                 </Nav.Link>

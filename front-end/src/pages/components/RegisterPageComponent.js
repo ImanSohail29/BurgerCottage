@@ -102,7 +102,7 @@ const RegisterPageComponent = ({
                 Please anter a valid password
               </Form.Control.Feedback>
               <Form.Text className="text-muted">
-                Password should have at least 4 characters
+                Password should have at least 6 characters
               </Form.Text>
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicPasswordRepeat">
