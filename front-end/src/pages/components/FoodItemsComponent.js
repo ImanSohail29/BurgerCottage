@@ -7,18 +7,25 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 const FoodItemsComponent = ({ getFoodItems, categories, addProductApiRequest, discount,userInfo }) => {
+    const [isLoading, setIsLoading] = useState(true);
     const location = useLocation()
     const navigate = useNavigate();
     const { categoryName } = useParams() || ""
     const { pageNumParam } = useParams() || 1
     const [foodItems, setFoodItems] = useState([])
     const [category, setCategory] = useState("")
-    const [loading, setLoading] = useState(true)
+    const [loaded, setLoaded] = useState(false)
     const [error, setError] = useState(false)
     const [paginationLinksNumber, setPaginationLinksNumber] = useState(null)
     const [pageNum, setPageNum] = useState(null)
     const [admin,setAdmin]=useState(false)
-
+    useEffect(() => {
+ 
+        // Creating a timeout within the useEffect hook
+        setTimeout(() => {
+            setLoaded(true);
+        }, 5000);
+    }, []);
 
     useEffect(() => {
         if (categoryName) {
@@ -35,29 +42,33 @@ const FoodItemsComponent = ({ getFoodItems, categories, addProductApiRequest, di
                 setFoodItems(data.foodItems)
                 setPaginationLinksNumber(data.paginationLinksNumber)
                 setPageNum(data.pageNum)
-                setLoading(false)
+                setIsLoading(false)
             })
             .catch((er) => setError(er.response.data.message ? er.response.data.message : er.response.data))
     }, [categoryName, pageNumParam])
 
     return (
         <>
+        {loaded?(
             <Popup open={true}
-                position="center"
-                modal nested>
-                {
-                    close => (
-                        <>
-                            <Button className="position-absolute top-0 end-0" style={{position:"absolute"}} onClick=
-                                    {() => close()}>
-                                        x
-                                </Button>
-                            <Image crossOrigin="anonymous" src={discount.image}></Image>
-                        </>
-                    )
-                }
+            position="center"
+            modal nested>
+            {
+                close => (
+                    <>
+                        <Button className="position-absolute top-0 end-0" style={{position:"absolute"}} onClick=
+                                {() => close()}>
+                                    x
+                            </Button>
+                        <Image crossOrigin="anonymous" src={discount.image}></Image>
+                    </>
+                )
+            }
 
-            </Popup>
+        </Popup>
+        ):(""
+        )}
+            
             <Container fluid >
                 <Row style={{ minHeight: "100vh" }}>
                     <Col xs={4} md={3} className="bg-dark text-white bg-opacity-50">
@@ -89,7 +100,7 @@ const FoodItemsComponent = ({ getFoodItems, categories, addProductApiRequest, di
                     </Col>
                     <Col xs={8} className="mb-5">
 
-                        {loading ? (<h1>Loading Items...</h1>) : error ? (<h1>Error while loading food Items...</h1>) : (
+                        {isLoading ? (<h1>Loading Items...</h1>) : error ? (<h1>Error while loading food Items...</h1>) : (
                             <>
                                 {categoryName ? (
                                     <Row className="mt-1">
