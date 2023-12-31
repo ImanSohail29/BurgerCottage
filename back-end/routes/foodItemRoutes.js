@@ -22,6 +22,7 @@ const { verifyIsLoggedIn, verifyIsAdmin } = require("../middlewares/verifyAuthTo
 
 
 router.get("/category/:categoryName", getFoodItems)
+router.get("/get-one/discount/:discountId",getDiscountById)
 router.get("/", getFoodItems)
 router.get("/bestSeller", getBestsellers)
 router.get("/get-one/:id", getFoodItemById)
@@ -33,7 +34,6 @@ router.get("/admin", adminGetFoodItems)
 router.get("/admin/addOns", getAddOns)
 router.get("/admin/category/:categoryName", adminGetFoodItemsByCategory)
 router.get("/get-one/:id",getFoodItemById)
-router.get("/get-one/discount/:discountId",getDiscountById)
 
 
 router.post("/admin", adminCreateFoodItem)
