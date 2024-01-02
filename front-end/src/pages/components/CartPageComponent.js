@@ -47,17 +47,10 @@ const removeFromCartHandler=(productId,quantity,size,instructions,selectedAddOns
             <ListGroup.Item>
               <h3>Subtotal ({cartItems.length} {cartItems.length === 1 ? "Product" : "Products"})</h3>
             </ListGroup.Item>
-            {discount.figure>0?(
-              <>
+            
               <ListGroup.Item>
-              Price: <span className="fw-bold">Rs {cartSubtotal-((cartSubtotal*discount.figure)/100)} /-</span>
+              Price: <span className="fw-bold">Rs {Math.ceil(cartSubtotal)} /-</span>
             </ListGroup.Item>
-              </>
-            ):(
-              <ListGroup.Item>
-              Price: <span className="fw-bold">Rs {cartSubtotal} /-</span>
-            </ListGroup.Item>
-            )}
             
             <ListGroup.Item>
               <LinkContainer to="/user/cart-details">

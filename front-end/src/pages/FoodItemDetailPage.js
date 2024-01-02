@@ -14,9 +14,7 @@ const writeReviewApiRequest = async (foodItemId, formInputs) => {
 }
 
 const FoodItemDetailPage = () => {
-
     const dispatch = useDispatch()
-
     const discount = useSelector((state) => state.discount.discount);
 console.log(discount)
   return <FoodItemDetailComponent  addToCartReduxAction={addToCart} reduxDispatch={dispatch} getFoodItemDetails={getFoodItemDetails} writeReviewApiRequest={writeReviewApiRequest} discount={discount} />;

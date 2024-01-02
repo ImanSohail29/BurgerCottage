@@ -43,7 +43,7 @@ const FoodItemDetailComponent = ({
 
   const addToCartHandler = () => {
     const sameProduct = false
-    size.price = Number(size.price) + Number(addOnAmount)
+    size.price =((Number(size.price))-(((Number(size.price))*discount.figure)/100) + (Number(addOnAmount)))
     console.log(size.price)
     reduxDispatch(addToCartReduxAction({ id, quantity, size, instructions, sameProduct, selectedAddOns }))
     setShowCartMessage(true)
@@ -100,6 +100,10 @@ const FoodItemDetailComponent = ({
           er.response.data.message ? er.response.data.message : er.response.data
         )
       );
+      if(product.category==="Deals")
+      {
+        discount=1
+      }
   }, []);
 
   useEffect(() => {
@@ -175,12 +179,12 @@ const FoodItemDetailComponent = ({
                       {discount.figure > 0 ? (
                         <>
                           <ListGroup.Item>
-                            Price:  <span className="fw-bold">Rs{(size.price-((size.price)*(discount.figure))/100)+Number(addOnAmount)}/-</span>
+                            Price:  <span className="fw-bold">Rs{Math.ceil((size.price-((size.price)*(discount.figure))/100)+Number(addOnAmount))}/-</span>
                           </ListGroup.Item>
                         </>
                       ) : (
                         <ListGroup.Item>
-                          Price:  <span className="fw-bold">Rs{size.price+Number(addOnAmount)}/-</span>
+                          Price:  <span className="fw-bold">Rs{Math.ceil(size.price+Number(addOnAmount))}/-</span>
                         </ListGroup.Item>
                       )}
 

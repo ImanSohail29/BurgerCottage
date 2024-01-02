@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import axios from "axios";
 import AdminEditCategoryComponent from "./components/AdminEditCategoryComponent";
-import { uploadImagesApiRequest, uploadImagesCloudinaryApiRequest } from "../utils";
+import { CategoryUploadImagesCloudinaryApiRequest, uploadImagesApiRequest, uploadImagesCloudinaryApiRequest } from "../utils";
 const fetchProduct = async (productId) => {
     const { data } = await axios.get(`/api/categories/get-one/${productId}`)
     return data
@@ -28,7 +28,7 @@ const AdminEditCategoryPage = () => {
             updateProductApiRequest={updateProductApiRequest}
             imageDeleteHandler={imageDeleteHandler}
             uploadImagesApiRequest={uploadImagesApiRequest}
-            uploadImagesCloudinaryApiRequest={uploadImagesCloudinaryApiRequest}>
+            uploadImagesCloudinaryApiRequest={CategoryUploadImagesCloudinaryApiRequest}>
         </AdminEditCategoryComponent>
     )
 };

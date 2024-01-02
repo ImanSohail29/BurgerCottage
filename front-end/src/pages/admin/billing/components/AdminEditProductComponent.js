@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Alert, Button, CloseButton, Col, Container, Form, Image, Row, Table } from "react-bootstrap";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
-const AdminCreateProductPageComponent = ({ fetchProduct, categories, updateProductApiRequest, imageDeleteHandler, uploadImagesApiRequest, uploadImagesCloudinaryApiRequest, addOnsApiRequest }) => {
+const AdminEditProductComponent = ({ fetchProduct, categories, updateProductApiRequest, imageDeleteHandler, uploadImagesApiRequest, uploadImagesCloudinaryApiRequest, addOnsApiRequest }) => {
     const sizeRef = useRef()
     const priceRef = useRef()
     const [product, setProduct] = useState({})
@@ -112,7 +112,7 @@ const AdminCreateProductPageComponent = ({ fetchProduct, categories, updateProdu
                             // 
                         }
                     }
-                    if (data.message === "food Item updated") navigate("/foodItem-list")
+                    if (data.message === "food Item updated") navigate("/admin/products")
                 }).catch((er) => setCreateProductResponseState({ error: er.response.data.message ? er.response.data.message : er.response.data }))
         }
         setValidated(true);
@@ -269,4 +269,4 @@ const AdminCreateProductPageComponent = ({ fetchProduct, categories, updateProdu
     );
 
 };
-export default AdminCreateProductPageComponent;
+export default AdminEditProductComponent;

@@ -112,7 +112,7 @@ const removeFromCartHandler=(productId,quantity,size,instructions,selectedAddOns
       paymentMethod: paymentMethod,
       customerInfo: user ,
       serviceMode:  serviceMode,
-      discount:discount.figure,
+      discount:{figure:discount.figure},
     }
     console.log(JSON.stringify(orderData))
     createOrder(orderData)
@@ -294,17 +294,10 @@ const removeFromCartHandler=(productId,quantity,size,instructions,selectedAddOns
             <ListGroup.Item>
               <h3>Order summary</h3>
             </ListGroup.Item>
-            {discount.figure>0?(
-              <>
+           
               <ListGroup.Item>
-              Items price (after tax): <span className="fw-bold">Rs. {cartSubtotal-((cartSubtotal*discount.figure)/100)} /-</span>
+              Items price (after tax): <span className="fw-bold">Rs. {Math.ceil(cartSubtotal)} /-</span>
             </ListGroup.Item>
-              </>
-            ):(
-              <ListGroup.Item>
-              Items price (after tax): <span className="fw-bold">Rs. {cartSubtotal} /-</span>
-            </ListGroup.Item>
-            )}
             
             <ListGroup.Item>
               Shipping: <span className="fw-bold">included</span>
@@ -312,14 +305,9 @@ const removeFromCartHandler=(productId,quantity,size,instructions,selectedAddOns
             <ListGroup.Item>
               Tax: <span className="fw-bold">included</span>
             </ListGroup.Item>
-            {discount.figure>0?(<>
-              <ListGroup.Item className="text-danger">
-              Total price:  Rs.<span className="fw-bold">{cartSubtotal-((cartSubtotal*discount.figure)/100)}/-</span>
-            </ListGroup.Item></>):(
               <ListGroup.Item className="text-danger">
               Total price:  Rs.<span className="fw-bold">{cartSubtotal}/-</span>
             </ListGroup.Item>
-            )}
             
             <ListGroup.Item>
               <div className="d-grid gap-2">

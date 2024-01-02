@@ -130,6 +130,10 @@ const FoodItemsComponent = ({ getFoodItems, categories, addProductApiRequest, di
                                 </Row>)}
                                 {
                                     foodItems.map((foodItem) => {
+                                        let discountFigure=discount
+                                        if(foodItem.category==="Deals"){
+                                            discountFigure=1
+                                        }
                                         return (
 
 
@@ -139,7 +143,7 @@ const FoodItemsComponent = ({ getFoodItems, categories, addProductApiRequest, di
                                                 name={foodItem.name}
                                                 description={foodItem.description}
                                                 size={foodItem.size}
-                                                discount={discount}
+                                                discount={discountFigure}
                                             >
                                             </FoodItemForListComponent>
 

@@ -122,7 +122,7 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, discount })
               {discounted ? (
                 <ListGroup.Item>
                   Items price (after tax):{" "}
-                  <span className="fw-bold">Rs {cartSubtotal - ((cartSubtotal * (discounted.figure)) / 100)}/-</span>
+                  <span className="fw-bold">Rs {cartSubtotal}/-</span>
                 </ListGroup.Item>
               ) : ("")}
 
@@ -134,9 +134,11 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, discount })
               </ListGroup.Item>
               {discounted ? (
                 <ListGroup.Item className="text-danger">
-                  Total price: <span className="fw-bold">Rs {cartSubtotal - ((cartSubtotal * (discounted.figure)) / 100)}/-</span>
+                  Total price: <span className="fw-bold">Rs {cartSubtotal}/-</span>
                 </ListGroup.Item>
-              ) : ("")}
+              ) : ( <ListGroup.Item className="text-danger">
+              Total price: <span className="fw-bold">Rs {cartSubtotal}/-</span>
+            </ListGroup.Item>)}
 
               <ListGroup.Item>
                 <div className="d-grid gap-2">
@@ -211,7 +213,7 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, discount })
                     {discounted ? (
                       <>
                         <Col xs={3} ><br /><b> {item.size.value}</b></Col>
-                        <Col xs={2} ><br /><b>Rs</b> {(item.size.price * item.quantity) - (((item.size.price * item.quantity) * (discounted.figure)) / 100)} /-</Col>
+                        <Col xs={2} ><br /><b>Rs</b> {(item.size.price * item.quantity)} /-</Col>
                       </>
                     ) : ("")}
                     <Col xs={3} ><br /> {item.quantity}</Col>
@@ -227,7 +229,7 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, discount })
               </ListGroup.Item>
               <ListGroup.Item>
                 Items price (after tax):{" "}
-                <span className="fw-bold">Rs {cartSubtotal- ((cartSubtotal * (discounted.figure)) / 100)}/-</span>
+                <span className="fw-bold">Rs {cartSubtotal}/-</span>
               </ListGroup.Item>
               <ListGroup.Item>
                 Discount: <span className="fw-bold">included</span>
@@ -236,7 +238,7 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, discount })
                 Tax: <span className="fw-bold">included</span>
               </ListGroup.Item>
               <ListGroup.Item className="text-danger">
-                Total price: <span className="fw-bold">Rs {cartSubtotal- ((cartSubtotal * (discounted.figure)) / 100)}/-</span>
+                Total price: <span className="fw-bold">Rs {cartSubtotal}/-</span>
               </ListGroup.Item>
               <ListGroup.Item>
               </ListGroup.Item>

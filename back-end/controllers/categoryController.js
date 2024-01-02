@@ -170,7 +170,7 @@ const adminDeleteCategoryImage = async (req, res, next) => {
     const imagePath = decodeURIComponent(req.params.imagePath);
     if (req.query.cloudinary === "true") {
         try {
-            await Category.findOneAndUpdate({ _id: req.params.categoryId }, { image:  imagePath }).orFail();
+            await Category.findOneAndUpdate({ _id: req.params.categoryId }, { image:  null }).orFail();
             return res.end();
         } catch (er) {
             next(er);
