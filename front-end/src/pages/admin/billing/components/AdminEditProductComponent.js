@@ -2,13 +2,16 @@ import { useEffect, useRef, useState } from "react";
 import { Alert, Button, CloseButton, Col, Container, Form, Image, Row, Table } from "react-bootstrap";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
-const AdminCreateProductPageComponent = ({ fetchProduct, categories, updateProductApiRequest, imageDeleteHandler, uploadImagesApiRequest, uploadImagesCloudinaryApiRequest }) => {
+const AdminCreateProductPageComponent = ({ fetchProduct, categories, updateProductApiRequest, imageDeleteHandler, uploadImagesApiRequest, uploadImagesCloudinaryApiRequest, addOnsApiRequest }) => {
     const sizeRef = useRef()
     const priceRef = useRef()
     const [product, setProduct] = useState({})
     const [chosenCategory, setChosenCategory] = useState("Choose Category")
     const [validated, setValidated] = useState(false);
     const [images, setImages] = useState(false)
+    const [error, setError] = useState(false);
+    const [selectedAddOns, setSelectedAddOns] = useState([])
+    const [addOns, setAddOns] = useState([])
     const [sizeTable, setSizeTable] = useState([])
     const [sizeTableSize, setSizeTableSize] = useState(0)
     const [isCreating, setIsCreating] = useState("")
@@ -55,6 +58,28 @@ const AdminCreateProductPageComponent = ({ fetchProduct, categories, updateProdu
         sizeTable.splice(index, 1)
         setSizeTableSize(sizeTable.length)
     }
+    const selectAddOn = (e, addOn, idx) => {
+        const isChecked = e.target.checked;
+        if (isChecked) {
+            setSelectedAddOns([...selectedAddOns, addOn])
+        }
+        else {
+            selectedAddOns.splice(idx, 1)
+            setSelectedAddOns(selectedAddOns)
+
+        }
+    }
+    useEffect(() => {
+        addOnsApiRequest()
+            .then((data) => {
+                setAddOns(data);
+            })
+            .catch((er) =>
+                setError(
+                    er.response.data.message ? er.response.data.message : er.response.data
+                )
+            );
+    }, []);
     useEffect(() => { }, [sizeTable])
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -64,14 +89,15 @@ const AdminCreateProductPageComponent = ({ fetchProduct, categories, updateProdu
             name: form.name.value,
             description: form.description.value,
             category: form.category.value,
-            size: sizeTable
+            size: sizeTable,
+            addOns: selectedAddOns
         }
         if (event.currentTarget.checkValidity() === true) {
             if (images.length > 1) {
                 setIsCreating("Too many files ! ")
                 return
             }
-            updateProductApiRequest(id,formInputs)
+            updateProductApiRequest(id, formInputs)
                 .then(data => {
                     if (images) {
                         if (process.env.NODE_ENV === "production") {
@@ -173,10 +199,26 @@ const AdminCreateProductPageComponent = ({ fetchProduct, categories, updateProdu
                                     </tbody>
                                 </Table>
                             ) : (<></>)}
+                        <Form.Label>Select Add ons</Form.Label>
+                        <Form>
+                            {addOns.map((addOn, idx) => (
+                                <div key={idx}>
+                                    <Form.Check type="checkbox">
+                                        <Form.Check.Input
+                                            type="checkbox" 
+                                            onChange={(e) => selectAddOn(e, addOn, idx)}
+                                        />
+                                        <Form.Check.Label style={{ cursor: "pointer" }}>
+                                            {addOn.name}
+                                        </Form.Check.Label>
+                                    </Form.Check>
+                                </div>
+                            ))}
+                        </Form>
                         <Form.Group className="mb-3" controlId="formBasicImages">
                             <Form.Label>Images</Form.Label>
                             <Row className="mb-2">
-                                {product.image ?(
+                                {product.image ? (
                                     <Col style={{ position: "relative" }} xs={3}>
                                         <Image
                                             crossOrigin="anonymous"
@@ -187,7 +229,7 @@ const AdminCreateProductPageComponent = ({ fetchProduct, categories, updateProdu
                                             () => imageDeleteHandler(product.image.path, id).then(setImageRemoved(!imageRemoved))
                                         } className="bi bi-x text-primary"></i>
                                     </Col>
-                                ):("")}
+                                ) : ("")}
                             </Row>
                             <Form.Control disabled={product.image && product.image.length >= 1} required={product.image && product.image.length === 0} name="image" type="file" multiple
                                 onChange={e => {
@@ -212,7 +254,7 @@ const AdminCreateProductPageComponent = ({ fetchProduct, categories, updateProdu
                                             setImageUploaded(!imageUploaded)
                                             setIsUploading("upload file completed. ")
                                         }, 5000)
-                                        
+
                                     }
                                 }
                                 }></Form.Control>

@@ -65,7 +65,8 @@ const AdminCreateProductPageComponent = ({ categories, createProductApiRequest, 
             name: form.name.value,
             description: form.description.value,
             category: form.category.value,
-            size: sizeTable
+            size: sizeTable,
+            addOns:selectedAddOns
         }
         if (event.currentTarget.checkValidity() === true) {
             if (images.length > 1) {

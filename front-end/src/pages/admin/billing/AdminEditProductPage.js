@@ -18,6 +18,10 @@ const imageDeleteHandler = async (imagePath, productId) => {
         await axios.delete(`/api/foodItems/admin/image/${encoded}/${productId}?cloudinary=true`)
     }
 }
+const addOnsApiRequest = async () => {
+    const { data } = await axios.get("/api/foodItems/admin/addOns")
+    return data
+}
 
 const AdminEditProductPage = () => {
     const { categories } = useSelector((state) => state.category)
@@ -29,7 +33,8 @@ const AdminEditProductPage = () => {
             updateProductApiRequest={updateProductApiRequest}
             imageDeleteHandler={imageDeleteHandler}
             uploadImagesApiRequest={uploadImagesApiRequest}
-            uploadImagesCloudinaryApiRequest={uploadImagesCloudinaryApiRequest}>
+            uploadImagesCloudinaryApiRequest={uploadImagesCloudinaryApiRequest}
+            addOnsApiRequest={addOnsApiRequest}>
         </AdminEditProductComponent>
     )
 };

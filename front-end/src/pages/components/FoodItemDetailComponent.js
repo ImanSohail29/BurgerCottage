@@ -175,12 +175,12 @@ const FoodItemDetailComponent = ({
                       {discount.figure > 0 ? (
                         <>
                           <ListGroup.Item>
-                            Price:  <span className="fw-bold">Rs{size.price-((size.price)*(discount.figure))/100}/-</span>
+                            Price:  <span className="fw-bold">Rs{(size.price-((size.price)*(discount.figure))/100)+Number(addOnAmount)}/-</span>
                           </ListGroup.Item>
                         </>
                       ) : (
                         <ListGroup.Item>
-                          Price:  <span className="fw-bold">Rs{size.price}/-</span>
+                          Price:  <span className="fw-bold">Rs{size.price+Number(addOnAmount)}/-</span>
                         </ListGroup.Item>
                       )}
 
@@ -221,11 +221,11 @@ const FoodItemDetailComponent = ({
                       {
                       discount.figure > 0 ? (
                           <ListGroup.Item>
-                            Total Discounted Price: <span className="fw-bold">Rs {size ? ((size.price) * quantity)-((((size.price) * quantity) * (discount.figure)) / 100) : (0)}/-</span>
+                            Total Discounted Price: <span className="fw-bold">Rs {size ? (((size.price) * quantity)-((((size.price) * quantity) * (discount.figure)) / 100))+Number(addOnAmount) : (0)}/-</span>
                           </ListGroup.Item>
                         ) : (
                           <ListGroup.Item>
-                            Total Price: <span className="fw-bold">Rs {size ? (((size.price) * quantity)) : (0)}/-</span>
+                            Total Price: <span className="fw-bold">Rs {size ? ((((size.price) * quantity))+Number(addOnAmount)) : (0)}/-</span>
                           </ListGroup.Item>
                         )
                       }
