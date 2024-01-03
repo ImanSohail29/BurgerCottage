@@ -16,7 +16,12 @@ const ProtectedRoutesComponent = ({ admin }) => {
      }).catch((er)=>{setIsAuth("")}) 
   }, [isAuth])
 
-  if (isAuth === undefined) return <LoginPage />;
+  if (isAuth === ""){
+    return <LoginPage />
+};
+if (isAuth === undefined){
+    return
+};
 
   return isAuth && admin && isAuth !== "Mudassir" ? (
        <Navigate to="/login" />
