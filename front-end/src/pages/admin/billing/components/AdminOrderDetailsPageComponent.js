@@ -49,7 +49,8 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, discount })
           setButtonDisabled(true);
         }
         setCartItems(order.cart.cartItems);
-        setOrderPlacedAt(order.orderPlacedAt);
+        let dateObject=new Date(order.orderPlacedAt)
+        setOrderPlacedAt(dateObject.toString());
       })
       .catch((er) =>
         dispatch(logout)
@@ -67,6 +68,8 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, discount })
           <Col md={8}>
             <br />
             <Row>
+              <p>{orderPlacedAt}</p>
+              <p><b>Order Id : </b>{orderId}</p>
               {userInfo ? (<Col md={6}>
                 <h2>Shipping</h2>
                 <div><b>Name</b>: {userInfo.name} {userInfo.lastName} <br /></div>
@@ -193,6 +196,7 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, discount })
           <Col md={6} className="bg-light">
             <h1>Burger Cottage</h1>
             <br />
+            <p>{orderPlacedAt}</p>
             <Row>
               {userInfo ? (<Col md={6}>
                 <div><b>Name</b>: {userInfo.name} {userInfo.lastName} <br /></div>
