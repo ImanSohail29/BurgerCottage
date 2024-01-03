@@ -116,11 +116,11 @@ const AdminCartDetailsPageComponent = ({ cartItems, itemsCount, cartSubtotal, us
       {
         cartItems: cartItems,
         itemsCount: itemsCount,
-        cartSubtotal: finalCartSubtotal
+        cartSubtotal: (cartSubtotal-((cartSubtotal*customerDiscount)/100))
       },
       orderTotal: {
         itemsCount: itemsCount,
-        cartSubtotal: finalCartSubtotal
+        cartSubtotal: (cartSubtotal-((cartSubtotal*customerDiscount)/100))
       },
       paymentMethod: paymentMethod,
       customerInfo: user,

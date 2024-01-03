@@ -231,12 +231,20 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, discount })
                 Items price (after tax):{" "}
                 <span className="fw-bold">Rs {cartSubtotal}/-</span>
               </ListGroup.Item>
-              <ListGroup.Item>
+              
+              {discounted.figure>0?(
+                <>
+                <ListGroup.Item>
                 Discount: <span className="fw-bold">included</span>
               </ListGroup.Item>
-              <ListGroup.Item>
+                <ListGroup.Item>
                 Total Discount: <span className="fw-bold">{discounted.figure}%</span>
               </ListGroup.Item>
+              </>
+              ):(
+                ""
+              )}
+              
               <ListGroup.Item>
                 Tax: <span className="fw-bold">included</span>
               </ListGroup.Item>
