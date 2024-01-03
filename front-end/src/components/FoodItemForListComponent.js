@@ -22,7 +22,7 @@ const FoodItemForListComponent = ({ foodItemId, name, description, size, image, 
                             {discount.figure > 0 ? (
                                 <>
                                       <Card.Text className="h5"><s>Rs.{size[0].price}/-</s>{"  "}</Card.Text>
-                                      <Card.Text className="h3">Rs.{(size[0].price)-(((discount.figure)*(size[0].price))/100)}/-{"  "}</Card.Text>
+                                      <Card.Text className="h3">Rs.{Math.ceil((size[0].price)-(((discount.figure)*(size[0].price))/100))}/-{"  "}</Card.Text>
                                 </>
                             ) : (
                                 <Card.Text className="h4">Rs.{size[0].price}/-{"  "}</Card.Text>

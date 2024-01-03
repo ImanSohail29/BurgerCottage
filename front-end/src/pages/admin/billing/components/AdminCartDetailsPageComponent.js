@@ -116,16 +116,16 @@ const AdminCartDetailsPageComponent = ({ cartItems, itemsCount, cartSubtotal, us
       {
         cartItems: cartItems,
         itemsCount: itemsCount,
-        cartSubtotal: (cartSubtotal-((cartSubtotal*customerDiscount)/100))
+        cartSubtotal: Math.ceil((cartSubtotal-((cartSubtotal*customerDiscount)/100)))
       },
       orderTotal: {
         itemsCount: itemsCount,
-        cartSubtotal: (cartSubtotal-((cartSubtotal*customerDiscount)/100))
+        cartSubtotal: Math.ceil((cartSubtotal-((cartSubtotal*customerDiscount)/100)))
       },
       paymentMethod: paymentMethod,
       customerInfo: user,
       serviceMode: serviceMode,
-      discount: { figure: discount.figure + customerDiscount },
+      discount: { figure: Number(discount.figure) + Number(customerDiscount) },
     }
     console.log(JSON.stringify(orderData))
     createOrder(orderData)

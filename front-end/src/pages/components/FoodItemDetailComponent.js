@@ -43,12 +43,11 @@ const FoodItemDetailComponent = ({
 
   const addToCartHandler = () => {
     const sameProduct = false
-    if(discount.figure>0 && product.category!=="Deals"){
-      size.price =((Number(size.price))-(((Number(size.price))*discount.figure)/100) + (Number(addOnAmount)))
+    if (discount.figure > 0 && product.category !== "Deals") {
+      size.price = Math.ceil((Number(size.price)) - (((Number(size.price)) * discount.figure) / 100) + (Number(addOnAmount)))
     }
-    else
-    {
-      size.price =((Number(size.price))+ (Number(addOnAmount)))
+    else {
+      size.price = ((Number(size.price)) + (Number(addOnAmount)))
     }
     console.log(size.price)
     reduxDispatch(addToCartReduxAction({ id, quantity, size, instructions, sameProduct, selectedAddOns }))
@@ -107,10 +106,9 @@ const FoodItemDetailComponent = ({
           er.response.data.message ? er.response.data.message : er.response.data
         )
       );
-      if(product.category==="Deals")
-      {
-        discount=0
-      }
+    if (product.category === "Deals") {
+      discount = 0
+    }
   }, [showCartMessage]);
 
   useEffect(() => {
@@ -183,15 +181,15 @@ const FoodItemDetailComponent = ({
                         />{" "}
                         ({product.reviewsNumber})
                       </ListGroup.Item> */}
-                      {(discount.figure > 0)&&(product.category!=="Deals") ? (
+                      {(discount.figure > 0) && (product.category !== "Deals") ? (
                         <>
                           <ListGroup.Item>
-                            Price:  <span className="fw-bold">Rs{((Number(size.price)-(Number(size.price)*Number(discount.figure))/100)+Number(addOnAmount))}/-</span>
+                            Price:  <span className="fw-bold">Rs{Math.ceil((Number(size.price) - (Number(size.price) * Number(discount.figure)) / 100) + Number(addOnAmount))}/-</span>
                           </ListGroup.Item>
                         </>
                       ) : (
                         <ListGroup.Item>
-                          Price:  <span className="fw-bold">Rs{Number(Number(size.price)+Number(addOnAmount))}/-</span>
+                          Price:  <span className="fw-bold">Rs{Number(Number(size.price) + Number(addOnAmount))}/-</span>
                         </ListGroup.Item>
                       )}
 
@@ -216,8 +214,7 @@ const FoodItemDetailComponent = ({
                                   <Form.Check.Label style={{ cursor: "pointer" }}>
                                     {addOn.name}
                                   </Form.Check.Label>
-                                </Form.Check>
-                              </div>
+                                </Form.Check>                              </div>
                             ))}
                           </Form>
                         </ListGroup.Item>
@@ -230,13 +227,13 @@ const FoodItemDetailComponent = ({
                   <Col md={6}>
                     <ListGroup>
                       {
-                      (discount.figure > 0)&&(product.category!=="Deals") ? (
+                        (discount.figure > 0) && (product.category !== "Deals") ? (
                           <ListGroup.Item>
-                            Total Discounted Price: <span className="fw-bold">Rs {size ? (((size.price) * quantity)-((((size.price) * quantity) * (discount.figure)) / 100))+(Number(addOnAmount)*quantity) : (0)}/-</span>
+                            Total Discounted Price: <span className="fw-bold">Rs {size ? (((size.price) * quantity) - ((((size.price) * quantity) * (discount.figure)) / 100)) + (Number(addOnAmount) * quantity) : (0)}/-</span>
                           </ListGroup.Item>
                         ) : (
                           <ListGroup.Item>
-                            Total Price: <span className="fw-bold">Rs {size ? ((((size.price) * quantity))+Number(addOnAmount)) : (0)}/-</span>
+                            Total Price: <span className="fw-bold">Rs {size ? ((((size.price) * quantity)) + Number(addOnAmount)) : (0)}/-</span>
                           </ListGroup.Item>
                         )
                       }
@@ -273,8 +270,7 @@ const FoodItemDetailComponent = ({
                           </ListGroup.Item>
                         ))}
                       <div ref={messagesEndRef} />
-                    </ListGroup>
-                  </Col>
+                    </ListGroup>                 </Col>
                 </Row>
                 <hr />
                 {/* {!userInfo.name && <Alert variant="danger">Login first to write a review</Alert>} */}
