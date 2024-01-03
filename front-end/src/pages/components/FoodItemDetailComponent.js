@@ -43,11 +43,18 @@ const FoodItemDetailComponent = ({
 
   const addToCartHandler = () => {
     const sameProduct = false
-    size.price =((Number(size.price))-(((Number(size.price))*discount.figure)/100) + (Number(addOnAmount)))
+    if(discount.figure>0 && product.category!=="Deals"){
+      size.price =((Number(size.price))-(((Number(size.price))*discount.figure)/100) + (Number(addOnAmount)))
+    }
+    else
+    {
+      size.price =((Number(size.price))+ (Number(addOnAmount)))
+    }
     console.log(size.price)
     reduxDispatch(addToCartReduxAction({ id, quantity, size, instructions, sameProduct, selectedAddOns }))
     setShowCartMessage(true)
     setSize(product.size[0])
+    setSelectedAddOns([])
     setQuantity(1)
 
   };
@@ -102,9 +109,9 @@ const FoodItemDetailComponent = ({
       );
       if(product.category==="Deals")
       {
-        discount=1
+        discount=0
       }
-  }, []);
+  }, [showCartMessage]);
 
   useEffect(() => {
     getFoodItemDetails(id)
@@ -176,15 +183,15 @@ const FoodItemDetailComponent = ({
                         />{" "}
                         ({product.reviewsNumber})
                       </ListGroup.Item> */}
-                      {discount.figure > 0 ? (
+                      {(discount.figure > 0)&&(product.category!=="Deals") ? (
                         <>
                           <ListGroup.Item>
-                            Price:  <span className="fw-bold">Rs{Math.ceil((size.price-((size.price)*(discount.figure))/100)+Number(addOnAmount))}/-</span>
+                            Price:  <span className="fw-bold">Rs{((Number(size.price)-(Number(size.price)*Number(discount.figure))/100)+Number(addOnAmount))}/-</span>
                           </ListGroup.Item>
                         </>
                       ) : (
                         <ListGroup.Item>
-                          Price:  <span className="fw-bold">Rs{Math.ceil(size.price+Number(addOnAmount))}/-</span>
+                          Price:  <span className="fw-bold">Rs{Number(Number(size.price)+Number(addOnAmount))}/-</span>
                         </ListGroup.Item>
                       )}
 
@@ -223,9 +230,9 @@ const FoodItemDetailComponent = ({
                   <Col md={6}>
                     <ListGroup>
                       {
-                      discount.figure > 0 ? (
+                      (discount.figure > 0)&&(product.category!=="Deals") ? (
                           <ListGroup.Item>
-                            Total Discounted Price: <span className="fw-bold">Rs {size ? (((size.price) * quantity)-((((size.price) * quantity) * (discount.figure)) / 100))+Number(addOnAmount) : (0)}/-</span>
+                            Total Discounted Price: <span className="fw-bold">Rs {size ? (((size.price) * quantity)-((((size.price) * quantity) * (discount.figure)) / 100))+(Number(addOnAmount)*quantity) : (0)}/-</span>
                           </ListGroup.Item>
                         ) : (
                           <ListGroup.Item>

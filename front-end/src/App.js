@@ -27,6 +27,7 @@ import AdminProductsPage from "./pages/admin/billing/AdminProductsPage";
 import AdminEditProductPage from "./pages/admin/billing/AdminEditProductPage";
 import AdminEditCategoryPage from "./pages/admin/billing/AdminEditCategoryPage";
 import AdminEditDiscountPage from "./pages/admin/billing/AdminDiscountPage";
+import OrderDetailsPage from "./pages/OrderDetailsPage";
 
 function App() {
   return (
@@ -80,12 +81,13 @@ function App() {
           <Route path="/foodItem-list/:pageNumParam" element={<FoodItemsPage/>} />
           <Route path="/foodItem-list/category/:categoryName" element={<FoodItemsPage />} />
           <Route path="/foodItem-list/category/:categoryName/:pageNumParam" element={<FoodItemsPage />} />
-        
+          <Route path="/user/cart-details" element={<AdminCartDetailsPage />} />
+          <Route path="/user/order-details/:orderId" element={<OrderDetailsPage />} />
+
          {/* user protected routes: */}
          <Route element={<ProtectedRoutesComponent admin={false} />}>
           <Route path="/user" element={<EditUserPage />} />
           <Route path="/user/my-orders" element={<HomePage />} />
-          <Route path="/user/cart-details" element={<AdminCartDetailsPage />} />
           </Route>
 
 

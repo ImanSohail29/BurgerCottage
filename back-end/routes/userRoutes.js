@@ -5,6 +5,7 @@ const {getUsers, registerUser, loginUser, updateUserProfile, getUserProfile, wri
 
 router.post("/register", registerUser)
 router.post("/login", loginUser)
+router.post('/register-admin', registerUserFromAdmin)
 
 // user logged in routes:
 router.use(verifyIsLoggedIn);
@@ -14,7 +15,6 @@ router.post('/review/:productId', writeReview)
 
 // admin routes:
 router.use(verifyIsAdmin);
-router.post('/register-admin', registerUserFromAdmin)
 router.get("/", getUsers)
 router.get("/:id", getUser);
 router.put('/:id', updateUser)

@@ -29,7 +29,7 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, discount })
   const [orderButtonMessage, setOrderButtonMessage] =
     useState("Mark as delivered");
   const [cartItems, setCartItems] = useState([]);
-  const [discounted, setDiscounted] = useState(1);
+  const [discounted, setDiscounted] = useState(0);
   const [orderPlacedAt, setOrderPlacedAt] = useState("");
   const [print, setPrint] = useState(false)
 
@@ -136,9 +136,9 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, discount })
                 <ListGroup.Item className="text-danger">
                   Total price: <span className="fw-bold">Rs {cartSubtotal}/-</span>
                 </ListGroup.Item>
-              ) : ( <ListGroup.Item className="text-danger">
-              Total price: <span className="fw-bold">Rs {cartSubtotal}/-</span>
-            </ListGroup.Item>)}
+              ) : (<ListGroup.Item className="text-danger">
+                Total price: <span className="fw-bold">Rs {cartSubtotal}/-</span>
+              </ListGroup.Item>)}
 
               <ListGroup.Item>
                 <div className="d-grid gap-2">
@@ -233,6 +233,9 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, discount })
               </ListGroup.Item>
               <ListGroup.Item>
                 Discount: <span className="fw-bold">included</span>
+              </ListGroup.Item>
+              <ListGroup.Item>
+                Total Discount: <span className="fw-bold">{discounted.figure}%</span>
               </ListGroup.Item>
               <ListGroup.Item>
                 Tax: <span className="fw-bold">included</span>

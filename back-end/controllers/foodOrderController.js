@@ -13,9 +13,9 @@ const getUserOrders = async (req, res, next) => {
 
 const getOrder = async (req, res, next) => {
     try {
-       const order = await Order.findById(req.params.orderId).populate("user", "-password -isAdmin -_id -__v -createdAt -updatedAt").orFail();
-       order.orderPlacedAt.toLocaleTimeString(); 
-       res.send(order);
+        const order = await Order.findById(req.params.orderId).populate("user", "-password -isAdmin -_id -__v -createdAt -updatedAt").orFail();
+        order.orderPlacedAt.toLocaleTimeString();
+        res.send(order);
     } catch (err) {
         next(err)
     }
@@ -24,7 +24,7 @@ const getOrder = async (req, res, next) => {
 const createOrder = async (req, res, next) => {
     try {
         console.log(req.body)
-        const { cart, orderTotal, paymentMethod,customerInfo,serviceMode,discount } = req.body;
+        const { cart, orderTotal, paymentMethod, customerInfo, serviceMode, discount } = req.body;
         if (!cart || !orderTotal || !paymentMethod) {
             return res.status(400).send("All inputs are required");
         }
@@ -42,18 +42,33 @@ const createOrder = async (req, res, next) => {
         //         product.save();
         //     })
         // })
+        if (req.user) {
+            const order = new Order({
+                user: new ObjectId(req.user._id),
+                customerInfo: customerInfo,
+                orderTotal: orderTotal,
+                cart: cart,
+                paymentMethod: paymentMethod,
+                serviceMode: serviceMode,
+                discount: discount
+            })
+            const createdOrder = await order.save();
+            res.status(201).send(createdOrder);
+        }
+        else {
+            const order = new Order({
+                user: new ObjectId(customerInfo._id),
+                customerInfo: customerInfo,
+                orderTotal: orderTotal,
+                cart: cart,
+                paymentMethod: paymentMethod,
+                serviceMode: serviceMode,
+                discount: discount
+            })
+            const createdOrder = await order.save();
+            res.status(201).send(createdOrder);
+        }
 
-        const order = new Order({
-            user: new ObjectId(req.user._id),
-            customerInfo:customerInfo,
-            orderTotal: orderTotal,
-            cart: cart,
-            paymentMethod: paymentMethod,
-            serviceMode:serviceMode,
-            discount:discount
-        })
-        const createdOrder = await order.save();
-        res.status(201).send(createdOrder);
 
     } catch (err) {
         next(err)
@@ -76,7 +91,7 @@ const updateOrderToPaid = async (req, res, next) => {
 
 const updateOrderToDelivered = async (req, res, next) => {
     try {
-       const order = await Order.findById(req.params.id).orFail();
+        const order = await Order.findById(req.params.id).orFail();
         order.isDelivered = true;
         order.deliveredAt = Date.now();
         const updatedOrder = await order.save();
@@ -88,7 +103,7 @@ const updateOrderToDelivered = async (req, res, next) => {
 
 const getOrders = async (req, res, next) => {
     try {
-        const orders = await Order.find({}).populate("user","-password").sort({ paymentMethod: "desc" });
+        const orders = await Order.find({}).populate("user", "-password").sort({ paymentMethod: "desc" });
         res.send(orders);
     } catch (err) {
         next(err)
@@ -115,4 +130,4 @@ const getOrderForAnalysis = async (req, res, next) => {
     }
 }
 
-module.exports = {getUserOrders, getOrder, createOrder, updateOrderToPaid, updateOrderToDelivered, getOrders, getOrderForAnalysis}
+module.exports = { getUserOrders, getOrder, createOrder, updateOrderToPaid, updateOrderToDelivered, getOrders, getOrderForAnalysis }

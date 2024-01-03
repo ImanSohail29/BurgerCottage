@@ -49,7 +49,7 @@ const FoodItemsComponent = ({ getFoodItems, categories, addProductApiRequest, di
 
     return (
         <>
-        {loaded?(
+        {loaded&&(discount.image!==null)?(
             <Popup open={true}
             position="center"
             modal nested>
@@ -132,7 +132,7 @@ const FoodItemsComponent = ({ getFoodItems, categories, addProductApiRequest, di
                                     foodItems.map((foodItem) => {
                                         let discountFigure=discount
                                         if(foodItem.category==="Deals"){
-                                            discountFigure=1
+                                            discountFigure=0
                                         }
                                         return (
 
