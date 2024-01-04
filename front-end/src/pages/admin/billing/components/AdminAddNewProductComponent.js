@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Alert, Button, CloseButton, Col, Container, Form, Row, Table } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 
-const AdminCreateProductPageComponent = ({ categories, createProductApiRequest, uploadImagesApiRequest, uploadImagesCloudinaryApiRequest, reduxDispatch,addOnsApiRequest }) => {
+const AdminCreateProductPageComponent = ({ categories, createProductApiRequest, uploadImagesApiRequest, uploadImagesCloudinaryApiRequest, reduxDispatch, addOnsApiRequest }) => {
     const sizeRef = useRef()
     const priceRef = useRef()
     const [validated, setValidated] = useState(false);
@@ -34,64 +34,69 @@ const AdminCreateProductPageComponent = ({ categories, createProductApiRequest, 
         setSizeTableSize(sizeTable.length)
     }
     const selectAddOn = (e, addOn, idx) => {
-        const isChecked=e.target.checked;
-        if(isChecked){
-          setSelectedAddOns([...selectedAddOns,addOn])
+        const isChecked = e.target.checked;
+        if (isChecked) {
+            setSelectedAddOns([...selectedAddOns, addOn])
         }
-        else{
-          selectedAddOns.splice(idx,1)
-          setSelectedAddOns(selectedAddOns)
-    
+        else {
+            selectedAddOns.splice(idx, 1)
+            setSelectedAddOns(selectedAddOns)
+
         }
     }
     useEffect(() => {
         addOnsApiRequest()
-          .then((data) => {
-            setAddOns(data);
-          })
-          .catch((er) =>
-            setError(
-              er.response.data.message ? er.response.data.message : er.response.data
-            )
-          );
-      }, []);
-    
+            .then((data) => {
+                setAddOns(data);
+            })
+            .catch((er) =>
+                setError(
+                    er.response.data.message ? er.response.data.message : er.response.data
+                )
+            );
+    }, []);
+
     useEffect(() => { }, [sizeTable])
     const handleSubmit = (event) => {
         event.preventDefault();
         event.stopPropagation();
         const form = event.currentTarget.elements;
-        const formInputs = {
-            name: form.name.value,
-            description: form.description.value,
-            category: form.category.value,
-            size: sizeTable,
-            addOns:selectedAddOns
+        if (sizeTable.length < 1) {
+            setCreateProductResponseState({ error: "Add a size" })
         }
-        if (event.currentTarget.checkValidity() === true) {
-            if (images.length > 1) {
-                setIsCreating("Too many files ! ")
-                return
+        else {
+            const formInputs = {
+                name: form.name.value,
+                description: form.description.value,
+                category: form.category.value,
+                size: sizeTable,
+                addOns: selectedAddOns
             }
-            createProductApiRequest(formInputs)
-                .then(data => {
-                    if (images) {
-                        if (process.env.NODE_ENV === "production") {
-                            uploadImagesCloudinaryApiRequest(images, data.foodItemId)
-                            console.log(images)
-                        } else {
-                            uploadImagesCloudinaryApiRequest(images, data.foodItemId)
-                            console.log(images)
-                        //     uploadImagesApiRequest(images, data.productId)
-                        //         .then(res => { })
-                        //         .catch((er) => setIsCreating(er.response.data.message ? er.response.data.message : er.response.data))
-                        // 
-                    }
-                    }
-                    if (data.message === "food Item created") navigate("/foodItem-list")
-                }).catch((er) => setCreateProductResponseState({ error: er.response.data.message ? er.response.data.message : er.response.data }))
+            if (event.currentTarget.checkValidity() === true) {
+                if (images.length > 1) {
+                    setIsCreating("Too many files ! ")
+                    return
+                }
+                createProductApiRequest(formInputs)
+                    .then(data => {
+                        if (images) {
+                            if (process.env.NODE_ENV === "production") {
+                                uploadImagesCloudinaryApiRequest(images, data.foodItemId)
+                                console.log(images)
+                            } else {
+                                uploadImagesCloudinaryApiRequest(images, data.foodItemId)
+                                console.log(images)
+                                //     uploadImagesApiRequest(images, data.productId)
+                                //         .then(res => { })
+                                //         .catch((er) => setIsCreating(er.response.data.message ? er.response.data.message : er.response.data))
+                                // 
+                            }
+                        }
+                        if (data.message === "food Item created") navigate("/foodItem-list")
+                    }).catch((er) => setCreateProductResponseState({ error: er.response.data.message ? er.response.data.message : er.response.data }))
+            }
+            setValidated(true);
         }
-        setValidated(true);
     }
     const uploadHandler = (images) => {
         setImages(images)
@@ -136,6 +141,10 @@ const AdminCreateProductPageComponent = ({ categories, createProductApiRequest, 
                                     <Button variant="danger" onClick={addSize}>Add</Button>
                                 </Col>
                             </Row>
+                            {error}
+                            <Form.Control.Feedback type="invalid">
+                                Please add a price
+                            </Form.Control.Feedback>
                         </Form.Group>
                         {console.log(sizeTableSize)}
                         {
@@ -163,24 +172,24 @@ const AdminCreateProductPageComponent = ({ categories, createProductApiRequest, 
                                     </tbody>
                                 </Table>
                             ) : (<></>)}
-                        
+
                         <Form.Label>Select Add ons</Form.Label>
                         <Form>
-                          {addOns.map((addOn, idx) => (
-                            <div key={idx}>
-                              <Form.Check type="checkbox">
-                                <Form.Check.Input
-                                  type="checkbox"
-                                  onChange={(e) => selectAddOn(e,addOn, idx)}
-                                />
-                                <Form.Check.Label style={{ cursor: "pointer" }}>
-                                  {addOn.name}
-                                </Form.Check.Label>
-                              </Form.Check>
-                            </div>
-                          ))}
+                            {addOns.map((addOn, idx) => (
+                                <div key={idx}>
+                                    <Form.Check type="checkbox">
+                                        <Form.Check.Input
+                                            type="checkbox"
+                                            onChange={(e) => selectAddOn(e, addOn, idx)}
+                                        />
+                                        <Form.Check.Label style={{ cursor: "pointer" }}>
+                                            {addOn.name}
+                                        </Form.Check.Label>
+                                    </Form.Check>
+                                </div>
+                            ))}
                         </Form>
-                        
+
                         <Form.Group className="mb-3" controlId="formBasicImages">
                             <Form.Label>Images</Form.Label>
                             <Form.Control name="image" required type="file" multiple onChange={(e) => uploadHandler(e.target.files)}>

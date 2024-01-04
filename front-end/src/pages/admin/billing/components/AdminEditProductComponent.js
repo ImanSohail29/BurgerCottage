@@ -34,7 +34,13 @@ const AdminEditProductComponent = ({ fetchProduct, categories, updateProductApiR
                 setSizeTable(data.size)
                 setSizeTableSize(data.size.length)
                 setProduct(data)
-                console.log(data)
+                let selectedAddOnsArray=[]
+                data.addOns.map((addOnItem)=>{
+                    return(
+                        selectedAddOnsArray.push(addOnItem._id)
+                    )
+                })
+                setSelectedAddOns(selectedAddOnsArray)
             })
             .catch((er) => console.log(er))
         console.log("imageRemoved:" + imageRemoved)
@@ -61,13 +67,16 @@ const AdminEditProductComponent = ({ fetchProduct, categories, updateProductApiR
     const selectAddOn = (e, addOn, idx) => {
         const isChecked = e.target.checked;
         if (isChecked) {
-            setSelectedAddOns([...selectedAddOns, addOn])
+            setSelectedAddOns([...selectedAddOns, addOn._id])
         }
         else {
-            selectedAddOns.splice(idx, 1)
-            setSelectedAddOns(selectedAddOns)
-
+            const newSelectedAddOns = selectedAddOns.filter(addOnItem => {
+                return addOnItem !== addOn._id;
+              });
+            setSelectedAddOns(newSelectedAddOns)
         }
+
+        console.log(selectedAddOns)
     }
     useEffect(() => {
         addOnsApiRequest()
@@ -205,7 +214,7 @@ const AdminEditProductComponent = ({ fetchProduct, categories, updateProductApiR
                                 <div key={idx}>
                                     <Form.Check type="checkbox">
                                         <Form.Check.Input
-                                            type="checkbox" 
+                                            type="checkbox" checked={selectedAddOns.includes(addOn._id)}
                                             onChange={(e) => selectAddOn(e, addOn, idx)}
                                         />
                                         <Form.Check.Label style={{ cursor: "pointer" }}>
@@ -213,7 +222,9 @@ const AdminEditProductComponent = ({ fetchProduct, categories, updateProductApiR
                                         </Form.Check.Label>
                                     </Form.Check>
                                 </div>
-                            ))}
+                            )
+                            )
+                            }
                         </Form>
                         <Form.Group className="mb-3" controlId="formBasicImages">
                             <Form.Label>Images</Form.Label>
