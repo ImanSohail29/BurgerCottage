@@ -15,7 +15,7 @@ import { useDispatch } from "react-redux";
 import { logout } from "../../../../redux/slices/userSlice";
 import CartItemComponent from "../../../../components/CartItemComponent";
 
-const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, discount }) => {
+const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,markAsPaid, discount }) => {
   const ref = useRef();
   const { orderId } = useParams();
   const dispatch = useDispatch();
@@ -24,13 +24,21 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, discount })
   const [paymentMethod, setPaymentMethod] = useState("");
   const [isPaid, setIsPaid] = useState(false);
   const [isDelivered, setIsDelivered] = useState(false);
+  const [isDone, setIsDone] = useState(false);
   const [cartSubtotal, setCartSubtotal] = useState(0);
   const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [orderReadyButtonDisabled, setOrderReadyButtonDisabled] = useState(false);
+  const [orderPaidButtonDisabled, setOrderPaidButtonDisabled] = useState(false);
   const [orderButtonMessage, setOrderButtonMessage] =
     useState("Mark as delivered");
+  const [orderDoneButtonMessage, setOrderDoneButtonMessage] =
+    useState("Mark as done");
+  const [orderPaidButtonMessage, setOrderPaidButtonMessage] =
+    useState("Mark as Paid");
   const [cartItems, setCartItems] = useState([]);
   const [discounted, setDiscounted] = useState(0);
   const [orderPlacedAt, setOrderPlacedAt] = useState("");
+  const [serviceMode, setServiceMode] = useState("");
   const [print, setPrint] = useState(false)
 
   useEffect(() => {
@@ -38,18 +46,33 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, discount })
       .then((order) => {
         setUserInfo(order.customerInfo);
         setPaymentMethod(order.paymentMethod);
+        setServiceMode(order.serviceMode)
         setDiscounted(order.discount)
         order.isPaid ? setIsPaid(order.paidAt) : setIsPaid(false);
         order.isDelivered
           ? setIsDelivered(order.deliveredAt)
           : setIsDelivered(false);
+        order.isDone
+          ? setIsDone(order.isReadyAt)
+          : setIsDone(false);
+        order.isPaid
+          ? setIsPaid(order.paidAt)
+          : setIsPaid(false)
         setCartSubtotal(order.orderTotal.cartSubtotal);
         if (order.isDelivered) {
-          setOrderButtonMessage("Order is finished");
+          setOrderButtonMessage("Order is delivered");
           setButtonDisabled(true);
         }
+        if (order.isDone) {
+          setOrderDoneButtonMessage("Order is Ready");
+          setOrderReadyButtonDisabled(true);
+        }
+        if (order.isPaid) {
+          setOrderPaidButtonMessage("Order is Paid");
+          setOrderPaidButtonDisabled(true);
+        }
         setCartItems(order.cart.cartItems);
-        let dateObject=new Date(order.orderPlacedAt)
+        let dateObject = new Date(order.orderPlacedAt)
         setOrderPlacedAt(dateObject.toString());
       })
       .catch((er) =>
@@ -58,7 +81,7 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, discount })
         //   er.response.data.message ? er.response.data.message : er.response.data
         // )
       );
-  }, [isDelivered, orderId]);
+  }, [isDelivered, isDone, orderId,isPaid]);
 
   return (
     <>
@@ -70,10 +93,12 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, discount })
             <Row>
               <p>{orderPlacedAt}</p>
               <p><b>Order Id : </b>{orderId}</p>
+              <p>Service Mode: <b>{serviceMode}</b></p>
               {userInfo ? (<Col md={6}>
-                <h2>Shipping</h2>
+                <h2>Customer Information</h2>
                 <div><b>Name</b>: {userInfo.name} {userInfo.lastName} <br /></div>
                 <div><b>Address</b>: {userInfo.address}{" "}</div>
+                <div><b>Email</b>: {userInfo.email}{" "}</div>
                 <div><b>Phone</b>: {userInfo.phoneNumber}</div>
               </Col>) : (
                 ""
@@ -90,16 +115,19 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, discount })
               </Col>
               <Row>
                 <Col>
-                  <Alert
-                    className="mt-3"
-                    variant={isDelivered ? "success" : "danger"}
-                  >
-                    {isDelivered ? (
-                      <>Delivered at {isDelivered}</>
-                    ) : (
-                      <>Not delivered</>
-                    )}
-                  </Alert>
+                  {serviceMode === "delivery" ? (
+                    <Alert
+                      className="mt-3"
+                      variant={isDelivered ? "success" : "danger"}
+                    >
+                      {isDelivered ? (
+                        <>Delivered at {isDelivered}</>
+                      ) : (
+                        <>Not delivered</>
+                      )}
+                    </Alert>
+                  ) : ("")}
+
                 </Col>
                 <Col>
                   <Alert className="mt-3" variant={isPaid ? "success" : "danger"}>
@@ -142,25 +170,60 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, discount })
               ) : (<ListGroup.Item className="text-danger">
                 Total price: <span className="fw-bold">Rs {cartSubtotal}/-</span>
               </ListGroup.Item>)}
-
               <ListGroup.Item>
                 <div className="d-grid gap-2">
+                  {serviceMode === "delivery" ? (
+                    <Button
+                      size="lg"
+                      onClick={() =>
+                        markAsDelivered(orderId)
+                          .then((res) => {
+                            if (res) {
+                              setIsDelivered(true);
+                            }
+                          })
+                          .catch(er => console.log(er.response.data.message ? er.response.data.message : er.response.data))
+                      }
+                      disabled={buttonDisabled}
+                      variant="danger"
+                      type="button"
+                    >
+                      {orderButtonMessage}
+                    </Button>
+                  ) : ("")}
                   <Button
                     size="lg"
                     onClick={() =>
-                      markAsDelivered(orderId)
+                      markAsDone(orderId)
                         .then((res) => {
                           if (res) {
-                            setIsDelivered(true);
+                            setIsDone(true);
                           }
                         })
                         .catch(er => console.log(er.response.data.message ? er.response.data.message : er.response.data))
                     }
-                    disabled={buttonDisabled}
+                    disabled={orderReadyButtonDisabled}
                     variant="danger"
                     type="button"
                   >
-                    {orderButtonMessage}
+                    {orderDoneButtonMessage}
+                  </Button>
+                  <Button
+                    size="lg"
+                    onClick={() =>
+                      markAsPaid(orderId)
+                        .then((res) => {
+                          if (res) {
+                            setIsPaid(true);
+                          }
+                        })
+                        .catch(er => console.log(er.response.data.message ? er.response.data.message : er.response.data))
+                    }
+                    disabled={orderPaidButtonDisabled}
+                    variant="danger"
+                    type="button"
+                  >
+                    {orderPaidButtonMessage}
                   </Button>
                   <ReactToPrint
                     bodyClass="print-agreement"
@@ -235,20 +298,20 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, discount })
                 Items price (after tax):{" "}
                 <span className="fw-bold">Rs {cartSubtotal}/-</span>
               </ListGroup.Item>
-              
-              {discounted.figure>0?(
+
+              {discounted.figure > 0 ? (
                 <>
-                <ListGroup.Item>
-                Discount: <span className="fw-bold">included</span>
-              </ListGroup.Item>
-                <ListGroup.Item>
-                Total Discount: <span className="fw-bold">{discounted.figure}%</span>
-              </ListGroup.Item>
-              </>
-              ):(
+                  <ListGroup.Item>
+                    Discount: <span className="fw-bold">included</span>
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    Total Discount: <span className="fw-bold">{discounted.figure}%</span>
+                  </ListGroup.Item>
+                </>
+              ) : (
                 ""
               )}
-              
+
               <ListGroup.Item>
                 Tax: <span className="fw-bold">included</span>
               </ListGroup.Item>

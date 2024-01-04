@@ -19,13 +19,7 @@ const FoodItemsComponent = ({ getFoodItems, categories, addProductApiRequest, di
     const [paginationLinksNumber, setPaginationLinksNumber] = useState(null)
     const [pageNum, setPageNum] = useState(null)
     const [admin,setAdmin]=useState(false)
-    useEffect(() => {
- 
-        // Creating a timeout within the useEffect hook
-        setTimeout(() => {
-            setLoaded(true);
-        }, 5000);
-    }, []);
+   
 
     useEffect(() => {
         if (categoryName) {
@@ -43,6 +37,7 @@ const FoodItemsComponent = ({ getFoodItems, categories, addProductApiRequest, di
                 setPaginationLinksNumber(data.paginationLinksNumber)
                 setPageNum(data.pageNum)
                 setIsLoading(false)
+                setLoaded(true)
             })
             .catch((er) => setError(er.response.data.message ? er.response.data.message : er.response.data))
     }, [categoryName, pageNumParam])

@@ -47,10 +47,8 @@ const FoodOrderModel=mongoose.Schema({
         required: true,
         default: false,
     },
-    isReady:{
-        type:Boolean,
-        required: true,
-        default:false,
+    isReadyAt:{
+        type:Date,
     },
     estimatedReadyTimeMinutes:{
         type:Number,

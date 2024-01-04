@@ -12,7 +12,7 @@ const HomePageComponent = () => {
                     <Link to={"/foodItem-list"} style={{ textDecoration: 'none', textAlign: "center" }}>
                         <Card className="bg-danger text-white p-5 m-4 bg-opacity-50 border-start" >
                             <Card.Body>
-                                <Card.Title style={{ fontSize: "2em" }}>Billing</Card.Title>
+                                <Card.Title style={{ fontSize: "2em" }}>Menu</Card.Title>
                             </Card.Body>
                         </Card>
                     </Link>

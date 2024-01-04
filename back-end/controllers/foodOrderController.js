@@ -1,5 +1,6 @@
 const Order = require("../models/FoodOrderModel");
 const Product = require("../models/FoodItemModel");
+const FoodOrder = require("../models/FoodOrderModel");
 const ObjectId = require("mongodb").ObjectId;
 
 const getUserOrders = async (req, res, next) => {
@@ -100,6 +101,17 @@ const updateOrderToDelivered = async (req, res, next) => {
         next(err);
     }
 }
+const updateOrderToDone = async (req, res, next) => {
+    try {
+        const order = await Order.findById(req.params.id).orFail();
+        order.isDone = true;
+        order.readyAt = Date.now();
+        const updatedOrder = await order.save();
+        res.send(updatedOrder);
+    } catch (err) {
+        next(err);
+    }
+}
 
 const getOrders = async (req, res, next) => {
     try {
@@ -129,5 +141,22 @@ const getOrderForAnalysis = async (req, res, next) => {
         next(err)
     }
 }
-
-module.exports = { getUserOrders, getOrder, createOrder, updateOrderToPaid, updateOrderToDelivered, getOrders, getOrderForAnalysis }
+const getFoodOrderTotalByDate = async (req, res, next) => {
+    try {
+                const foodOrdersByDate = await Order.aggregate([
+                            {
+                                $group:
+                                {
+                                    _id: { $dateToString: { format: "%Y-%m-%d", date: "$orderPlacedAt" } },
+                                    amountPaidTotal: { $sum: "$orderTotal.cartSubtotal" },
+                                    count: { $sum: 1 }
+                                }
+                            }
+                        ]
+                    )
+                return res.status(201).json(foodOrdersByDate)
+            } catch (error) {
+                next(error)
+            }
+}
+module.exports = { getUserOrders, getOrder, createOrder, updateOrderToPaid, updateOrderToDelivered,updateOrderToDone, getOrders, getOrderForAnalysis,getFoodOrderTotalByDate }

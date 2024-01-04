@@ -10,7 +10,7 @@ const CartItemComponent = ({ item, orderCreated = false, changeCount = false, re
                         <Image crossOrigin="anonymous" src={item.image ? (item.image.path ?? null) : null} fluid></Image>
                     </Col>
                     <Col xs={1} ><br />{item.name}</Col>
-                    <Col xs={1} ><br />{item.selectedAddOns.map((addon) => <p>{addon.name}</p>)}</Col>
+                    <Col xs={1} ><br />{item.selectedAddOns.map((addon,idx) => <p key={idx}>{addon.name}</p>)}</Col>
                     
                         <Col xs={2} ><br /><b>Rs {Math.ceil(item.size.price * item.quantity)} /-</b></Col>
 

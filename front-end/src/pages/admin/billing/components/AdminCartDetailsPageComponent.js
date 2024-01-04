@@ -37,8 +37,11 @@ const AdminCartDetailsPageComponent = ({ cartItems, itemsCount, cartSubtotal, us
     const form = event.currentTarget.elements;
     const name = form.name.value;
     const email = form.email.value;
+    let address=""
     const phoneNumber = form.phoneNumber.value;
-    const address = form.address.value;
+    if(serviceMode==="delivery"){
+      address = form.address.value;
+    }
 
     if (
       event.currentTarget.checkValidity() === true
@@ -168,6 +171,7 @@ const AdminCartDetailsPageComponent = ({ cartItems, itemsCount, cartSubtotal, us
                       <Form.Label>Customer Name</Form.Label>
                       <Form.Control
                         type="text"
+                        defaultValue={""}
                         placeholder="Enter Customers name"
                         name="name"
                       />
@@ -180,6 +184,7 @@ const AdminCartDetailsPageComponent = ({ cartItems, itemsCount, cartSubtotal, us
                         <Form.Label>Email address</Form.Label>
                         <Form.Control
                           name="email"
+                          defaultValue={""}
                           type="email"
                           placeholder="Enter email"
                         />
@@ -192,6 +197,7 @@ const AdminCartDetailsPageComponent = ({ cartItems, itemsCount, cartSubtotal, us
                         <Form.Label>Phone Number</Form.Label>
                         <Form.Control
                           name="phoneNumber"
+                          defaultValue={null}
                           type="tel"
                           placeholder="03XXXXXXXXX"
                         />
