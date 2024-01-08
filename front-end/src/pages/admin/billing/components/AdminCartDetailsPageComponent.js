@@ -9,37 +9,59 @@ import {
   Spinner,
 } from "react-bootstrap";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 import CartItemComponent from "../../../../components/CartItemComponent";
 
-const AdminCartDetailsPageComponent = ({ cartItems, itemsCount, cartSubtotal, userInfo, addToCart, removeFromCart, resetCart, reduxDispatch, createOrder, registerUserApiRequestFromAdmin, discount }) => {
+const AdminCartDetailsPageComponent = ({ cartItems, itemsCount, cartSubtotal, userInfo, addToCart, removeFromCart, resetCart, reduxDispatch, createOrder, createOrderAdmin, registerUserApiRequestFromAdmin, discount }) => {
   const [validated, setValidated] = useState(false);
-  const [user, setUser] = useState({})
+  const [user, setUser] = useState()
   const [enterUserResponseState, setEnterUserResponseState] = useState({
     success: "",
     error: "",
     loading: false,
   });
   const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [userButtonDisabled, setUserButtonDisabled] = useState(false);
   const [userAddress, setUserAddress] = useState(false);
   const [missingAddress, setMissingAddress] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("cash");
   const [serviceMode, setServiceMode] = useState("delivery");
   const [customerDiscount, setCustomerDiscount] = useState(0)
   const [finalCartSubtotal, setFinalCartSubtotal] = useState(cartSubtotal)
-
+  const userButtonRef = useRef(null);
+  const userFormRef = useRef(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setButtonDisabled(false)
+    setMissingAddress("")
+    if (userInfo.isAdmin && serviceMode === "delivery" && user === undefined) {
+      setMissingAddress("Save Customer Details to Place Order")
+      setButtonDisabled(true)
+    }
+    else if (!userInfo.isAdmin) {
+      if (serviceMode === "delivery" && user === undefined) {
+        setMissingAddress("Save Customer Details to Place Order")
+        setButtonDisabled(true)
+      }
+
+    }
+    if (cartItems.length < 1) {
+      setButtonDisabled(true)
+    }
+  }, [buttonDisabled, user, userButtonDisabled, serviceMode, cartItems])
   const handleSubmit = (event) => {
+
     event.preventDefault();
     event.stopPropagation();
     const form = event.currentTarget.elements;
     const name = form.name.value;
     const email = form.email.value;
-    let address=""
+    let address = ""
     const phoneNumber = form.phoneNumber.value;
-    if(serviceMode==="delivery"){
+    if (serviceMode === "delivery") {
       address = form.address.value;
     }
 
@@ -48,6 +70,9 @@ const AdminCartDetailsPageComponent = ({ cartItems, itemsCount, cartSubtotal, us
     ) {
       setEnterUserResponseState({ loading: true });
       setUser({ name: name, phoneNumber: phoneNumber, email: email, address: address })
+      setButtonDisabled(false)
+      setMissingAddress("")
+      setUserButtonDisabled(true)
       setValidated(true);
       setEnterUserResponseState({ loading: false, success: true });
 
@@ -98,6 +123,7 @@ const AdminCartDetailsPageComponent = ({ cartItems, itemsCount, cartSubtotal, us
   // }, [userInfo._id])
 
   const orderHandler = () => {
+    console.log(user + cartItems)
     if (user) {
       registerUserApiRequestFromAdmin(user.name, user.phoneNumber, user.email, user.address)
         .then((data) => {
@@ -119,11 +145,11 @@ const AdminCartDetailsPageComponent = ({ cartItems, itemsCount, cartSubtotal, us
       {
         cartItems: cartItems,
         itemsCount: itemsCount,
-        cartSubtotal: Math.ceil((cartSubtotal-((cartSubtotal*customerDiscount)/100)))
+        cartSubtotal: Math.ceil((cartSubtotal - ((cartSubtotal * customerDiscount) / 100)))
       },
       orderTotal: {
         itemsCount: itemsCount,
-        cartSubtotal: Math.ceil((cartSubtotal-((cartSubtotal*customerDiscount)/100)))
+        cartSubtotal: Math.ceil((cartSubtotal - ((cartSubtotal * customerDiscount) / 100)))
       },
       paymentMethod: paymentMethod,
       customerInfo: user,
@@ -131,19 +157,36 @@ const AdminCartDetailsPageComponent = ({ cartItems, itemsCount, cartSubtotal, us
       discount: { figure: Number(discount.figure) + Number(customerDiscount) },
     }
     console.log(JSON.stringify(orderData))
-    createOrder(orderData)
-      .then(data => {
-        if (data) {
-          if (userInfo.isAdmin) {
-            navigate("/admin/order-details/" + data._id);
+    if (userInfo.isAdmin) {
+      createOrderAdmin(orderData)
+        .then(data => {
+          if (data) {
+            if (userInfo.isAdmin) {
+              navigate("/admin/order-details/" + data._id);
+            }
+            else {
+              navigate("/user/order-details/" + data._id);
+            }
           }
-          else {
-            navigate("/user/order-details/" + data._id);
+        })
+        .catch((err) => console.log(err));
+      reduxDispatch(resetCart())
+    }
+    else {
+      createOrder(orderData)
+        .then(data => {
+          if (data) {
+            if (userInfo.isAdmin) {
+              navigate("/admin/order-details/" + data._id);
+            }
+            else {
+              navigate("/user/order-details/" + data._id);
+            }
           }
-        }
-      })
-      .catch((err) => console.log(err));
-    reduxDispatch(resetCart())
+        })
+        .catch((err) => console.log(err));
+      reduxDispatch(resetCart())
+    }
   }
 
   const choosePayment = (e) => {
@@ -166,7 +209,7 @@ const AdminCartDetailsPageComponent = ({ cartItems, itemsCount, cartSubtotal, us
               <Row >
                 <Col>
                   <h1>Customer Details</h1>
-                  <Form noValidate validated={validated} onSubmit={handleSubmit}>
+                  <Form noValidate validated={validated} ref={userFormRef} onSubmit={handleSubmit}>
                     {userInfo.isAdmin ? (<> <Form.Group className="mb-3" controlId="validationCustom01">
                       <Form.Label>Customer Name</Form.Label>
                       <Form.Control
@@ -210,6 +253,7 @@ const AdminCartDetailsPageComponent = ({ cartItems, itemsCount, cartSubtotal, us
                           <Form.Label>Address</Form.Label>
                           <Form.Control
                             name="address"
+                            required
                             type="text" as="textarea"
                             placeholder="House no., Block, Town, City"
                           />
@@ -249,12 +293,15 @@ const AdminCartDetailsPageComponent = ({ cartItems, itemsCount, cartSubtotal, us
                               name="phoneNumber"
                               defaultValue={userInfo.phoneNumber}
                               type="tel"
+                              required
                               placeholder="03XXXXXXXXX"
                             />
                             <Form.Control.Feedback type="invalid">
                               Please anter a valid phone Number
                             </Form.Control.Feedback>
                           </Form.Group>
+                          {console.log("address:" + JSON.stringify(userInfo))
+                          }
                           {serviceMode && serviceMode === "delivery" ? (
                             <Form.Group className="mb-3" controlId="formBasicAddress">
                               <Form.Label>Address</Form.Label>
@@ -262,6 +309,7 @@ const AdminCartDetailsPageComponent = ({ cartItems, itemsCount, cartSubtotal, us
                                 name="address"
                                 defaultValue={userInfo.address}
                                 type="text" as="textarea"
+                                required
                                 placeholder="House no., Block, Town, City"
                               />
                               <Form.Control.Feedback type="invalid">
@@ -269,7 +317,7 @@ const AdminCartDetailsPageComponent = ({ cartItems, itemsCount, cartSubtotal, us
                               </Form.Control.Feedback>
                             </Form.Group>) : ("")}</>)}
 
-                    <Button type="submit" style={{ width: "100%" }}>
+                    <Button type="submit" ref={userButtonRef} style={{ width: "100%" }}>
                       {enterUserResponseState &&
                         enterUserResponseState.loading === true ? (
                         <Spinner
@@ -405,6 +453,7 @@ const AdminCartDetailsPageComponent = ({ cartItems, itemsCount, cartSubtotal, us
                 <Button size="lg" onClick={orderHandler} variant="danger" type="button" disabled={buttonDisabled}>
                   Place order
                 </Button>
+                {missingAddress}
               </div>
             </ListGroup.Item>
           </ListGroup>

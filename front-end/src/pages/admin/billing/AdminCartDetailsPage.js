@@ -24,6 +24,11 @@ const AdminCartDetailsPage = () => {
       const { data } = await axios.post("/api/orders", { ...orderData });
       return data;
   }
+  const createOrderAdmin = async (orderData) => {
+    console.log("orderData:"+orderData)
+      const { data } = await axios.post("/api/orders/admin", { ...orderData });
+      return data;
+  }
   const registerUserApiRequestFromAdmin = async (name, phoneNumber, email,address) => {
     console.log("name:"+name+"phoneNumber:"+phoneNumber+"email:"+email+"address:"+address)
     const { data } = await axios.post("/api/users/register-admin", {
@@ -45,6 +50,7 @@ const AdminCartDetailsPage = () => {
       resetCart={resetCart}
       reduxDispatch={reduxDispatch}
       createOrder={createOrder}
+      createOrderAdmin={createOrderAdmin}
       registerUserApiRequestFromAdmin={registerUserApiRequestFromAdmin}
       discount={discount}
     />

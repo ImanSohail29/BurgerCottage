@@ -24,7 +24,58 @@ const getOrder = async (req, res, next) => {
 
 const createOrder = async (req, res, next) => {
     try {
-        console.log(req.body)
+        const { cart, orderTotal, paymentMethod, customerInfo, serviceMode, discount } = req.body;
+        if (!cart || !orderTotal || !paymentMethod) {
+            return res.status(400).send("All inputs are required");
+        }
+
+        // let ids = cartItems.map((item) => {
+        //     return item.productID;
+        // })
+        // let qty = cartItems.map((item) => {
+        //     return Number(item.quantity);
+        // })
+
+        // await Product.find({ _id: { $in: ids } }).then((products) => {
+        //     products.forEach(function (product, idx) {
+        //         product.sales += qty[idx];
+        //         product.save();
+        //     })
+        // })
+        if (req.user) {
+            const order = new Order({
+                user: new ObjectId(req.user._id),
+                customerInfo: customerInfo,
+                orderTotal: orderTotal,
+                cart: cart,
+                paymentMethod: paymentMethod,
+                serviceMode: serviceMode,
+                discount: discount
+            })
+            const createdOrder = await order.save();
+            res.status(201).send(createdOrder);
+        }
+        else {
+            const order = new Order({
+                user: new ObjectId(customerInfo._id),
+                customerInfo: customerInfo,
+                orderTotal: orderTotal,
+                cart: cart,
+                paymentMethod: paymentMethod,
+                serviceMode: serviceMode,
+                discount: discount
+            })
+            const createdOrder = await order.save();
+            res.status(201).send(createdOrder);
+        }
+
+
+    } catch (err) {
+        next(err)
+    }
+}
+const createOrderAdmin = async (req, res, next) => {
+    try {
         const { cart, orderTotal, paymentMethod, customerInfo, serviceMode, discount } = req.body;
         if (!cart || !orderTotal || !paymentMethod) {
             return res.status(400).send("All inputs are required");
@@ -159,4 +210,4 @@ const getFoodOrderTotalByDate = async (req, res, next) => {
                 next(error)
             }
 }
-module.exports = { getUserOrders, getOrder, createOrder, updateOrderToPaid, updateOrderToDelivered,updateOrderToDone, getOrders, getOrderForAnalysis,getFoodOrderTotalByDate }
+module.exports = { getUserOrders, getOrder, createOrder,createOrderAdmin, updateOrderToPaid, updateOrderToDelivered,updateOrderToDone, getOrders, getOrderForAnalysis,getFoodOrderTotalByDate }

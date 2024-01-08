@@ -30,7 +30,8 @@ const RegisterPageComponent = ({
     event.stopPropagation();
     const form = event.currentTarget.elements;
     const name = form.name.value;
-    const phoneNumber = form.phoneNumber.value;
+    let phoneNumberString = form.phoneNumber.value;
+    const phoneNumber=phoneNumberString.split(" ").join("")
     const password = form.password.value;
     if (
       event.currentTarget.checkValidity() === true &&phoneNumber &&password &&name &&form.password.value === form.confirmPassword.value

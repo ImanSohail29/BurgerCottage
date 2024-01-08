@@ -15,7 +15,7 @@ const getUsers = async (req, res, next) => {
 
 const registerUser = async (req, res, next) => {
   try {
-    const { name, phoneNumber, password } = req.body;
+    const { name, phoneNumber,address, password } = req.body;
     if (!(name && phoneNumber && password)) {
       return res.status(400).send("All inputs are required");
     }
@@ -28,6 +28,7 @@ const registerUser = async (req, res, next) => {
       const user = await Customer.create({
         name,
         phoneNumber,
+        address,
         password: hashedPassword,
       });
       res
@@ -131,6 +132,7 @@ const loginUser = async (req, res, next) => {
             _id: user._id,
             name: user.name,
             phoneNumber: user.phoneNumber,
+            address:user.address,
             isAdmin: user.isAdmin,
             doNotLogout,
           },

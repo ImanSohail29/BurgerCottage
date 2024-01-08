@@ -18,7 +18,9 @@ const LoginPageComponent = ({ loginUserApiRequest,reduxDispatch, loginAction  })
     event.stopPropagation();
     const form = event.currentTarget.elements;
 
-    const phoneNumber = form.phoneNumber.value;
+    let phoneNumberString = form.phoneNumber.value;
+    const phoneNumber=phoneNumberString.split(" ").join("")
+    console.log(phoneNumber)
     const password = form.password.value;
     const doNotLogout = form.doNotLogout.checked;
 
@@ -32,7 +34,7 @@ const LoginPageComponent = ({ loginUserApiRequest,reduxDispatch, loginAction  })
                 reduxDispatch(loginAction(res.userLoggedIn));
             }
 
-            if (res.success === "user logged in" && !res.userLoggedIn.isAdmin) window.location.assign('/user') 
+            if (res.success === "user logged in" && !res.userLoggedIn.isAdmin) window.location.assign('/') 
             else window.location.assign('/')
 
         })
