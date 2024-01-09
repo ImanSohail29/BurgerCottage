@@ -30,7 +30,7 @@ const HomePageComponent = () => {
                             </Card.Body>
                         </Card>
                     </Link>
-                    <Link to={"/admin/products"} style={{ textDecoration: 'none', textAlign: "center" }}>
+                    <Link to={"/admin/expenses"} style={{ textDecoration: 'none', textAlign: "center" }}>
                         <Card className="bg-danger text-white p-5 m-4 bg-opacity-50 border-start" >
                             <Card.Body>
                                 <Card.Title style={{ fontSize: "2em" }}>Expenses</Card.Title>
@@ -53,7 +53,7 @@ const HomePageComponent = () => {
                             </Card.Body>
                         </Card>
                     </Link>
-                    <Link to={"/"} style={{ textDecoration: 'none', textAlign: "center" }}>
+                    <Link to={"/admin/report"} style={{ textDecoration: 'none', textAlign: "center" }}>
                         <Card className="bg-danger text-white p-5 m-4 bg-opacity-50 border-start"  >
                             <Card.Body>
                                 <Card.Title style={{ fontSize: "2em" }}>Report</Card.Title>

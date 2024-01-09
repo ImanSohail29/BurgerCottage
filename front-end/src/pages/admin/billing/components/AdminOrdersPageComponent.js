@@ -41,9 +41,9 @@ const AdminOrdersPageComponent = ({ getOrders }) => {
               <tr key={idx}>
                 <td>{idx + 1}</td>
                 <td>
-                  {order.user !== null ? (
+                  {order.customerInfo ? (
                     <>
-                      {order.user.name} {order.user.lastName}
+                      {order.customerInfo.name} {order.customerInfo.phoneNumber}
                     </>
                   ) : null}
                 </td>

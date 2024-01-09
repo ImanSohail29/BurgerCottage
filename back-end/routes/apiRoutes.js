@@ -6,6 +6,9 @@ const categoryRoutes=require("./categoryRoutes")
 const foodItemRoutes=require("./foodItemRoutes")
 const userRoutes=require("./userRoutes")
 const foodOrderRoutes=require("./foodOrderRoutes")
+const expensesRoutes=require("./expensesRoutes")
+const reportRoutes=require("./reportRoutes")
+
 
 const jwt = require("jsonwebtoken");
 
@@ -31,6 +34,8 @@ app.use("/categories",categoryRoutes)
 app.use("/foodItems",foodItemRoutes)
 app.use("/users",userRoutes)
 app.use("/orders",foodOrderRoutes)
+app.use("/expenses",expensesRoutes)
+app.use("/report",reportRoutes)
 
 
 

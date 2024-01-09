@@ -1,6 +1,7 @@
 const Order = require("../models/FoodOrderModel");
 const Product = require("../models/FoodItemModel");
 const FoodOrder = require("../models/FoodOrderModel");
+const Report = require("../models/ReportModel")
 const ObjectId = require("mongodb").ObjectId;
 
 const getUserOrders = async (req, res, next) => {
@@ -11,7 +12,6 @@ const getUserOrders = async (req, res, next) => {
         next(error)
     }
 }
-
 const getOrder = async (req, res, next) => {
     try {
         const order = await Order.findById(req.params.orderId).populate("user", "-password -isAdmin -_id -__v -createdAt -updatedAt").orFail();
@@ -43,6 +43,12 @@ const createOrder = async (req, res, next) => {
         //     })
         // })
         if (req.user) {
+            const dateTimeNow = new Date()
+            const dateNow = dateTimeNow.toDateString()
+            console.log("dateNow : " + dateNow)
+            let dateTimeYesterday = new Date();
+            dateTimeYesterday.setDate(dateTimeYesterday.getDate() - 1);
+            const dateYesterday = dateTimeYesterday.toDateString()
             const order = new Order({
                 user: new ObjectId(req.user._id),
                 customerInfo: customerInfo,
@@ -53,9 +59,43 @@ const createOrder = async (req, res, next) => {
                 discount: discount
             })
             const createdOrder = await order.save();
+
+            const todaysReport = await Report.findOne({ date: dateNow })
+            const yesterdaysReport = await Report.findOne({ date: dateYesterday })
+
+            console.log("todaysReport : " + todaysReport)
+            console.log("yesterdayReport : " + yesterdaysReport)
+            let previousProfit = 0
+            if (yesterdaysReport) {
+                previousProfit = yesterdaysReport.totalProfit
+            }
+            if (todaysReport) {
+                todaysReport.totalSale = parseInt(todaysReport.totalSale) + parseInt(orderTotal.cartSubtotal)
+                todaysReport.profit = parseInt(todaysReport.profit) + parseInt(orderTotal.cartSubtotal)
+                todaysReport.totalProfit = previousProfit + todaysReport.profit
+                todaysReport.save()
+
+            }
+            else {
+                let todaysProfit = 0 + orderTotal.cartSubtotal
+                await Report.create({
+                    date: dateNow,
+                    totalExpenses: 0,
+                    totalSale: orderTotal.cartSubtotal,
+                    profit: todaysProfit,
+                    totalProfit: previousProfit
+                })
+            }
+            console.log("Updated todays Report Created : " + todaysReport)
             res.status(201).send(createdOrder);
         }
         else {
+            const dateTimeNow = new Date()
+            const dateNow = dateTimeNow.toDateString()
+            console.log("dateNow : " + dateNow)
+            let dateTimeYesterday = new Date();
+            dateTimeYesterday.setDate(dateTimeYesterday.getDate() - 1);
+            const dateYesterday = dateTimeYesterday.toDateString()
             const order = new Order({
                 user: new ObjectId(customerInfo._id),
                 customerInfo: customerInfo,
@@ -66,6 +106,34 @@ const createOrder = async (req, res, next) => {
                 discount: discount
             })
             const createdOrder = await order.save();
+
+            const todaysReport = await Report.findOne({ date: dateNow })
+            const yesterdaysReport = await Report.findOne({ date: dateYesterday })
+
+            console.log("todaysReport : " + todaysReport)
+            console.log("yesterdayReport : " + yesterdaysReport)
+            let previousProfit = 0
+            if (yesterdaysReport) {
+                previousProfit = yesterdaysReport.totalProfit
+            }
+            if (todaysReport) {
+                todaysReport.totalSale = parseInt(todaysReport.totalSale) + parseInt(orderTotal.cartSubtotal)
+                todaysReport.profit = parseInt(todaysReport.profit) + parseInt(orderTotal.cartSubtotal)
+                todaysReport.totalProfit = previousProfit + todaysReport.profit
+                todaysReport.save()
+
+            }
+            else {
+                let todaysProfit = 0 + orderTotal.cartSubtotal
+                await Report.create({
+                    date: dateNow,
+                    totalExpenses: 0,
+                    totalSale: orderTotal.cartSubtotal,
+                    profit: todaysProfit,
+                    totalProfit: previousProfit
+                })
+            }
+            console.log("Updated todays Report Created : " + todaysReport)
             res.status(201).send(createdOrder);
         }
 
@@ -95,6 +163,12 @@ const createOrderAdmin = async (req, res, next) => {
         //     })
         // })
         if (req.user) {
+            const dateTimeNow = new Date()
+            const dateNow = dateTimeNow.toDateString()
+            console.log("dateNow : " + dateNow)
+            let dateTimeYesterday = new Date();
+            dateTimeYesterday.setDate(dateTimeYesterday.getDate() - 1);
+            const dateYesterday = dateTimeYesterday.toDateString()
             const order = new Order({
                 user: new ObjectId(req.user._id),
                 customerInfo: customerInfo,
@@ -105,9 +179,43 @@ const createOrderAdmin = async (req, res, next) => {
                 discount: discount
             })
             const createdOrder = await order.save();
+
+            const todaysReport = await Report.findOne({ date: dateNow })
+            const yesterdaysReport = await Report.findOne({ date: dateYesterday })
+
+            console.log("todaysReport : " + todaysReport)
+            console.log("yesterdayReport : " + yesterdaysReport)
+            let previousProfit = 0
+            if (yesterdaysReport) {
+                previousProfit = yesterdaysReport.totalProfit
+            }
+            if (todaysReport) {
+                todaysReport.totalSale = parseInt(todaysReport.totalSale) + parseInt(orderTotal.cartSubtotal)
+                todaysReport.profit = parseInt(todaysReport.profit) + parseInt(orderTotal.cartSubtotal)
+                todaysReport.totalProfit = previousProfit + todaysReport.profit
+                todaysReport.save()
+
+            }
+            else {
+                let todaysProfit = 0 + orderTotal.cartSubtotal
+                await Report.create({
+                    date: dateNow,
+                    totalExpenses: 0,
+                    totalSale: orderTotal.cartSubtotal,
+                    profit: todaysProfit,
+                    totalProfit: previousProfit
+                })
+            }
+            console.log("Updated todays Report Created : " + todaysReport)
             res.status(201).send(createdOrder);
         }
         else {
+            const dateTimeNow = new Date()
+            const dateNow = dateTimeNow.toDateString()
+            console.log("dateNow : " + dateNow)
+            let dateTimeYesterday = new Date();
+            dateTimeYesterday.setDate(dateTimeYesterday.getDate() - 1);
+            const dateYesterday = dateTimeYesterday.toDateString()
             const order = new Order({
                 user: new ObjectId(customerInfo._id),
                 customerInfo: customerInfo,
@@ -118,6 +226,34 @@ const createOrderAdmin = async (req, res, next) => {
                 discount: discount
             })
             const createdOrder = await order.save();
+
+            const todaysReport = await Report.findOne({ date: dateNow })
+            const yesterdaysReport = await Report.findOne({ date: dateYesterday })
+
+            console.log("todaysReport : " + todaysReport)
+            console.log("yesterdayReport : " + yesterdaysReport)
+            let previousProfit = 0
+            if (yesterdaysReport) {
+                previousProfit = yesterdaysReport.totalProfit
+            }
+            if (todaysReport) {
+                todaysReport.totalSale = parseInt(todaysReport.totalSale) + parseInt(orderTotal.cartSubtotal)
+                todaysReport.profit = parseInt(todaysReport.profit) + parseInt(orderTotal.cartSubtotal)
+                todaysReport.totalProfit = previousProfit + todaysReport.profit
+                todaysReport.save()
+
+            }
+            else {
+                let todaysProfit = 0 + orderTotal.cartSubtotal
+                await Report.create({
+                    date: dateNow,
+                    totalExpenses: 0,
+                    totalSale: orderTotal.cartSubtotal,
+                    profit: todaysProfit,
+                    totalProfit: previousProfit
+                })
+            }
+            console.log("Updated todays Report Created : " + todaysReport)
             res.status(201).send(createdOrder);
         }
 

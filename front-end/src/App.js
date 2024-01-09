@@ -28,6 +28,10 @@ import AdminEditProductPage from "./pages/admin/billing/AdminEditProductPage";
 import AdminEditCategoryPage from "./pages/admin/billing/AdminEditCategoryPage";
 import AdminEditDiscountPage from "./pages/admin/billing/AdminDiscountPage";
 import OrderDetailsPage from "./pages/OrderDetailsPage";
+import AdminAddNewExpense from "./pages/admin/expenses/AdminAddNewExpense";
+import AdminEditExpense from "./pages/admin/expenses/AdminEditExpense";
+import AdminExpenses from "./pages/admin/expenses/AdminExpenses";
+import AdminReport from "./pages/admin/expenses/AdminReport";
 
 function App() {
   return (
@@ -43,7 +47,11 @@ function App() {
           <Route path="/admin/edit-vendor/:id" element={<AdminEditVendorPage></AdminEditVendorPage>}></Route>
           <Route path="/admin/vendors/:vendorId/" element={<AdminVendorDetailsPage></AdminVendorDetailsPage>}></Route>
           <Route path="/admin/vendors/:vendorId/add-inventoryOrder" element={<AdminAddNewInventoryOrder></AdminAddNewInventoryOrder>}></Route>
+          <Route path="/admin/expenses" element={<AdminExpenses></AdminExpenses>}></Route>
+          <Route path="/admin/create-new-expense" element={<AdminAddNewExpense></AdminAddNewExpense>}></Route>
+          <Route path="/admin/edit-expense/:id" element={<AdminEditExpense></AdminEditExpense>}></Route>
           <Route path="/admin/orders" element={<AdminOrdersPage />} />
+          <Route path="/admin/report" element={<AdminReport></AdminReport>} />
           <Route path="/admin/products" element={<AdminProductsPage />} />
           <Route path="/admin/discount/:discountId" element={<AdminEditDiscountPage />} />
           <Route path="/admin/products/category/:categoryName" element={<AdminProductsPage />} />

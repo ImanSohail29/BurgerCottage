@@ -9,6 +9,9 @@ const foodOrdersData=require("./foodOrders")
 const vendorsData=require("./vendors")
 const addOnsData=require("./addOns")
 const vendorTransactionsData=require("./InventoryTransactionsByDate")
+const reportData=require("./report")
+const expensesData=require("./expenses")
+
 
 
 
@@ -22,16 +25,24 @@ const FoodOrder=require("../models/FoodOrderModel")
 const Vendor=require("../models/VendorModel")
 const AddOn=require("../models/AddOnModel")
 const InventoryTransactionsByDate=require("../models/InventoryTransactionsByDate")
+const Report=require("../models/ReportModel")
+const Expenses=require("../models/ExpensesModel")
+
 
 
 const importData = async () => {
     try {
-        await FoodOrder.collection.dropIndexes()
+        await Report.collection.dropIndexes()
+        await Expenses.collection.dropIndexes()
 
-        await FoodOrder.collection.deleteMany({})
+        await Report.collection.deleteMany({})
+        await Expenses.collection.deleteMany({})
+
 
         if (process.argv[2] !== "-d") {
-            await FoodOrder.insertMany(foodOrdersData)  
+            await Report.insertMany(reportData)  
+            await Expenses.insertMany(expensesData)
+
             console.log("Seeder data processed successfully")
             process.exit()
             return
