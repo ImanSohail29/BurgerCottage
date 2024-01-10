@@ -6,6 +6,7 @@ import 'reactjs-popup/dist/index.css';
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
+import MetaComponent from "../../components/MetaComponent";
 const FoodItemsComponent = ({ getFoodItems, categories, addProductApiRequest, discount,userInfo }) => {
     const [isLoading, setIsLoading] = useState(true);
     const location = useLocation()
@@ -44,6 +45,7 @@ const FoodItemsComponent = ({ getFoodItems, categories, addProductApiRequest, di
 
     return (
         <>
+        <MetaComponent></MetaComponent>
         {loaded&&(discount.image!==null)?(
             <Popup open={true}
             position="center"

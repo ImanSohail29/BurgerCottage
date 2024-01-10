@@ -1,11 +1,13 @@
 import { Card, Container, Row } from "react-bootstrap";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import MetaComponent from "../../components/MetaComponent";
 
 const HomePageComponent = () => {
     useEffect(() => {
     }, [])
     return (
+        <>            <MetaComponent></MetaComponent>
         <div className="bg" >
             <Container>
                 <Row xs={1} md={2} className="g-4 p-1 m-1">
@@ -64,6 +66,8 @@ const HomePageComponent = () => {
                 </Row>
             </Container>
         </div>
+        </>
+        
 
     )
 };
