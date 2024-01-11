@@ -32,6 +32,7 @@ import AdminAddNewExpense from "./pages/admin/expenses/AdminAddNewExpense";
 import AdminEditExpense from "./pages/admin/expenses/AdminEditExpense";
 import AdminExpenses from "./pages/admin/expenses/AdminExpenses";
 import AdminReport from "./pages/admin/expenses/AdminReport";
+import UserOrdersPage from "./pages/customer/UserOrdersPage";
 
 function App() {
   return (
@@ -95,7 +96,7 @@ function App() {
          {/* user protected routes: */}
          <Route element={<ProtectedRoutesComponent admin={false} />}>
           <Route path="/user" element={<EditUserPage />} />
-          <Route path="/user/my-orders" element={<HomePage />} />
+          <Route path="/user/my-orders" element={<UserOrdersPage />} />
           </Route>
 
 

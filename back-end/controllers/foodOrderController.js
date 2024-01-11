@@ -6,7 +6,9 @@ const ObjectId = require("mongodb").ObjectId;
 
 const getUserOrders = async (req, res, next) => {
     try {
-        const orders = await Order.find({ user: ObjectId(req.user._id) });
+        console.log("req.user._id: "+req.user._id)
+        const orders = await Order.find({ user: new ObjectId(req.user._id) });
+        console.log(orders)
         res.send(orders);
     } catch (error) {
         next(error)
@@ -23,8 +25,10 @@ const getOrder = async (req, res, next) => {
 }
 
 const createOrder = async (req, res, next) => {
+    console.log("inside createOrder")
     try {
-        const { cart, orderTotal, paymentMethod, customerInfo, serviceMode, discount } = req.body;
+        console.log("req.body: "+JSON.stringify(req.body))
+        const { cart, orderTotal, paymentMethod, customerInfo,customerId, serviceMode, discount } = req.body;
         if (!cart || !orderTotal || !paymentMethod) {
             return res.status(400).send("All inputs are required");
         }
@@ -49,6 +53,133 @@ const createOrder = async (req, res, next) => {
             let dateTimeYesterday = new Date();
             dateTimeYesterday.setDate(dateTimeYesterday.getDate() - 1);
             const dateYesterday = dateTimeYesterday.toDateString()
+            console.log(req.user._id)
+            console.log(req.user.name)
+            const order = new Order({
+                user: req.user._id,
+                customerInfo: customerInfo,
+                orderTotal: orderTotal,
+                cart: cart,
+                paymentMethod: paymentMethod,
+                serviceMode: serviceMode,
+                discount: discount
+            })
+            const createdOrder = await order.save();
+
+            const todaysReport = await Report.findOne({ date: dateNow })
+            const yesterdaysReport = await Report.findOne({ date: dateYesterday })
+
+            console.log("todaysReport : " + todaysReport)
+            console.log("yesterdayReport : " + yesterdaysReport)
+            let previousProfit = 0
+            if (yesterdaysReport) {
+                previousProfit = yesterdaysReport.totalProfit
+            }
+            if (todaysReport) {
+                todaysReport.totalSale = parseInt(todaysReport.totalSale) + parseInt(orderTotal.cartSubtotal)
+                todaysReport.profit = parseInt(todaysReport.profit) + parseInt(orderTotal.cartSubtotal)
+                todaysReport.totalProfit = previousProfit + todaysReport.profit
+                todaysReport.save()
+
+            }
+            else {
+                let todaysProfit = 0 + orderTotal.cartSubtotal
+                await Report.create({
+                    date: dateNow,
+                    totalExpenses: 0,
+                    totalSale: orderTotal.cartSubtotal,
+                    profit: todaysProfit,
+                    totalProfit: previousProfit
+                })
+            }
+            console.log("Updated todays Report Created : " + todaysReport)
+            res.status(201).send(createdOrder);
+        }
+        else {
+            const dateTimeNow = new Date()
+            const dateNow = dateTimeNow.toDateString()
+            console.log("dateNow : " + dateNow)
+            let dateTimeYesterday = new Date();
+            dateTimeYesterday.setDate(dateTimeYesterday.getDate() - 1);
+            const dateYesterday = dateTimeYesterday.toDateString()
+            const order = new Order({
+                user: new ObjectId(customerId),
+                customerInfo: customerInfo,
+                orderTotal: orderTotal,
+                cart: cart,
+                paymentMethod: paymentMethod,
+                serviceMode: serviceMode,
+                discount: discount
+            })
+            const createdOrder = await order.save();
+
+            const todaysReport = await Report.findOne({ date: dateNow })
+            const yesterdaysReport = await Report.findOne({ date: dateYesterday })
+
+            console.log("todaysReport : " + todaysReport)
+            console.log("yesterdayReport : " + yesterdaysReport)
+            let previousProfit = 0
+            if (yesterdaysReport) {
+                previousProfit = yesterdaysReport.totalProfit
+            }
+            if (todaysReport) {
+                todaysReport.totalSale = parseInt(todaysReport.totalSale) + parseInt(orderTotal.cartSubtotal)
+                todaysReport.profit = parseInt(todaysReport.profit) + parseInt(orderTotal.cartSubtotal)
+                todaysReport.totalProfit = previousProfit + todaysReport.profit
+                todaysReport.save()
+
+            }
+            else {
+                let todaysProfit = 0 + orderTotal.cartSubtotal
+                await Report.create({
+                    date: dateNow,
+                    totalExpenses: 0,
+                    totalSale: orderTotal.cartSubtotal,
+                    profit: todaysProfit,
+                    totalProfit: previousProfit
+                })
+            }
+            console.log("Updated todays Report Created : " + todaysReport)
+            res.status(201).send(createdOrder);
+        }
+
+
+    } catch (err) {
+        next(err)
+    }
+}
+const createOrderCustomer = async (req, res, next) => {
+    console.log("inside create order customer")
+    try {
+        console.log("req.body: "+JSON.stringify(req.body))
+        console.log("req.user: "+JSON.stringify(req.user))
+        const { cart, orderTotal, paymentMethod, customerInfo,customerId, serviceMode, discount } = req.body;
+        if (!cart || !orderTotal || !paymentMethod) {
+            return res.status(400).send("All inputs are required");
+        }
+
+        // let ids = cartItems.map((item) => {
+        //     return item.productID;
+        // })
+        // let qty = cartItems.map((item) => {
+        //     return Number(item.quantity);
+        // })
+
+        // await Product.find({ _id: { $in: ids } }).then((products) => {
+        //     products.forEach(function (product, idx) {
+        //         product.sales += qty[idx];
+        //         product.save();
+        //     })
+        // })
+        if (req.user) {
+            const dateTimeNow = new Date()
+            const dateNow = dateTimeNow.toDateString()
+            console.log("dateNow : " + dateNow)
+            let dateTimeYesterday = new Date();
+            dateTimeYesterday.setDate(dateTimeYesterday.getDate() - 1);
+            const dateYesterday = dateTimeYesterday.toDateString()
+            console.log(req.user._id)
+            console.log(req.user.name)
             const order = new Order({
                 user: new ObjectId(req.user._id),
                 customerInfo: customerInfo,
@@ -97,7 +228,7 @@ const createOrder = async (req, res, next) => {
             dateTimeYesterday.setDate(dateTimeYesterday.getDate() - 1);
             const dateYesterday = dateTimeYesterday.toDateString()
             const order = new Order({
-                user: new ObjectId(customerInfo._id),
+                user: new ObjectId(customerId),
                 customerInfo: customerInfo,
                 orderTotal: orderTotal,
                 cart: cart,
@@ -143,8 +274,12 @@ const createOrder = async (req, res, next) => {
     }
 }
 const createOrderAdmin = async (req, res, next) => {
+    console.log("inside createOrderAdmin")
     try {
-        const { cart, orderTotal, paymentMethod, customerInfo, serviceMode, discount } = req.body;
+        console.log("req.body: "+JSON.stringify(req.body))
+        console.log("req.user: "+JSON.stringify(req.user))
+        const { cart, orderTotal, paymentMethod, customerInfo,customerId, serviceMode, discount } = req.body;
+        console.log("req.body: "+req.body)
         if (!cart || !orderTotal || !paymentMethod) {
             return res.status(400).send("All inputs are required");
         }
@@ -170,7 +305,7 @@ const createOrderAdmin = async (req, res, next) => {
             dateTimeYesterday.setDate(dateTimeYesterday.getDate() - 1);
             const dateYesterday = dateTimeYesterday.toDateString()
             const order = new Order({
-                user: new ObjectId(req.user._id),
+                user: new ObjectId(customerId),
                 customerInfo: customerInfo,
                 orderTotal: orderTotal,
                 cart: cart,
@@ -207,6 +342,7 @@ const createOrderAdmin = async (req, res, next) => {
                 })
             }
             console.log("Updated todays Report Created : " + todaysReport)
+            console.log(JSON.stringify(createdOrder))
             res.status(201).send(createdOrder);
         }
         else {
@@ -217,7 +353,7 @@ const createOrderAdmin = async (req, res, next) => {
             dateTimeYesterday.setDate(dateTimeYesterday.getDate() - 1);
             const dateYesterday = dateTimeYesterday.toDateString()
             const order = new Order({
-                user: new ObjectId(customerInfo._id),
+                user: customerId,
                 customerInfo: customerInfo,
                 orderTotal: orderTotal,
                 cart: cart,
@@ -346,4 +482,4 @@ const getFoodOrderTotalByDate = async (req, res, next) => {
                 next(error)
             }
 }
-module.exports = { getUserOrders, getOrder, createOrder,createOrderAdmin, updateOrderToPaid, updateOrderToDelivered,updateOrderToDone, getOrders, getOrderForAnalysis,getFoodOrderTotalByDate }
+module.exports = { getUserOrders, getOrder, createOrder,createOrderAdmin,createOrderCustomer, updateOrderToPaid, updateOrderToDelivered,updateOrderToDone, getOrders, getOrderForAnalysis,getFoodOrderTotalByDate }

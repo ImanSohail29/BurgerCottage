@@ -15,7 +15,7 @@ const getUsers = async (req, res, next) => {
 
 const registerUser = async (req, res, next) => {
   try {
-    const { name, phoneNumber,address, password } = req.body;
+    const { name, phoneNumber, address, password } = req.body;
     if (!(name && phoneNumber && password)) {
       return res.status(400).send("All inputs are required");
     }
@@ -63,14 +63,14 @@ const registerUser = async (req, res, next) => {
 };
 const registerUserFromAdmin = async (req, res, next) => {
   try {
-    const { name, phoneNumber,email,address} = req.body;
+    const { name, phoneNumber, email, address } = req.body;
 
-const isAdmin=false;
-    const userExists = await Customer.findOne({ phoneNumber });
+    const isAdmin = false;
+    const userExists = await Customer.findOne({ phoneNumber: phoneNumber });
     if (userExists) {
       userExists.address = address || userExists.address;
       await userExists.save();
-      res.send("user updated");
+      res.send({ userCreated: { _id: userExists._id } });
     } else {
       const user = await Customer.create({
         name,
@@ -86,8 +86,8 @@ const isAdmin=false;
             _id: user._id,
             name: user.name,
             phoneNumber: user.phoneNumber,
-            email:user.email,
-            address:user.address,
+            email: user.email,
+            address: user.address,
             isAdmin: user.isAdmin,
           },
         });
@@ -103,7 +103,7 @@ const loginUser = async (req, res, next) => {
     if (!(phoneNumber && password)) {
       return res.status(400).send("All inputs are required");
     }
-    const user = await Customer.findOne({phoneNumber}).orFail();
+    const user = await Customer.findOne({ phoneNumber }).orFail();
     if (user && comparePasswords(password, user.password)) {
       let cookieParams = {
         httpOnly: true,
@@ -132,7 +132,7 @@ const loginUser = async (req, res, next) => {
             _id: user._id,
             name: user.name,
             phoneNumber: user.phoneNumber,
-            address:user.address,
+            address: user.address,
             isAdmin: user.isAdmin,
             doNotLogout,
           },
@@ -167,7 +167,7 @@ const updateUserProfile = async (req, res, next) => {
         _id: user._id,
         name: user.name,
         phoneNumber: user.phoneNumber,
-        address:user.address,
+        address: user.address,
         isAdmin: user.isAdmin,
       },
     });
@@ -177,105 +177,105 @@ const updateUserProfile = async (req, res, next) => {
 };
 
 const getUserProfile = async (req, res, next) => {
-    try {
-        const user = await Customer.findById(req.params.userId).orFail();
-        return res.send(user);
-    } catch(err) {
-        next(err)
-    }
+  try {
+    const user = await Customer.findById(req.params.userId).orFail();
+    return res.send(user);
+  } catch (err) {
+    next(err)
+  }
 }
 
 const writeReview = async (req, res, next) => {
-    try {
+  try {
 
-        const session = await Review.startSession();
+    const session = await Review.startSession();
 
-        // get comment, rating from request.body:
-        const { comment, rating } = req.body;
-        // validate request:
-        if (!(comment && rating)) {
-            return res.status(400).send("All inputs are required");
-        }
-
-        // create review id manually because it is needed also for saving in Product collection
-        const ObjectId = require("mongodb").ObjectId;
-        let reviewId = ObjectId();
-
-        session.startTransaction();
-        await Review.create([
-            {
-                _id: reviewId,
-                comment: comment,
-                rating: Number(rating),
-                user: { _id: req.user._id, name: req.user.name + " " + req.user.lastName },
-            }
-        ],{ session: session })
-
-        const foodItem = await FoodItem.findById(req.params.foodItemId).populate("reviews").session(session);
-        
-        const alreadyReviewed = foodItem.reviews.find((r) => r.user._id.toString() === req.user._id.toString());
-        if (alreadyReviewed) {
-            await session.abortTransaction();
-            session.endSession();
-            return res.status(400).send("foodItem already reviewed");
-        }
-
-        let prc = [...foodItem.reviews];
-        prc.push({ rating: rating });
-        foodItem.reviews.push(reviewId);
-        if (foodItem.reviews.length === 1) {
-            foodItem.rating = Number(rating);
-            foodItem.reviewsCount = 1;
-        } else {
-            foodItem.reviewsCount = foodItem.reviews.length;
-            let ratingCalc = prc.map((item) => Number(item.rating)).reduce((sum, item) => sum + item, 0) / foodItem.reviews.length;
-            foodItem.rating = Math.round(ratingCalc)
-        }
-        await foodItem.save();
-
-        await session.commitTransaction();
-        session.endSession();
-        res.send('review created')
-    } catch (err) {
-        await session.abortTransaction();
-        next(err)   
+    // get comment, rating from request.body:
+    const { comment, rating } = req.body;
+    // validate request:
+    if (!(comment && rating)) {
+      return res.status(400).send("All inputs are required");
     }
+
+    // create review id manually because it is needed also for saving in Product collection
+    const ObjectId = require("mongodb").ObjectId;
+    let reviewId = ObjectId();
+
+    session.startTransaction();
+    await Review.create([
+      {
+        _id: reviewId,
+        comment: comment,
+        rating: Number(rating),
+        user: { _id: req.user._id, name: req.user.name + " " + req.user.lastName },
+      }
+    ], { session: session })
+
+    const foodItem = await FoodItem.findById(req.params.foodItemId).populate("reviews").session(session);
+
+    const alreadyReviewed = foodItem.reviews.find((r) => r.user._id.toString() === req.user._id.toString());
+    if (alreadyReviewed) {
+      await session.abortTransaction();
+      session.endSession();
+      return res.status(400).send("foodItem already reviewed");
+    }
+
+    let prc = [...foodItem.reviews];
+    prc.push({ rating: rating });
+    foodItem.reviews.push(reviewId);
+    if (foodItem.reviews.length === 1) {
+      foodItem.rating = Number(rating);
+      foodItem.reviewsCount = 1;
+    } else {
+      foodItem.reviewsCount = foodItem.reviews.length;
+      let ratingCalc = prc.map((item) => Number(item.rating)).reduce((sum, item) => sum + item, 0) / foodItem.reviews.length;
+      foodItem.rating = Math.round(ratingCalc)
+    }
+    await foodItem.save();
+
+    await session.commitTransaction();
+    session.endSession();
+    res.send('review created')
+  } catch (err) {
+    await session.abortTransaction();
+    next(err)
+  }
 }
 
 const getUser = async (req, res, next) => {
-    try {
-        const user = await Customer.findById(req.params.userId).select("name phoneNumber isAdmin").orFail();
-        return res.send(user);
-    } catch (err) {
-       next(err); 
-    }
+  try {
+    const user = await Customer.findById(req.params.userId).select("name phoneNumber isAdmin").orFail();
+    return res.send(user);
+  } catch (err) {
+    next(err);
+  }
 }
 
 const updateUser = async (req, res, next) => {
-    try {
-       const user = await Customer.findById(req.params.userId).orFail(); 
+  try {
+    const user = await Customer.findById(req.params.userId).orFail();
 
-        user.name = req.body.name || user.name;
-        user.phoneNumber = req.body.phoneNumber || user.phoneNumber;
-        user.isAdmin = req.body.isAdmin
+    user.name = req.body.name || user.name;
+    user.phoneNumber = req.body.phoneNumber || user.phoneNumber;
+    user.isAdmin = req.body.isAdmin
 
-        await user.save();
+    await user.save();
 
-        res.send("user updated");
+    res.send("user updated");
 
-    } catch (err) {
-       next(err); 
-    }
+  } catch (err) {
+    next(err);
+  }
 }
 
 const deleteUser = async (req, res, next) => {
-    try {
-       const user = await Customer.findById(req.params.userId).orFail();
-       await user.remove(); 
-       res.send("user removed");
-    } catch (err) {
-        next(err);
-    }
+  try {
+    const user = await Customer.findById(req.params.userId).orFail();
+    await user.remove();
+    res.send("user removed");
+  } catch (err) {
+    next(err);
+  }
 }
 
-module.exports = { getUsers, registerUser, loginUser, updateUserProfile, getUserProfile, writeReview, getUser, updateUser, deleteUser,registerUserFromAdmin };
+module.exports = { getUsers, registerUser, loginUser, updateUserProfile, getUserProfile, writeReview, getUser, updateUser, deleteUser, registerUserFromAdmin };
