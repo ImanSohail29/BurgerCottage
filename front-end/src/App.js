@@ -12,6 +12,7 @@ import AdminAddNewInventoryOrder from "./pages/admin/vendor/AdminAddNewInventory
 import AdminVendorDetailsPage from "./pages/admin/vendor/AdminVendorDetailsPage";
 import FoodItemDetailPage from "./pages/FoodItemDetailPage";
 import FoodItemsPage from "./pages/FoodItemsPage";
+import CustomerHomePage from "./pages/CustomerHomePage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import CartPage from "./pages/CartPage";
@@ -80,7 +81,7 @@ function App() {
           
        </Route>
         <Route path="*" element="Page not exists 404" />
-          <Route path="/" element={<FoodItemsPage/>}></Route>
+          <Route path="/" element={<CustomerHomePage/>}></Route>
           <Route path="/login" element={<LoginPage/>}></Route>
           <Route path="/register" element={<RegisterPage/>}></Route>
           <Route path="/cart" element={<CartPage/>}></Route>
