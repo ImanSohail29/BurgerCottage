@@ -35,7 +35,7 @@ const LoginPageComponent = ({ loginUserApiRequest,reduxDispatch, loginAction  })
             }
 
             if (res.success === "user logged in" && !res.userLoggedIn.isAdmin) window.location.assign('/') 
-            else window.location.assign('/')
+            else window.location.assign('/home')
 
         })
         .catch((er) =>
