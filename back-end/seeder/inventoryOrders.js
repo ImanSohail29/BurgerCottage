@@ -1,7 +1,6 @@
 const ObjectId = require("mongodb").ObjectId
 
-const inventoryOrders=[{
-   
-}]
+const inventoryOrders=[
+]
 
 module.exports=inventoryOrders

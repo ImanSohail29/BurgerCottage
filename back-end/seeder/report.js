@@ -1,6 +1,6 @@
 const ObjectId = require("mongodb").ObjectId
 
-const report=[{
-}]
+const report=[
+]
 
 module.exports=report

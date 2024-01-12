@@ -1,5 +1,5 @@
 const ObjectId = require("mongodb").ObjectId
 
-const InventoryTransactionsByDate=[{
-}]
+const InventoryTransactionsByDate=[
+]
 module.exports=InventoryTransactionsByDate

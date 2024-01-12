@@ -1,6 +1,6 @@
 const ObjectId = require("mongodb").ObjectId
 
-const expenses=[{
-}]
+const expenses=[
+]
 
 module.exports=expenses

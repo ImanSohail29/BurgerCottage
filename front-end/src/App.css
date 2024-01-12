@@ -1,10 +1,24 @@
-.App {
-color: aliceblue;
-font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-background-image: url("https://res.cloudinary.com/dyqklwu1n/image/upload/b_rgb:f81212,c_crop,h_1000,o_53,w_2000/v1701793424/BurgerCottage/burger-fries_ul6f8w.avif");
-background-repeat: no-repeat;
-background-size: 100% 100%;
-min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+@media (min-width: 0px){
+    .App {
+        color: aliceblue;
+        font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        background-image: url("https://res.cloudinary.com/dyqklwu1n/image/upload/v1705073382/burger_cottage_vertical_xua9su.jpg");
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+}
+@media (min-width: 900px) {
+    .App {
+        color: aliceblue;
+        font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        background-image: url("https://res.cloudinary.com/dyqklwu1n/image/upload/b_rgb:f81212,c_crop,h_1000,o_53,w_2000/v1701793424/BurgerCottage/burger-fries_ul6f8w.avif");
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        } 
 }
