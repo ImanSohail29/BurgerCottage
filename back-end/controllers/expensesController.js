@@ -61,7 +61,7 @@ const createNewExpense = async (req, res, next) => {
                     totalExpenses: totalAmount,
                     totalSale: 0,
                     profit: todaysProfit,
-                    totalProfit: previousProfit
+                    totalProfit: previousProfit+todaysProfit
                 })
             }
             console.log("Updated todaysReportCreated : " + todaysReport)
@@ -123,7 +123,7 @@ const updateExpense = async (req, res, next) => {
                     totalExpenses: totalAmount,
                     totalSale: 0,
                     profit: todaysProfit,
-                    totalProfit: previousProfit
+                    totalProfit: previousProfit+todaysProfit
                 })
             }
             console.log("Updated todays Report Created : " + todaysReport)
@@ -171,7 +171,7 @@ const deleteExpense = async (req, res, next) => {
                 totalExpenses: 0,
                 totalSale: 0,
                 profit: todaysProfit,
-                totalProfit: previousProfit
+                totalProfit: previousProfit+todaysProfit
             })
         }
         console.log("Updated todays Report Created : " + todaysReport)

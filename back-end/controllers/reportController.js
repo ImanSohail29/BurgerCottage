@@ -3,7 +3,7 @@ const ObjectId = require("mongodb").ObjectId
 const Report = require("../models/ReportModel")
 const getReport = async (req, res, next) => {
     try {
-        const report = await Report.find({}).sort({ date: "desc" }).orFail()
+        const report = await Report.find({}).orFail()
         return res.json(report)
     } catch (error) {
         next(error)

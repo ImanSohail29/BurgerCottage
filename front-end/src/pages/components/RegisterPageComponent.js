@@ -85,7 +85,7 @@ const RegisterPageComponent = ({
                 placeholder="03XX-XXXXXXX"
               />
               <Form.Control.Feedback type="invalid">
-                Please anter a valid phone Number
+                Please enter a valid phone Number
               </Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -100,7 +100,7 @@ const RegisterPageComponent = ({
                 isInvalid={!passwordsMatchState}
               />
               <Form.Control.Feedback type="invalid">
-                Please anter a valid password
+                Please enter a valid password
               </Form.Control.Feedback>
               <Form.Text className="text-muted">
                 Password should have at least 6 characters

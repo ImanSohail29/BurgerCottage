@@ -194,11 +194,16 @@ const FoodItemDetailComponent = ({
                       )}
 
                       <ListGroup.Item>
-                        <DropdownButton id="dropdown-basic-button" title={size.value} value={size.value} defaultValue={product.size[0]}>
+                        {product.size.length>1?(
+                          <DropdownButton id="dropdown-basic-button" title={size.value} value={size.value} defaultValue={product.size[0]}>
                           {product.size.map((values, idx) => (
                             <Dropdown.Item key={idx} onClick={() => setSize(values)}>{values.value}</Dropdown.Item>
                           ))}
                         </DropdownButton>
+                        ):(
+                          ""
+                        )}
+                        
                       </ListGroup.Item>
                       {product.addOns.length > 0 ? (
                         <ListGroup.Item>

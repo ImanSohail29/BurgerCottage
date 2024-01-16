@@ -9,50 +9,42 @@ import {
   Spinner,
 } from "react-bootstrap";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 import CartItemComponent from "../../../../components/CartItemComponent";
 
 const AdminCartDetailsPageComponent = ({ cartItems, itemsCount, cartSubtotal, userInfo, addToCart, removeFromCart, resetCart, reduxDispatch, createOrder, createOrderAdmin, createOrderCustomer, registerUserApiRequestFromAdmin, discount }) => {
   const [validated, setValidated] = useState(false);
-  const [user, setUser] = useState()
-  const [userId, setUserId] = useState("")
+  const [userName, setUserName] = useState('')
+  const [userEmail, setUserEmail] = useState('')
+  const [userPhoneNumber, setUserPhoneNumber] = useState('')
+  const [userDeliveryAddress, setUserDeliveryAddress] = useState('')
   const [enterUserResponseState, setEnterUserResponseState] = useState({
     success: "",
     error: "",
     loading: false,
   });
   const [buttonDisabled, setButtonDisabled] = useState(false);
-  const [userButtonDisabled, setUserButtonDisabled] = useState(false);
-  const [userAddress, setUserAddress] = useState(false);
-  const [missingAddress, setMissingAddress] = useState();
+  const [missingAddress, setMissingAddress] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("cash");
   const [serviceMode, setServiceMode] = useState("delivery");
   const [customerDiscount, setCustomerDiscount] = useState(0)
   const [finalCartSubtotal, setFinalCartSubtotal] = useState(cartSubtotal)
-  const userButtonRef = useRef(null);
-  const userFormRef = useRef(null);
   const navigate = useNavigate();
 
   useEffect(() => {
+    setMissingAddress(false)
+
     setButtonDisabled(false)
-    setMissingAddress("")
-    if (userInfo.isAdmin && serviceMode === "delivery" && user === undefined) {
-      setMissingAddress("Save Customer Details to Place Order")
-      setButtonDisabled(true)
-    }
-    else if (!userInfo.isAdmin) {
-      if (serviceMode === "delivery" && user === undefined) {
-        setMissingAddress("Save Customer Details to Place Order")
+      if (serviceMode === "delivery" && userDeliveryAddress === "" && userPhoneNumber==="") {
+        setMissingAddress("Customer Details are required")
         setButtonDisabled(true)
       }
-
-    }
     if (cartItems.length < 1) {
       setButtonDisabled(true)
     }
-  }, [buttonDisabled, user, userButtonDisabled, serviceMode, cartItems])
+  }, [userDeliveryAddress,userPhoneNumber,serviceMode, cartItems])
 
   const handleDiscount = (event) => {
     event.preventDefault();
@@ -78,8 +70,10 @@ const AdminCartDetailsPageComponent = ({ cartItems, itemsCount, cartSubtotal, us
 
   const orderHandler = () => {
     console.log("inside order handler")
+    let user={ name: userName, phoneNumber: userPhoneNumber, email: userEmail, address: userDeliveryAddress }
     console.log("user: " + JSON.stringify(user))
-    if (user) {
+
+    if (user.ph!={}) {
       registerUserApiRequestFromAdmin(user.name, user.phoneNumber, user.email, user.address)
         .then((data) => {
           setEnterUserResponseState({ success: data.success, loading: false, })
@@ -190,31 +184,6 @@ const AdminCartDetailsPageComponent = ({ cartItems, itemsCount, cartSubtotal, us
     console.log(user)
     console.log(JSON.stringify(enterUserResponseState))
   }
-  const handleSubmit = (event) => {
-    console.log("handle submit")
-    event.preventDefault();
-    event.stopPropagation();
-    const form = event.currentTarget.elements;
-    const name = form.name.value;
-    const email = form.email.value;
-    let address = ""
-    const phoneNumber = form.phoneNumber.value;
-    if (serviceMode === "delivery") {
-      address = form.address.value;
-    }
-
-    if (
-      event.currentTarget.checkValidity() === true
-    ) {
-      setEnterUserResponseState({ loading: true });
-      setUser({ name: name, phoneNumber: phoneNumber, email: email, address: address })
-      setButtonDisabled(false)
-      setMissingAddress("")
-      setUserButtonDisabled(true)
-      setValidated(true);
-      setEnterUserResponseState({ loading: false, success: true });
-    }
-  }
   const choosePayment = (e) => {
     setPaymentMethod(e.target.value);
   }
@@ -230,37 +199,101 @@ const AdminCartDetailsPageComponent = ({ cartItems, itemsCount, cartSubtotal, us
         <Col md={6}>
           <br />
           <Row>
-            {console.log("userInfo: "+JSON.stringify(userInfo))}
-            {/* <Col md={6}  className="bg-dark p-1 text-white bg-opacity-50 border-start justify-content-md-center"> */}
-            {(userInfo!==null) ? (
+            {(userInfo.value != undefined) ? (
               <Container>
                 <Row >
                   <Col>
                     <h1>Customer Details</h1>
-                    <Form noValidate validated={validated} ref={userFormRef} onSubmit={handleSubmit}>
-                      {userInfo.isAdmin ? (<> <Form.Group className="mb-3" controlId="validationCustom01">
-                        <Form.Label>Customer Name</Form.Label>
-                        <Form.Control
-                          type="text"
-                          defaultValue={""}
-                          placeholder="Enter Customers name"
-                          name="name"
-                        />
-                        <Form.Control.Feedback type="invalid">
-                          Please enter a name
-                        </Form.Control.Feedback>
-                      </Form.Group>
+                    {userInfo.isAdmin ? (
+                      <>
+                        <Form noValidate validated={validated}>
+                          <Form.Group className="mb-3" controlId="validationCustom01">
+                            <Form.Label>Customer Name</Form.Label>
+                            <Form.Control
+                              type="text"
+                              onChange={(e) => setUserName(e.target.value)}
+                              placeholder="Enter Customers name"
+                              name="name"
+                            />
+                            <Form.Control.Feedback type="invalid">
+                              Please enter a name
+                            </Form.Control.Feedback>
+                          </Form.Group>
+
+                          <Form.Group className="mb-3" controlId="formBasicEmail">
+                            <Form.Label>Email address</Form.Label>
+                            <Form.Control
+                              name="email"
+                              onChange={(e) => setUserEmail(e.target.value)}
+                              type="email"
+                              placeholder="Enter email"
+                            />
+                            <Form.Control.Feedback type="invalid">
+                              Please enter a valid email address
+                            </Form.Control.Feedback>
+                          </Form.Group>
+
+                          <Form.Group className="mb-3" controlId="formBasicPhoneNumber">
+                            <Form.Label>Phone Number</Form.Label>
+                            <Form.Control
+                              name="phoneNumber"
+                              required
+                              minLength={10}
+                              isInvalid={userPhoneNumber === null || userPhoneNumber === undefined || userPhoneNumber === "" || userPhoneNumber.trim().length < 11}
+                              onChange={(e) => setUserPhoneNumber(e.target.value)}
+                              type="tel"
+                              placeholder="03XXXXXXXXX"
+                            />
+                            <Form.Control.Feedback type="invalid">
+                              Please enter your phone Number
+                            </Form.Control.Feedback>
+                          </Form.Group>
+                          {serviceMode && serviceMode === "delivery" ? (
+                            <Form.Group className="mb-3" controlId="formBasicAddress">
+                              <Form.Label>Address</Form.Label>
+                              <Form.Control
+                                name="address"
+                                required
+                                type="text" as="textarea"
+                                isInvalid={userDeliveryAddress === '' || userDeliveryAddress === undefined}
+                                onChange={(e) => setUserDeliveryAddress(e.target.value)}
+                                placeholder="House no., Block, Town, City"
+                              />
+                              <Form.Control.Feedback type="invalid">
+                                Please enter Address
+                              </Form.Control.Feedback>
+                            </Form.Group>
+
+                          ) : ("")}
+                        </Form>
+                      </>) : (
+                      <>
+                      <Form  noValidate validated={validated}>
+                        <Form.Group className="mb-3" controlId="validationCustom01">
+                          <Form.Label>Customer Name</Form.Label>
+                          <Form.Control
+                            type="text"
+                            defaultValue={userInfo.name}
+                            onChange={(e) => setUserName(e.target.value)}
+                            placeholder="Enter Customers name"
+                            name="name"
+                          />
+                          <Form.Control.Feedback type="invalid">
+                            Please enter a name
+                          </Form.Control.Feedback>
+                        </Form.Group>
 
                         <Form.Group className="mb-3" controlId="formBasicEmail">
                           <Form.Label>Email address</Form.Label>
                           <Form.Control
                             name="email"
-                            defaultValue={""}
                             type="email"
+                            defaultValue={userInfo.email}
+                            onChange={(e) => setUserEmail(e.target.value)}
                             placeholder="Enter email"
                           />
                           <Form.Control.Feedback type="invalid">
-                            Please anter a valid email address
+                            Please enter a valid email address
                           </Form.Control.Feedback>
                         </Form.Group>
 
@@ -268,12 +301,14 @@ const AdminCartDetailsPageComponent = ({ cartItems, itemsCount, cartSubtotal, us
                           <Form.Label>Phone Number</Form.Label>
                           <Form.Control
                             name="phoneNumber"
-                            defaultValue={null}
+                            defaultValue={userInfo.phoneNumber}
+                            onChange={(e) => setUserPhoneNumber(e.target.value)}
                             type="tel"
+                            required
                             placeholder="03XXXXXXXXX"
                           />
                           <Form.Control.Feedback type="invalid">
-                            Please anter a valid phone Number
+                            Please enter a valid phone Number
                           </Form.Control.Feedback>
                         </Form.Group>
                         {serviceMode && serviceMode === "delivery" ? (
@@ -281,154 +316,91 @@ const AdminCartDetailsPageComponent = ({ cartItems, itemsCount, cartSubtotal, us
                             <Form.Label>Address</Form.Label>
                             <Form.Control
                               name="address"
-                              required
+                              defaultValue={userInfo.address}
+                              onChange={(e) => setUserDeliveryAddress(e.target.value)}
                               type="text" as="textarea"
+                              required
                               placeholder="House no., Block, Town, City"
                             />
                             <Form.Control.Feedback type="invalid">
-                              Please anter a valid Address
+                              Please enter a valid Address
                             </Form.Control.Feedback>
-                          </Form.Group>) : ("")}</>) : (<>
-                            <Form.Group className="mb-3" controlId="validationCustom01">
-                              <Form.Label>Customer Name</Form.Label>
-                              <Form.Control
-                                type="text"
-                                defaultValue={userInfo.name}
-                                placeholder="Enter Customers name"
-                                name="name"
-                              />
-                              <Form.Control.Feedback type="invalid">
-                                Please enter a name
-                              </Form.Control.Feedback>
-                            </Form.Group>
-
-                            <Form.Group className="mb-3" controlId="formBasicEmail">
-                              <Form.Label>Email address</Form.Label>
-                              <Form.Control
-                                name="email"
-                                type="email"
-                                defaultValue={userInfo.email}
-                                placeholder="Enter email"
-                              />
-                              <Form.Control.Feedback type="invalid">
-                                Please anter a valid email address
-                              </Form.Control.Feedback>
-                            </Form.Group>
-
-                            <Form.Group className="mb-3" controlId="formBasicPhoneNumber">
-                              <Form.Label>Phone Number</Form.Label>
-                              <Form.Control
-                                name="phoneNumber"
-                                defaultValue={userInfo.phoneNumber}
-                                type="tel"
-                                required
-                                placeholder="03XXXXXXXXX"
-                              />
-                              <Form.Control.Feedback type="invalid">
-                                Please anter a valid phone Number
-                              </Form.Control.Feedback>
-                            </Form.Group>
-
-                            {serviceMode && serviceMode === "delivery" ? (
-                              <Form.Group className="mb-3" controlId="formBasicAddress">
-                                <Form.Label>Address</Form.Label>
-                                <Form.Control
-                                  name="address"
-                                  defaultValue={userInfo.address}
-                                  type="text" as="textarea"
-                                  required
-                                  placeholder="House no., Block, Town, City"
-                                />
-                                <Form.Control.Feedback type="invalid">
-                                  Please anter a valid Address
-                                </Form.Control.Feedback>
-                              </Form.Group>) : ("")}</>)}
-
-                      <Button type="submit" ref={userButtonRef} style={{ width: "100%" }}>
-                        {enterUserResponseState &&
-                          enterUserResponseState.loading === true ? (
-                          <Spinner
-                            as="span"
-                            animation="border"
-                            size="sm"
-                            role="status"
-                            aria-hidden="true"
-                          />
-                        ) : (
-                          ""
-                        )}
-                        Save
-                      </Button>
-                      {/* <Alert show={enterUserResponseState && enterUserResponseState.error === "user exists"} variant="danger">
-              User with that email already exists!
-            </Alert>
-            <Alert show={enterUserResponseState && enterUserResponseState.success === "User created"} variant="info">
-              User created
-            </Alert> */}
-                    </Form>
-                    {userInfo.isAdmin ? (
-                      <Form noValidate validated={validated} onSubmit={handleDiscount}>
-                        <Form.Group className="mb-3" controlId="formBasicCustomerDiscount">
-                          <Form.Label>Discount</Form.Label>
-                          <Form.Control
-                            type="number"
-                            min={0}
-                            max={50}
-                            placeholder="Enter Discount"
-                            name="custDiscount"
-                          />
-                          <Form.Control.Feedback type="invalid">
-                            Enter Valid Discount Value
-                          </Form.Control.Feedback>
-                        </Form.Group>
-                        <Button type="submit" style={{ width: "100%" }}>
-                          Apply Discount
-                        </Button>
+                          </Form.Group>) : ("")}
                       </Form>
-                    ) : ("")}
-
+                      </>)
+                    }
                   </Col>
                 </Row>
               </Container>) : <>
               <Container>
-                <h2>Shipping</h2>
-                Name: {userInfo.name}<br />
-                Address: {userInfo.address} <br />
-                Phone: {userInfo.phoneNumber}
+                <Row >
+                  <Col>
+                  <>
+                    <h1>Customer Details</h1>
+                  
+                        <Form noValidate validated={validated}>
+                          <Form.Group className="mb-3" controlId="validationCustom01">
+                            <Form.Label>Customer Name</Form.Label>
+                            <Form.Control
+                              type="text"
+                              onChange={(e) => setUserName(e.target.value)}
+                              placeholder="Enter Customers name"
+                              name="name"
+                            />
+                            <Form.Control.Feedback type="invalid">
+                              Please enter a name
+                            </Form.Control.Feedback>
+                          </Form.Group>
+
+                          <Form.Group className="mb-3" controlId="formBasicEmail">
+                            <Form.Label>Email address</Form.Label>
+                            <Form.Control
+                              name="email"
+                              onChange={(e) => setUserEmail(e.target.value)}
+                              type="email"
+                              placeholder="Enter email"
+                            />
+                            <Form.Control.Feedback type="invalid">
+                              Please enter a valid email address
+                            </Form.Control.Feedback>
+                          </Form.Group>
+
+                          <Form.Group className="mb-3" controlId="formBasicPhoneNumber">
+                            <Form.Label>Phone Number</Form.Label>
+                            <Form.Control
+                              name="phoneNumber"
+                              required
+                              minLength={10}
+                              isInvalid={userPhoneNumber === null || userPhoneNumber === undefined || userPhoneNumber === "" || userPhoneNumber.trim().length < 11}
+                              onChange={(e) => setUserPhoneNumber(e.target.value)}
+                              type="tel"
+                              placeholder="03XXXXXXXXX"
+                            />
+                            <Form.Control.Feedback type="invalid">
+                              Please enter phone Number
+                            </Form.Control.Feedback>
+                          </Form.Group>
+                          {serviceMode && serviceMode === "delivery" ? (
+                            <Form.Group className="mb-3" controlId="formBasicAddress">
+                              <Form.Label>Address</Form.Label>
+                              <Form.Control
+                                name="address"
+                                required
+                                type="text" as="textarea"
+                                isInvalid={userDeliveryAddress === '' || userDeliveryAddress === undefined}
+                                onChange={(e) => setUserDeliveryAddress(e.target.value)}
+                                placeholder="House no., Block, Town, City"
+                              />
+                              <Form.Control.Feedback type="invalid">
+                                Please enter Address
+                              </Form.Control.Feedback>
+                            </Form.Group>):("")}
+                        </Form>
+                      </>
+                  </Col>
+                </Row>
               </Container>
             </>}
-            {/* </Col> */}
-            {/* <Col md={6}> */}
-            {/* <Row>
-                <h2>Payment method</h2>
-                <Form.Select onChange={choosePayment}>
-                  <option value="op">Online</option>
-                  <option value="cp">Cash</option>
-                </Form.Select>
-              </Row>
-              <Row>
-                <h2>Service mode</h2>
-                <Form.Select onChange={chooseServiceMode}>
-                  <option value="delivery">Delivery</option>
-                  <option value="takeAway">Take Away</option>
-                  <option value="dineIn">Dine in</option>
-                </Form.Select>
-              </Row> */}
-
-            {/* </Col> */}
-            {/* <Row>
-                <Col>
-                  <Alert className="mt-3" variant="danger">
-                    Not delivered
-                    {missingAddress}
-                  </Alert>
-                </Col>
-                <Col>
-                  <Alert className="mt-3" variant="success">
-                    Not paid yet
-                  </Alert>
-                </Col>
-              </Row> */}
           </Row>
           <br />
           <h2>Order items</h2>
@@ -438,6 +410,26 @@ const AdminCartDetailsPageComponent = ({ cartItems, itemsCount, cartSubtotal, us
                 <CartItemComponent item={item} key={idx} changeCount={changeCount} removeFromCartHandler={removeFromCartHandler} index={idx} discount={discount} />
               ))}
           </ListGroup>
+          {userInfo.isAdmin ? (
+            <Form noValidate validated={validated} onSubmit={handleDiscount}>
+              <Form.Group className="mb-3" controlId="formBasicCustomerDiscount">
+                <Form.Label>Discount</Form.Label>
+                <Form.Control
+                  type="number"
+                  min={0}
+                  max={50}
+                  placeholder="Enter Discount"
+                  name="custDiscount"
+                />
+                <Form.Control.Feedback type="invalid">
+                  Enter Valid Discount Value
+                </Form.Control.Feedback>
+              </Form.Group>
+              <Button type="submit" style={{ width: "100%" }}>
+                Apply Discount
+              </Button>
+            </Form>
+          ) : ("")}
         </Col>
         <Col md={6} className="mt-4">
           <Row className="mb-4 p-4">

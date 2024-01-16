@@ -89,7 +89,7 @@ const createOrder = async (req, res, next) => {
                     totalExpenses: 0,
                     totalSale: orderTotal.cartSubtotal,
                     profit: todaysProfit,
-                    totalProfit: previousProfit
+                    totalProfit: previousProfit+todaysProfit
                 })
             }
             console.log("Updated todays Report Created : " + todaysReport)
@@ -136,7 +136,7 @@ const createOrder = async (req, res, next) => {
                     totalExpenses: 0,
                     totalSale: orderTotal.cartSubtotal,
                     profit: todaysProfit,
-                    totalProfit: previousProfit
+                    totalProfit: previousProfit+todaysProfit
                 })
             }
             console.log("Updated todays Report Created : " + todaysReport)
@@ -214,7 +214,7 @@ const createOrderCustomer = async (req, res, next) => {
                     totalExpenses: 0,
                     totalSale: orderTotal.cartSubtotal,
                     profit: todaysProfit,
-                    totalProfit: previousProfit
+                    totalProfit: previousProfit+todaysProfit
                 })
             }
             console.log("Updated todays Report Created : " + todaysReport)
@@ -261,7 +261,7 @@ const createOrderCustomer = async (req, res, next) => {
                     totalExpenses: 0,
                     totalSale: orderTotal.cartSubtotal,
                     profit: todaysProfit,
-                    totalProfit: previousProfit
+                    totalProfit: previousProfit+todaysProfit
                 })
             }
             console.log("Updated todays Report Created : " + todaysReport)
@@ -338,7 +338,7 @@ const createOrderAdmin = async (req, res, next) => {
                     totalExpenses: 0,
                     totalSale: orderTotal.cartSubtotal,
                     profit: todaysProfit,
-                    totalProfit: previousProfit
+                    totalProfit: previousProfit+todaysProfit
                 })
             }
             console.log("Updated todays Report Created : " + todaysReport)
@@ -386,7 +386,7 @@ const createOrderAdmin = async (req, res, next) => {
                     totalExpenses: 0,
                     totalSale: orderTotal.cartSubtotal,
                     profit: todaysProfit,
-                    totalProfit: previousProfit
+                    totalProfit: previousProfit+todaysProfit
                 })
             }
             console.log("Updated todays Report Created : " + todaysReport)

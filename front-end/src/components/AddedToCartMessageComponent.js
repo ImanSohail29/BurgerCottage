@@ -17,7 +17,9 @@ const AddedToCartMessageComponent = ({ showCartMessage, setShowCartMessage }) =>
     >
       <Alert.Heading>The product was added to your cart!</Alert.Heading>
       <p>
+      <Link to="/foodItem-list">
         <Button variant="success" onClick={goBack}>Go back</Button>{" "}
+        </Link>
         <Link to="/cart">
           <Button variant="danger">Go to cart</Button>
         </Link>

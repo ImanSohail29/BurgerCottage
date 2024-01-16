@@ -21,7 +21,7 @@ const registerUser = async (req, res, next) => {
     }
 
     const userExists = await Customer.findOne({ phoneNumber });
-    if (userExists) {
+    if (userExists&&userExists.password!=="1111") {
       return res.status(400).send("user exists");
     } else {
       const hashedPassword = hashPassword(password);
@@ -79,6 +79,7 @@ const registerUserFromAdmin = async (req, res, next) => {
         address,
         isAdmin
       });
+      console.log("Hi there you:"+user)
       res.status(201)
         .json({
           success: "User created",

@@ -67,7 +67,7 @@ const AdminExpensesComponent = ({ getExpenses, deleteExpense}) => {
                     </Table>
                 </>) : (<>No Expenses yet
                     <LinkContainer to={"/admin/create-new-expense"}>
-                        <Button variant="primary" className="ms-2" size="lg">Create new FoodItem</Button>
+                        <Button variant="primary" className="ms-2" size="lg">Create new Expense</Button>
                     </LinkContainer></>)}
 
             </Col>

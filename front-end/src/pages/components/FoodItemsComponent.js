@@ -46,7 +46,7 @@ const FoodItemsComponent = ({ getFoodItems, categories, addProductApiRequest, di
     return (
         <>
         <MetaComponent></MetaComponent>
-        {loaded&&(discount.image!==null)?(
+        {loaded&&discount&&(discount.figure!==0||discount.image!==null)?(
             <Popup open={true}
             position="center"
             modal nested>
