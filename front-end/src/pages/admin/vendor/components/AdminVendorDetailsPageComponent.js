@@ -1,7 +1,7 @@
 import { Form, Button, Col, Container, Row, Spinner, Table, InputGroup } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 const AdminVendorDetailsPageComponent = ({
     getVendor,
     fetchVendorInventoryOrders,
@@ -20,7 +20,7 @@ const AdminVendorDetailsPageComponent = ({
         error: "",
         loading: false,
     });
-
+   
     const handleSubmit = (event) => {
         event.preventDefault();
         event.stopPropagation();
@@ -73,6 +73,9 @@ const AdminVendorDetailsPageComponent = ({
     }, [inventoryOrderDeleted,payVendorResponseState])
     return (
         <Row className="m-5">
+             <Link to="/admin/vendors">
+        <Button variant="success">{"<-"}Go back to all Vendors</Button>{" "}
+        </Link>
             <Col md={12}>
                 <Row>
                     <Col md={6}><h1 style={{ textAlign: "center" }}>{vendor.name}</h1></Col>
@@ -103,7 +106,7 @@ const AdminVendorDetailsPageComponent = ({
                                         <th>Quantity</th>
                                         <th>Per Item</th>
                                         <th>Total Price</th>
-                                        <th>Edit/Delete</th>
+                                        {/* <th>Edit/Delete</th> */}
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -117,7 +120,7 @@ const AdminVendorDetailsPageComponent = ({
                                                 <td>{inventoryOrder.pricePerItem ? (inventoryOrder.pricePerItem + "/-") : "-"}</td>
                                                 <td>{inventoryOrder.totalAmount + "/-"}</td>
 
-                                                <td><LinkContainer to={`/admin/edit-vendor/${inventoryOrder._id}`}>
+                                                {/* <td><LinkContainer to={`/admin/edit-vendor/${inventoryOrder._id}`}>
                                                     <Button className="btn-sm">
                                                         <i className="bi bi-pencil-square"></i>
                                                     </Button>
@@ -126,7 +129,7 @@ const AdminVendorDetailsPageComponent = ({
                                                     <Button variant="danger" className="btn-sm" onClick={() => deleteHandler(vendorId, inventoryOrder._id)}>
                                                         <i className="bi bi-x-circle"></i>
                                                     </Button>
-                                                </td>
+                                                </td> */}
                                             </tr>
                                         )
                                     })}
@@ -170,7 +173,7 @@ const AdminVendorDetailsPageComponent = ({
                                             <th>#</th>
                                             <th>Date</th>
                                             <th>Amount Paid</th>
-                                            <th>Remaining</th>
+                                            <th>Orders Amount</th>
                                         </tr>
                                     </thead>
                                     {console.log(transactions)}

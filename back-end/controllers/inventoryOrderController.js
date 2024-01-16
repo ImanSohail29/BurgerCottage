@@ -59,9 +59,12 @@ const createNewInventoryOrder = async (req, res, next) => {
                 else {
                     vendorTransaction.transactions[vendorTransactionDateIndex].amountToBePaid = parseInt(vendorTransaction.transactions[vendorTransactionDateIndex].amountToBePaid) + parseInt(totalAmount)
                 }
+                
+            console.log("Updated VendorTransaction : " + vendorTransaction)
+            vendorTransaction.save()
             }
             else {
-                const vendorTransactionCreated = await InventoryTransactionsByDate.create({
+                await InventoryTransactionsByDate.create({
                     vendor: vendorId,
                     transactions: [{
                         amountToBePaid: totalAmount,
@@ -70,8 +73,6 @@ const createNewInventoryOrder = async (req, res, next) => {
                     }]
                 })
             }
-            console.log("Updated VendorTransaction : " + vendorTransaction)
-            vendorTransaction.save()
             return res.status(201).json(
                 {
                     success: "inventory order created!",
@@ -180,6 +181,7 @@ const PayVendor = async (req, res, next) => {
                     console.log("Hi there")
                     vendorTransaction.transactions[vendorTransactionDateIndex].amountPaid = parseInt(vendorTransaction.transactions[vendorTransactionDateIndex].amountPaid) + parseInt(amountPaid)
                 }
+                vendorTransaction.save()
             }
             else {
                 const vendorTransactionCreated = await InventoryTransactionsByDate.create({
@@ -191,7 +193,6 @@ const PayVendor = async (req, res, next) => {
                     }]
                 })
             }
-            vendorTransaction.save()
             return res.status(201).json(
                 {
                     success: "payment done",

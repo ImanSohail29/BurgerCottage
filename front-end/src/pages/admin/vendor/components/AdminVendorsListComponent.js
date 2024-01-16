@@ -48,7 +48,7 @@ const AdminVendorsListComponent = ({ fetchVendors ,  deleteVendor }) => {
                     <tbody>
                         {vendors.map((vendor, idx) => {
                             return (
-                                <LinkContainer key={idx} to={`/admin/vendors/${vendor._id}`}>
+                                <LinkContainer style={{cursor:"pointer"}} key={idx} to={`/admin/vendors/${vendor._id}`}>
                                 <tr >
                                     <td>{idx}</td>
                                     <td>{vendor.name}</td>
