@@ -32,19 +32,28 @@ const AdminCartDetailsPageComponent = ({ cartItems, itemsCount, cartSubtotal, us
   const [customerDiscount, setCustomerDiscount] = useState(0)
   const [finalCartSubtotal, setFinalCartSubtotal] = useState(cartSubtotal)
   const navigate = useNavigate();
-
+useEffect(()=>{
+  if(userInfo!=undefined){
+    setUserName(userInfo.name)
+    setUserEmail(userInfo.email)
+    setUserPhoneNumber(userInfo.phoneNumber)
+    setUserDeliveryAddress(userInfo.address)
+  }
+},[userInfo])
   useEffect(() => {
     setMissingAddress(false)
-
     setButtonDisabled(false)
-      if (serviceMode === "delivery" && userDeliveryAddress === "" && userPhoneNumber==="") {
+    console.log("inside use effect before if")
+      if (serviceMode === "delivery" && ((userDeliveryAddress === ""||userDeliveryAddress==undefined) || (userPhoneNumber===""||userPhoneNumber===undefined))) {
         setMissingAddress("Customer Details are required")
         setButtonDisabled(true)
+        console.log("inside use effect after if")
+
       }
     if (cartItems.length < 1) {
       setButtonDisabled(true)
     }
-  }, [userDeliveryAddress,userPhoneNumber,serviceMode, cartItems])
+  }, [userDeliveryAddress,userPhoneNumber,userDeliveryAddress,serviceMode, cartItems])
 
   const handleDiscount = (event) => {
     event.preventDefault();
@@ -199,7 +208,7 @@ const AdminCartDetailsPageComponent = ({ cartItems, itemsCount, cartSubtotal, us
         <Col md={6}>
           <br />
           <Row>
-            {(userInfo.value != undefined) ? (
+            {(userInfo != undefined) ? (
               <Container>
                 <Row >
                   <Col>
@@ -266,6 +275,7 @@ const AdminCartDetailsPageComponent = ({ cartItems, itemsCount, cartSubtotal, us
 
                           ) : ("")}
                         </Form>
+
                       </>) : (
                       <>
                       <Form  noValidate validated={validated}>
@@ -465,7 +475,6 @@ const AdminCartDetailsPageComponent = ({ cartItems, itemsCount, cartSubtotal, us
             <ListGroup.Item className="text-danger">
               Total price:  Rs.<span className="fw-bold">{Math.ceil(cartSubtotal - ((cartSubtotal * customerDiscount) / 100))}/-</span>
             </ListGroup.Item>
-
             <ListGroup.Item>
               <div className="d-grid gap-2">
                 <Button size="lg" onClick={orderHandler} variant="danger" type="button" disabled={buttonDisabled}>

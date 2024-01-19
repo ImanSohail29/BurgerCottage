@@ -9,6 +9,14 @@ import { useDispatch } from "react-redux";
 const AdminOrdersPageComponent = ({ getOrders }) => {
   const [orders, setOrders] = useState([]);
   const dispatch = useDispatch();
+  const toTime=(timeString)=>{
+    const date=new Date(timeString)
+    let n = date.toLocaleString([], {
+      hour: '2-digit',
+      minute: '2-digit'
+  });
+    return n
+  }
   useEffect(() => {
     getOrders()
       .then((orders) => setOrders(orders))
@@ -30,7 +38,10 @@ const AdminOrdersPageComponent = ({ getOrders }) => {
               <th>#</th>
               <th>User</th>
               <th>Date</th>
+              <th>Time</th>
               <th>Total</th>
+              <th>Done</th>
+              <th>Paid</th>
               <th>Delivered</th>
               <th>Payment Method</th>
               <th>Order details</th>
@@ -48,7 +59,22 @@ const AdminOrdersPageComponent = ({ getOrders }) => {
                   ) : null}
                 </td>
                 <td>{order.createdAt.substring(0, 10)}</td>
+                <td>{toTime(order.createdAt)}</td>
                 <td>{order.orderTotal.cartSubtotal}</td>
+                <td>
+                  {order.isDone ? (
+                    <i className="bi bi-check-lg text-success"></i>
+                  ) : (
+                    <i className="bi bi-x-lg text-danger"></i>
+                  )}
+                </td>
+                <td>
+                  {order.isPaid ? (
+                    <i className="bi bi-check-lg text-success"></i>
+                  ) : (
+                    <i className="bi bi-x-lg text-danger"></i>
+                  )}
+                </td>
                 <td>
                   {order.isDelivered ? (
                     <i className="bi bi-check-lg text-success"></i>
