@@ -4,6 +4,14 @@ import { Link } from "react-router-dom";
 
 const UserOrdersPageComponent = ({ getOrders }) => {
     const [orders,setOrders]=useState([])
+    const toTime = (timeString) => {
+        const date = new Date(timeString)
+        let n = date.toLocaleString([], {
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+        return n
+      }
     useEffect(()=>{
         getOrders()
         .then((data) =>setOrders(data))
@@ -16,10 +24,11 @@ const UserOrdersPageComponent = ({ getOrders }) => {
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>User</th>
                             <th>Date</th>
+                            <th>Time</th>
                             <th>Total</th>
-                            <th>Delivered</th>
+                            <th>Service Mode</th>
+                            <th>Completed</th>
                             <th>Order Details</th>
                         </tr>
                     </thead>
@@ -28,10 +37,11 @@ const UserOrdersPageComponent = ({ getOrders }) => {
                             return (
                                 <tr key={idx}>
                                     <td>{idx + 1}</td>
-                                    <td>You</td>
                                     <td>{order.createdAt.substring(0,10)}</td>
+                                    <td>{toTime(order.createdAt)}</td>
                                     <td>Rs.{order.orderTotal.cartSubtotal} /-</td>
-                                    <td>{order.isDelivered?<i className="bi bi-check-lg text-success"></i>:<i className="bi bi-x-lg text-danger"></i>}</td>
+                                    <td>{order.serviceMode}</td>
+                                    <td>{order.serviceMode==="delivery"?(order.isDelivered?<i className="bi bi-check-lg text-success"></i>:<i className="bi bi-x-lg text-danger"></i>):(order.isDone?<i className="bi bi-check-lg text-success"></i>:<i className="bi bi-x-lg text-danger"></i>)}</td>
                                     <td><Link style={{ cursor: "pointer" }} to={`/user/order-details/${order._id}`}>Go to details</Link></td>
                                 </tr>)
                         })}

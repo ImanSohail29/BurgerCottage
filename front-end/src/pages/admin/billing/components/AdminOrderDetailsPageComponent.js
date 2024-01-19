@@ -40,7 +40,14 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
   const [orderPlacedAt, setOrderPlacedAt] = useState("");
   const [serviceMode, setServiceMode] = useState("");
   const [print, setPrint] = useState(false)
-
+  const toTime = (timeString) => {
+    const date = new Date(timeString)
+    let n = date.toLocaleString([], {
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+    return n
+  }
   useEffect(() => {
     getOrder(orderId)
       .then((order) => {
@@ -73,7 +80,7 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
         }
         setCartItems(order.cart.cartItems);
         let dateObject = new Date(order.orderPlacedAt)
-        setOrderPlacedAt(dateObject.toString());
+        setOrderPlacedAt(dateObject.toString().substring(0,15)+",  "+toTime(order.orderPlacedAt));
       })
       .catch((er) =>
         dispatch(logout)
@@ -121,7 +128,7 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
                       variant={isDelivered ? "success" : "danger"}
                     >
                       {isDelivered ? (
-                        <>Delivered at {isDelivered}</>
+                        <>Delivered at {isDelivered.toString().substring(0,10)+", Time: "+toTime(isDelivered)}</>
                       ) : (
                         <>Not delivered</>
                       )}
@@ -131,7 +138,7 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
                 </Col>
                 <Col>
                   <Alert className="mt-3" variant={isPaid ? "success" : "danger"}>
-                    {isPaid ? <>Paid on {isPaid}</> : <>Not paid yet</>}
+                    {isPaid ? <>Paid on {isPaid.toString().substring(0,10)+", Time: "+toTime(isPaid)}</> : <>Not paid yet</>}
                   </Alert>
                 </Col>
               </Row>

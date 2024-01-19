@@ -89,4 +89,13 @@ const FoodOrderModel=mongoose.Schema({
     timestamps: true,
 })
 const FoodOrder = mongoose.model("FoodOrder", FoodOrderModel)
+FoodOrder.watch().on("change",(data)=>{
+    console.log(data)
+    if(data.operationType==="insert"){
+        io.emit("newOrder",data.fullDocument)
+    }
+    if(data.operationType==="update"){
+        io.emit("updateOrder",data.fullDocument)
+    }
+})
 module.exports = FoodOrder

@@ -1,27 +1,31 @@
 require("dotenv").config()
 var helmet=require('helmet')
-const {createServer, Server}=require("http")
+const {createServer}=require("http")
+const {Server}=require("socket.io")
 const express = require('express')
 const fileUpload = require('express-fileupload')
 const cookieParser = require('cookie-parser')
 const app = express()
-app.use(helmet())
+app.use(helmet({
+  contentSecurityPolicy: false, 
+  crossOriginEmbedderPolicy: false
+}))
 const httpServer=createServer(app)
 global.io=new Server(httpServer)
 
 app.use(cookieParser())
 app.use(fileUpload())
+app.use(express.json())
 
 const port = 5000
 
 const apiRoutes = require("./routes/apiRoutes")
-app.use(express.json())
 app.use('/api', apiRoutes)
 
-app.listen(port, () => {
-    console.log(`My app listening on port ${port}`)
-  })
-
+// app.listen(port, () => {
+//     console.log(`My app listening on port ${port}`)
+//   })
+httpServer.listen(port,()=>console.log(`My app listening on port ${port}`))
 
 //mongodb connection
 const connectDB = require("./config/db")
