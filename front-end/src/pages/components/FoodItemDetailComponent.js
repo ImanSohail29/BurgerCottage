@@ -260,7 +260,8 @@ const FoodItemDetailComponent = ({
                     </ListGroup>
                   </Col>
                 </Row>
-                <Row>
+                {product.reviews.length>0?(
+                  <Row>
                   <Col className="mt-5">
                     <h5>REVIEWS</h5>
                     <ListGroup variant="flush">
@@ -277,6 +278,8 @@ const FoodItemDetailComponent = ({
                       <div ref={messagesEndRef} />
                     </ListGroup>                 </Col>
                 </Row>
+                ):("")}
+                
                 <hr />
                 {/* {!userInfo.name && <Alert variant="danger">Login first to write a review</Alert>} */}
 
