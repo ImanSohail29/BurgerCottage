@@ -1,4 +1,3 @@
-require("dotenv").config()
 var helmet=require('helmet')
 const {createServer}=require("http")
 const {Server}=require("socket.io")
