@@ -85,6 +85,11 @@ const FoodOrderModel=mongoose.Schema({
         required: true,
         default: false,
     },
+    isConfirmed: {
+        type: Boolean,
+        required: true,
+        default: false,
+    },
 }, {
     timestamps: true,
 })

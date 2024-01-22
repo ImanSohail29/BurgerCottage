@@ -15,7 +15,7 @@ import { useDispatch } from "react-redux";
 import { logout } from "../../../../redux/slices/userSlice";
 import CartItemComponent from "../../../../components/CartItemComponent";
 
-const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,markAsPaid, discount }) => {
+const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,markAsPaid,markAsConfirmed, discount }) => {
   const ref = useRef();
   const { orderId } = useParams();
   const dispatch = useDispatch();
@@ -24,6 +24,7 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
   const [paymentMethod, setPaymentMethod] = useState("");
   const [isPaid, setIsPaid] = useState(false);
   const [isDelivered, setIsDelivered] = useState(false);
+  const [isConfirmed, setIsConfirmed] = useState(false);
   const [isDone, setIsDone] = useState(false);
   const [cartSubtotal, setCartSubtotal] = useState(0);
   const [buttonDisabled, setButtonDisabled] = useState(false);
@@ -65,6 +66,7 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
         order.isPaid
           ? setIsPaid(order.paidAt)
           : setIsPaid(false)
+        setIsConfirmed(order.isConfirmed)
         setCartSubtotal(order.orderTotal.cartSubtotal);
         if (order.isDelivered) {
           setOrderButtonMessage("Order is delivered");
@@ -98,9 +100,22 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
           <Col md={8}>
             <br />
             <Row>
+              <Col>
               <p>{orderPlacedAt}</p>
               <p><b>Order Id : </b>{orderId}</p>
               <p>Service Mode: <b>{serviceMode}</b></p>
+              </Col>
+              <Col>
+              <Button className="danger" disabled={isConfirmed} onClick={() =>
+                        markAsConfirmed(orderId)
+                          .then((res) => {
+                            if (res) {
+                              setIsConfirmed(true);
+                            }
+                          })
+                          .catch(er => console.log(er.response.data.message ? er.response.data.message : er.response.data))
+                      }>Confirm Order</Button>
+              </Col>
               {userInfo ? (<Col md={6}>
                 <h2>Customer Information</h2>
                 <div><b>Name</b>: {userInfo.name} {userInfo.lastName} <br /></div>

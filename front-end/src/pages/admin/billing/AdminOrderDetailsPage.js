@@ -28,10 +28,16 @@ const markAsPaid = async (orderId) => {
         return data;
     }
 }
+const markAsConfirmed = async (orderId) => {
+    const { data } = await axios.put("/api/orders/confirm/" + orderId);
+    if (data) {
+        return data;
+    }
+}
 const AdminOrderDetailsPage = () => {
     const discount=useSelector((state)=>state.discount.discount)
     console.log("discount: "+discount)
-  return <AdminOrderDetailsPageComponent getOrder={getOrder} markAsDelivered={markAsDelivered} markAsDone={markAsDone} markAsPaid={markAsPaid} discount={discount}  />
+  return <AdminOrderDetailsPageComponent getOrder={getOrder} markAsDelivered={markAsDelivered} markAsDone={markAsDone} markAsPaid={markAsPaid} markAsConfirmed={markAsConfirmed} discount={discount}  />
 };
 
 export default AdminOrderDetailsPage;
