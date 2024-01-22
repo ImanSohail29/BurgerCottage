@@ -1,5 +1,4 @@
 const dotenv=require("dotenv").config()
-console.log(process.env.JWT_SECRET_KEY)
 if(dotenv.error){
     console.log("Error",dotenv.error)
 }
