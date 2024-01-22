@@ -1,5 +1,5 @@
 const dotenv=require("dotenv").config()
-console.log(process.env.REACT_APP_TWILIO_ACCOUNT_SID)
+console.log(process.env.JWT_SECRET_KEY)
 if(dotenv.error){
     console.log("Error",dotenv.error)
 }
@@ -8,9 +8,7 @@ const Product = require("../models/FoodItemModel");
 const FoodOrder = require("../models/FoodOrderModel");
 const Report = require("../models/ReportModel");
 const ObjectId = require("mongodb").ObjectId;
-const accountSid = process.env.REACT_APP_TWILIO_ACCOUNT_SID
-const authToken = process.env.REACT_APP_TWILIO_AUTH_TOKEN
-const client = require('twilio')(accountSid, authToken)
+const client = require('twilio')(process.env.REACT_APP_TWILIO_ACCOUNT_SID, process.env.REACT_APP_TWILIO_AUTH_TOKEN)
 const sendSMS = async (body) => {
     let msgOptions = {
         from: process.env.REACT_APP_TWILIO_PHONE_NUMBER,
