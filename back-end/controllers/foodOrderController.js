@@ -1,5 +1,5 @@
 const dotenv=require("dotenv").config()
-console.log(process.env.TWILIO_ACCOUNT_SID)
+console.log(process.env.REACT_APP_TWILIO_ACCOUNT_SID)
 if(dotenv.error){
     console.log("Error",dotenv.error)
 }
@@ -8,13 +8,13 @@ const Product = require("../models/FoodItemModel");
 const FoodOrder = require("../models/FoodOrderModel");
 const Report = require("../models/ReportModel");
 const ObjectId = require("mongodb").ObjectId;
-const accountSid = process.env.TWILIO_ACCOUNT_SID
-const authToken = process.env.TWILIO_AUTH_TOKEN
+const accountSid = process.env.REACT_APP_TWILIO_ACCOUNT_SID
+const authToken = process.env.REACT_APP_TWILIO_AUTH_TOKEN
 const client = require('twilio')(accountSid, authToken)
 const sendSMS = async (body) => {
     let msgOptions = {
-        from: process.env.TWILIO_PHONE_NUMBER,
-        to: process.env.TWILIO_TO_PHONE_NUMBER,
+        from: process.env.REACT_APP_TWILIO_PHONE_NUMBER,
+        to: process.env.REACT_APP_TWILIO_TO_PHONE_NUMBER,
         body
     }
     try {
@@ -40,9 +40,9 @@ const sendSMSToCustomer = async (phoneNumber,body) => {
         phoneNumber=replaceCharacter(phoneNumber, 0, '+92');
     }
     console.log('whatsapp:'+phoneNumber)
-    console.log(process.env.TWILIO_USER_PHONE_NUMBER)
+    console.log(process.env.REACT_APP_TWILIO_USER_PHONE_NUMBER)
     let msgOptions = {
-        from: process.env.TWILIO_PHONE_NUMBER,
+        from: process.env.REACT_APP_TWILIO_PHONE_NUMBER,
         to: 'whatsapp:'+phoneNumber,
         body
     }
