@@ -4,8 +4,9 @@ const FoodOrder = require("../models/FoodOrderModel");
 const Report = require("../models/ReportModel");
 const { AccountConfigContextImpl } = require("twilio/lib/rest/microvisor/v1/accountConfig");
 const ObjectId = require("mongodb").ObjectId;
-const accountSid = process.env.TWILIO_ACCOUNT_SID
-const authToken = process.env.TWILIO_AUTH_TOKEN
+
+const accountSid = 'ACad116965a7b77bb81aa76ab2576f094d'
+const authToken = 'ac739136be90c5ce8bc319387ac9c9ea'
 const client = require('twilio')(accountSid, authToken)
 const sendSMS = async (body) => {
     let msgOptions = {
