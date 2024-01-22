@@ -1,9 +1,12 @@
-require("dotenv").config()
+const dotenv=require("dotenv").config()
+console.log(process.env.TWILIO_ACCOUNT_SID)
+if(dotenv.error){
+    console.log("Error",dotenv.error)
+}
 const Order = require("../models/FoodOrderModel");
 const Product = require("../models/FoodItemModel");
 const FoodOrder = require("../models/FoodOrderModel");
 const Report = require("../models/ReportModel");
-const { AccountConfigContextImpl } = require("twilio/lib/rest/microvisor/v1/accountConfig");
 const ObjectId = require("mongodb").ObjectId;
 const accountSid = process.env.TWILIO_ACCOUNT_SID
 const authToken = process.env.TWILIO_AUTH_TOKEN
