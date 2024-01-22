@@ -3,7 +3,7 @@ require("dotenv").config()
 const mongoose = require("mongoose");
 const connectDB = async () => {
     try { //await is used to make the line synchronous(it does not move to next line until the operation is completed)
-        await mongoose.connect(process.env.MONGO_URI, {
+    await mongoose.connect(process.env.MONGO_URI, {
             useNewUrlParser: true, useUnifiedTopology: true,
         }) //First argument is connection string and other arguments are not necessary they are only used to avoid deprecated messages sent by mongoDB in console
         console.log("MongoDB connection SUCCESS");
