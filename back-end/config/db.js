@@ -1,3 +1,4 @@
+require("dotenv").config()
 //to read environmental variables(to read connection string)
 const mongoose = require("mongoose");
 const connectDB = async () => {
