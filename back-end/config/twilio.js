@@ -37,7 +37,7 @@ const sendSMSToCustomer = async (phoneNumber,body) => {
     }
     try {
         const message=await client.messages.create(msgOptions)
-        console.log("message: "+message)
+        console.log("message: "+JSON.stringify(message))
     }
     catch (err) {
         console.log(err)

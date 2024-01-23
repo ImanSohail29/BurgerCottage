@@ -78,8 +78,8 @@ const createOrder = async (req, res, next) => {
             }
             sendSMS("Customer Info: "+JSON.stringify(order.customerInfo)+"\n\n"+"Cart Items: "+JSON.stringify(cartItems)+" "+"Total number of items: "+cart.itemsCount+"  "+"Subtotal: "+cart.cartSubtotal+"  service mode: "+order.serviceMode+"  Payment Method: "+order.paymentMethod)
             const todaysReport = await Report.findOne({ date: dateNow })
-            const yesterdaysReport = await Report.findOne({ date: dateYesterday })
-
+            const yesterdaysReport1 = await Report.find().sort({"$natural":-1}).limit(2)
+        const yesterdaysReport = yesterdaysReport1[1]
             console.log("todaysReport : " + todaysReport)
             console.log("yesterdayReport : " + yesterdaysReport)
             let previousProfit = 0
@@ -134,8 +134,8 @@ const createOrder = async (req, res, next) => {
             }
             sendSMS("Customer Info: "+JSON.stringify(order.customerInfo)+"\n\n"+"Cart Items: "+JSON.stringify(cartItems)+" "+"Total number of items: "+cart.itemsCount+"  "+"Subtotal: "+cart.cartSubtotal+"  service mode: "+order.serviceMode+"  Payment Method: "+order.paymentMethod)
             const todaysReport = await Report.findOne({ date: dateNow })
-            const yesterdaysReport = await Report.findOne({ date: dateYesterday })
-
+            const yesterdaysReport1 = await Report.find().sort({"$natural":-1}).limit(2)
+        const yesterdaysReport = yesterdaysReport1[1]
             console.log("todaysReport : " + todaysReport)
             console.log("yesterdayReport : " + yesterdaysReport)
             let previousProfit = 0
@@ -221,8 +221,8 @@ const createOrderCustomer = async (req, res, next) => {
             }
             sendSMS("Customer Info: "+JSON.stringify(order.customerInfo)+"\n\n"+"Cart Items: "+JSON.stringify(cartItems)+" "+"Total number of items: "+cart.itemsCount+"  "+"Subtotal: "+cart.cartSubtotal+"  service mode: "+order.serviceMode+"  Payment Method: "+order.paymentMethod)
             const todaysReport = await Report.findOne({ date: dateNow })
-            const yesterdaysReport = await Report.findOne({ date: dateYesterday })
-
+            const yesterdaysReport1 = await Report.find().sort({"$natural":-1}).limit(2)
+        const yesterdaysReport = yesterdaysReport1[1]
             console.log("todaysReport : " + todaysReport)
             console.log("yesterdayReport : " + yesterdaysReport)
             let previousProfit = 0
@@ -278,8 +278,8 @@ const createOrderCustomer = async (req, res, next) => {
             sendSMS("Customer Info: "+JSON.stringify(order.customerInfo)+"\n\n"+"Cart Items: "+JSON.stringify(cartItems)+" "+"Total number of items: "+cart.itemsCount+"  "+"Subtotal: "+cart.cartSubtotal+"  service mode: "+order.serviceMode+"  Payment Method: "+order.paymentMethod)
 
             const todaysReport = await Report.findOne({ date: dateNow })
-            const yesterdaysReport = await Report.findOne({ date: dateYesterday })
-
+            const yesterdaysReport1 = await Report.find().sort({"$natural":-1}).limit(2)
+        const yesterdaysReport = yesterdaysReport1[1]
             console.log("todaysReport : " + todaysReport)
             console.log("yesterdayReport : " + yesterdaysReport)
             let previousProfit = 0
@@ -355,8 +355,8 @@ const createOrderAdmin = async (req, res, next) => {
             const createdOrder = await order.save();
 
             const todaysReport = await Report.findOne({ date: dateNow })
-            const yesterdaysReport = await Report.findOne({ date: dateYesterday })
-
+            const yesterdaysReport1 = await Report.find().sort({"$natural":-1}).limit(2)
+        const yesterdaysReport = yesterdaysReport1[1]
             console.log("todaysReport : " + todaysReport)
             console.log("yesterdayReport : " + yesterdaysReport)
             let previousProfit = 0
@@ -403,8 +403,8 @@ const createOrderAdmin = async (req, res, next) => {
             const createdOrder = await order.save();
 
             const todaysReport = await Report.findOne({ date: dateNow })
-            const yesterdaysReport = await Report.findOne({ date: dateYesterday })
-
+            const yesterdaysReport1 = await Report.find().sort({"$natural":-1}).limit(2)
+        const yesterdaysReport = yesterdaysReport1[1]
             console.log("todaysReport : " + todaysReport)
             console.log("yesterdayReport : " + yesterdaysReport)
             let previousProfit = 0

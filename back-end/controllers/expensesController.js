@@ -39,8 +39,10 @@ const createNewExpense = async (req, res, next) => {
                 date: dateTimeNow,
             })
             const todaysReport = await Report.findOne({ date: dateNow })
-            const yesterdaysReport = await Report.findOne({ date: dateYesterday })
+            
 
+            const yesterdaysReport1 = await Report.find().sort({"$natural":-1}).limit(2)
+        const yesterdaysReport = yesterdaysReport1[1]
             console.log("todaysReport : " + todaysReport)
             console.log("yesterdayReport : " + yesterdaysReport)
             let previousProfit = 0
@@ -100,8 +102,8 @@ const updateExpense = async (req, res, next) => {
 
 
             const todaysReport = await Report.findOne({ date: dateNow })
-            const yesterdaysReport = await Report.findOne({ date: dateYesterday })
-
+            const yesterdaysReport1 = await Report.find().sort({"$natural":-1}).limit(2)
+        const yesterdaysReport = yesterdaysReport1[1]
             console.log("todaysReport : " + todaysReport)
             console.log("yesterdayReport : " + yesterdaysReport)
             let previousProfit = 0
@@ -151,7 +153,8 @@ const deleteExpense = async (req, res, next) => {
 
 
         const todaysReport = await Report.findOne({ date: dateNow })
-        const yesterdaysReport = await Report.findOne({ date: dateYesterday })
+        const yesterdaysReport1 = await Report.find().sort({"$natural":-1}).limit(2)
+        const yesterdaysReport = yesterdaysReport1[1]
 
         console.log("todaysReport : " + todaysReport)
         console.log("yesterdayReport : " + yesterdaysReport)
