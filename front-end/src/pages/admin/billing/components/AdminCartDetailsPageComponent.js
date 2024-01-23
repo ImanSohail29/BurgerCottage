@@ -16,10 +16,10 @@ import CartItemComponent from "../../../../components/CartItemComponent";
 
 const AdminCartDetailsPageComponent = ({ cartItems, itemsCount, cartSubtotal, userInfo, addToCart, removeFromCart, resetCart, reduxDispatch, createOrder, createOrderAdmin, createOrderCustomer, registerUserApiRequestFromAdmin, discount }) => {
   const [validated, setValidated] = useState(false);
-  const [userName, setUserName] = useState('')
-  const [userEmail, setUserEmail] = useState('')
-  const [userPhoneNumber, setUserPhoneNumber] = useState('')
-  const [userDeliveryAddress, setUserDeliveryAddress] = useState('')
+  const [userName, setUserName] = useState()
+  const [userEmail, setUserEmail] = useState()
+  const [userPhoneNumber, setUserPhoneNumber] = useState()
+  const [userDeliveryAddress, setUserDeliveryAddress] = useState()
   const [enterUserResponseState, setEnterUserResponseState] = useState({
     success: "",
     error: "",
@@ -34,10 +34,12 @@ const AdminCartDetailsPageComponent = ({ cartItems, itemsCount, cartSubtotal, us
   const navigate = useNavigate();
 useEffect(()=>{
   if(userInfo!=undefined){
+    if(!userInfo.isAdmin){
     setUserName(userInfo.name)
     setUserEmail(userInfo.email)
     setUserPhoneNumber(userInfo.phoneNumber)
     setUserDeliveryAddress(userInfo.address)
+    }
   }
 },[userInfo])
   useEffect(() => {
@@ -82,7 +84,7 @@ useEffect(()=>{
     let user={ name: userName, phoneNumber: userPhoneNumber, email: userEmail, address: userDeliveryAddress }
     console.log("user: " + JSON.stringify(user))
 
-    if (user.ph!={}) {
+    if (user.phoneNumber!={}) {
       registerUserApiRequestFromAdmin(user.name, user.phoneNumber, user.email, user.address)
         .then((data) => {
           setEnterUserResponseState({ success: data.success, loading: false, })
@@ -249,7 +251,8 @@ useEffect(()=>{
                               required
                               minLength={10}
                               isInvalid={userPhoneNumber === null || userPhoneNumber === undefined || userPhoneNumber === "" || userPhoneNumber.trim().length < 11}
-                              onChange={(e) => setUserPhoneNumber(e.target.value)}
+                              onChange={(e) => {
+                                setUserPhoneNumber(e.target.value)}}
                               type="tel"
                               placeholder="03XXXXXXXXX"
                             />
@@ -309,7 +312,7 @@ useEffect(()=>{
 
                         <Form.Group className="mb-3" controlId="formBasicPhoneNumber">
                           <Form.Label>Phone Number</Form.Label>
-                          <Form.Control
+\                          <Form.Control
                             name="phoneNumber"
                             defaultValue={userInfo.phoneNumber}
                             onChange={(e) => setUserPhoneNumber(e.target.value)}
