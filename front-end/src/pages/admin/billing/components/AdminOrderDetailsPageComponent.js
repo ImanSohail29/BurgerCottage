@@ -30,11 +30,23 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [orderReadyButtonDisabled, setOrderReadyButtonDisabled] = useState(false);
   const [orderPaidButtonDisabled, setOrderPaidButtonDisabled] = useState(false);
-  const pageStyle=`@media print {
+  const pageStyle=`
+    @media print {
+      html, body {
+        height: initial !important;
+        width: initial !important;
+        overflow: initial !important;
+        padding:0px;
+        margin: 0px;
+        -webkit-print-color-adjust: exact;
+      }
+    }
+    
     @page {
-      size: 80mm auto;
-      margin: 0;
-      padding:0
+      size: 180mm;
+      height:180mm;
+      padding:0px;
+      margin: 0px;
     }
   }`
   const [orderButtonMessage, setOrderButtonMessage] =
@@ -283,9 +295,9 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
       </Container>
       <h1 className="text-center">Receipt</h1>
 
-      <Container ref={ref} fluid>
+      <Container className="mb-5"  fluid>
 
-        <Row className="mt-4 d-flex justify-content-center text-center text-dark">
+        <Row ref={ref} className="mt-1 d-flex p-0 justify-content-center text-center text-dark">
           <Col md={6} className="bg-light">
             <h1>Burger Cottage</h1>
             <br />
