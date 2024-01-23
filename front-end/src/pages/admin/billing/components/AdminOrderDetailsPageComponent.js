@@ -30,7 +30,7 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [orderReadyButtonDisabled, setOrderReadyButtonDisabled] = useState(false);
   const [orderPaidButtonDisabled, setOrderPaidButtonDisabled] = useState(false);
-  const pageStyle="@page { size: 3in auto }"
+  const pageStyle="@page { size: 3in 6in }"
   const [orderButtonMessage, setOrderButtonMessage] =
     useState("Mark as delivered");
   const [orderDoneButtonMessage, setOrderDoneButtonMessage] =
@@ -249,7 +249,6 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
                     {orderPaidButtonMessage}
                   </Button>
                   <ReactToPrint
-                  pageStyle={pageStyle}
                     bodyClass="print-agreement"
                     content={() => ref.current}
                     trigger={() => {
@@ -297,17 +296,17 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
             <h2>Order items</h2>
             <ListGroup variant="flush">
               {cartItems.map((item, idx) => (
-                <ListGroup.Item key={idx} className="bg-light text-center bg-opacity-50" style={{ minWidth: "600px" }}>
+                <ListGroup.Item key={idx} className="bg-light text-center bg-opacity-50">
                   <Row>
-                    <Col xs={1} ><br />{idx + 1} )</Col>
+                    <Col xs={1} ><br /><small>{idx + 1})</small></Col>
                     <Col xs={3} ><br />{item.name}</Col>
                     {discounted ? (
                       <>
-                        <Col xs={3} ><br /><b> {item.size.value}</b></Col>
-                        <Col xs={2} ><br /><b>Rs</b> {(item.size.price * item.quantity)} /-</Col>
+                        <Col xs={2} ><br /><b> {item.size.value}</b></Col>
+                        <Col xs={3} ><br /><b>Rs</b> {(item.size.price * item.quantity)} /-</Col>
                       </>
                     ) : ("")}
-                    <Col xs={3} ><br /> {item.quantity}</Col>
+                    <Col xs={1} ><br /> {item.quantity}</Col>
 
                   </Row>
                 </ListGroup.Item>
