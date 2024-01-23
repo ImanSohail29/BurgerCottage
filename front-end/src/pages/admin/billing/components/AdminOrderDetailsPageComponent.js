@@ -249,6 +249,7 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
                     {orderPaidButtonMessage}
                   </Button>
                   <ReactToPrint
+                  pageStyle={pageStyle}
                     bodyClass="print-agreement"
                     content={() => ref.current}
                     trigger={() => {
