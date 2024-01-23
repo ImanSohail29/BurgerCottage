@@ -30,6 +30,7 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [orderReadyButtonDisabled, setOrderReadyButtonDisabled] = useState(false);
   const [orderPaidButtonDisabled, setOrderPaidButtonDisabled] = useState(false);
+  const pageStyle = `{ size: 2.5in 6in }`;
   const [orderButtonMessage, setOrderButtonMessage] =
     useState("Mark as delivered");
   const [orderDoneButtonMessage, setOrderDoneButtonMessage] =
@@ -248,6 +249,7 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
                     {orderPaidButtonMessage}
                   </Button>
                   <ReactToPrint
+                  pageStyle={pageStyle}
                     bodyClass="print-agreement"
                     content={() => ref.current}
                     trigger={() => {
