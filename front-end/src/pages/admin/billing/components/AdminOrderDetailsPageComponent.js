@@ -31,24 +31,11 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
   const [orderReadyButtonDisabled, setOrderReadyButtonDisabled] = useState(false);
   const [orderPaidButtonDisabled, setOrderPaidButtonDisabled] = useState(false);
   const pageStyle=`
-    @media print {
-      html, body {
-        height: initial !important;
-        width: initial !important;
-        overflow: initial !important;
-        padding:0px;
-        margin: 0px;
-        -webkit-print-color-adjust: exact;
-      }
-    }
-    
     @page {
-      size: 180mm;
-      height:180mm;
+      size: 150mm;
       padding:0px;
       margin: 0px;
-    }
-  }`
+    }`
   const [orderButtonMessage, setOrderButtonMessage] =
     useState("Mark as delivered");
   const [orderDoneButtonMessage, setOrderDoneButtonMessage] =
