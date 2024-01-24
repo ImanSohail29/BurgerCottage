@@ -33,15 +33,16 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
   const pageStyle=`
     @media print {
       html, body {
-
+        height:auto !important;
+        width:auto !important;
         padding:0px;
         margin: 0px;
       }
     }
     @page {
-      size: 50mm auto;
-      padding:auto;
-      margin: auto;
+      size: 80mm 210mm;
+      padding:0px;
+      margin: 0px;
     }`
   const [orderButtonMessage, setOrderButtonMessage] =
     useState("Mark as delivered");
