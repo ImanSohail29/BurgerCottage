@@ -31,8 +31,14 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
   const [orderReadyButtonDisabled, setOrderReadyButtonDisabled] = useState(false);
   const [orderPaidButtonDisabled, setOrderPaidButtonDisabled] = useState(false);
   const pageStyle=`
+    @media print {
+      html, body {
+        padding:0px;
+        margin: 0px;
+      }
+    }
     @page {
-      size: 150mm;
+      size: 50mm auto;
       padding:0px;
       margin: 0px;
     }`
@@ -285,8 +291,8 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
 
       <Container className="mb-5"  fluid>
 
-        <Row ref={ref} className="mt-1 d-flex p-0 justify-content-center text-center text-dark">
-          <Col  md={6} className="bg-light">
+        <Row  className="mt-1 d-flex p-0 justify-content-center text-center text-dark">
+          <Col ref={ref} md={6} className="bg-light text-center">
             <h1>Burger Cottage</h1>
             <br />
             <p>{orderPlacedAt}</p>
