@@ -14,6 +14,7 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { logout } from "../../../../redux/slices/userSlice";
 import CartItemComponent from "../../../../components/CartItemComponent";
+import "./../../../../style/AdminOrderDetails.css"
 
 const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,markAsPaid,markAsConfirmed, discount }) => {
   const ref = useRef();
@@ -32,7 +33,7 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
   const [orderPaidButtonDisabled, setOrderPaidButtonDisabled] = useState(false);
   const pageStyle=`
     @media print {
-      html, body {
+      page-agreement {
         height:auto !important;
         width:auto !important;
         padding:0px;
@@ -40,7 +41,6 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
       }
     }
     @page {
-      size: 80mm 210mm;
       padding:0px;
       margin: 0px;
     }`
@@ -289,12 +289,9 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
 
 
       </Container>
-      <h1 className="text-center">Receipt</h1>
-
-      <Container className="mb-5"  fluid>
-
-        <Row  className="mt-1 d-flex p-0 justify-content-center text-center text-dark">
-          <Col ref={ref} md={6} className="bg-light text-center">
+      <Container hidden={true} className="mb-5"  fluid>
+        <Row ref={ref} className="page">
+          <Col className="sub-page">
             <h1>Burger Cottage</h1>
             <br />
             <p>{orderPlacedAt}</p>

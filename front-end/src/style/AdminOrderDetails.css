@@ -1,0 +1,30 @@
+body {
+    margin: 0;
+    padding: 0;
+  }
+  .page {
+    justify-content: center;
+    text-align: center;
+    padding: 0cm;
+    margin: 0cm;
+  }
+  .subpage {
+    height: 0cm;
+  }
+  
+  @page {
+    size: 3in 6in;
+    margin: 0;
+  }
+  @media print {
+    .page {
+      margin: 0;
+      border: initial;
+      border-radius: initial;
+      width: initial;
+      min-height: initial;
+      box-shadow: initial;
+      background: initial;
+    }
+  }
+  
