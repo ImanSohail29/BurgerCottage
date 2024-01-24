@@ -123,11 +123,12 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
                       }>Confirm Order</Button>
               </Col>
               {userInfo ? (<Col md={6}>
+                {console.log(userInfo)}
                 <h2>Customer Information</h2>
-                <div><b>Name</b>: {userInfo.name} {userInfo.lastName} <br /></div>
-                <div><b>Address</b>: {userInfo.address}{" "}</div>
-                <div><b>Email</b>: {userInfo.email}{" "}</div>
-                <div><b>Phone</b>: {userInfo.phoneNumber}</div>
+                {userInfo.name?(<div><b>Name</b>: {userInfo.name} {userInfo.lastName} <br /></div>):("")}
+                 {userInfo.address?(<div><b>Address</b>: {userInfo.address}{" "}</div>):("")}
+                 {userInfo.email?(<div><b>Email</b>: {userInfo.email}{" "}</div>):("")}
+                 {userInfo.phoneNumber?(<div><b>Phone</b>: {userInfo.phoneNumber}</div>):("")}
               </Col>) : (
                 ""
               )}
@@ -285,15 +286,16 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
       <Container className="mb-5"  fluid>
 
         <Row ref={ref} className="mt-1 d-flex p-0 justify-content-center text-center text-dark">
-          <Col md={6} className="bg-light">
+          <Col  md={6} className="bg-light">
             <h1>Burger Cottage</h1>
             <br />
             <p>{orderPlacedAt}</p>
             <Row>
               {userInfo ? (<Col md={6}>
-                <div><b>Name</b>: {userInfo.name} {userInfo.lastName} <br /></div>
-                <div><b>Address</b>: {userInfo.address}{" "}</div>
-                <div><b>Phone</b>: {userInfo.phoneNumber}</div>
+                {userInfo.name?(<div><b>Name</b>: {userInfo.name} {userInfo.lastName} <br /></div>):("")}
+                 {userInfo.address?(<div><b>Address</b>: {userInfo.address}{" "}</div>):("")}
+                 {userInfo.email?(<div><b>Email</b>: {userInfo.email}{" "}</div>):("")}
+                 {userInfo.phoneNumber?(<div><b>Phone</b>: {userInfo.phoneNumber}</div>):("")}
               </Col>) : (
                 ""
               )}
