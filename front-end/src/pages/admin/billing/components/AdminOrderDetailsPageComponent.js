@@ -328,9 +328,6 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
 
             <ListGroup>
               <ListGroup.Item>
-                <h3>Total</h3>
-              </ListGroup.Item>
-              <ListGroup.Item>
                 Items price (after tax):{" "}
                 <span className="fw-bold">Rs {cartSubtotal}/-</span>
               </ListGroup.Item>

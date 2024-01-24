@@ -13,7 +13,7 @@ body {
   }
   
   @page {
-    size: 3in 6in;
+    size: 4in 8in;
     margin: 0;
   }
   @media print {
