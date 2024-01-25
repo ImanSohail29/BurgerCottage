@@ -291,7 +291,7 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
 
       </Container>
       <div hidden={true}>
-      <Container ref={ref} fluid>
+      <Container ref={ref}>
         <Row className="page">
           <Col className="sub-page">
             <h1>Burger Cottage</h1>
@@ -358,12 +358,8 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
             </ListGroup>
           </Col>
         </Row>
-
-
       </Container>
       </div>
-
-
     </>
 
   );
