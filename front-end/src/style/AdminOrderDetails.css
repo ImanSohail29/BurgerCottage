@@ -1,7 +1,13 @@
-  @page {
-    size: 130mm 150mm;
+body {
     margin: 0;
     padding: 0;
+    font: 12pt "Tahoma";
+  }
+  
+  @page {
+    size: 4in 8in;
+    margin: 0px;
+    padding: 0px;
   }
   @media print {
     .page {
@@ -9,7 +15,11 @@
       padding: 0 !important;
       justify-content: center;
       text-align: center;
-      height: fit-content;
+      border: initial;
+      border-radius: initial;
+      width: initial;
+      box-shadow: initial;
+      background: initial;
     }
     .sub-page {
       margin: 0 !important;

@@ -31,19 +31,6 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [orderReadyButtonDisabled, setOrderReadyButtonDisabled] = useState(false);
   const [orderPaidButtonDisabled, setOrderPaidButtonDisabled] = useState(false);
-  const pageStyle=`
-    @media print {
-      page-agreement {
-        height:auto !important;
-        width:auto !important;
-        padding:0px;
-        margin: 0px;
-      }
-    }
-    @page {
-      padding:0px;
-      margin: 0px;
-    }`
   const [orderButtonMessage, setOrderButtonMessage] =
     useState("Mark as delivered");
   const [orderDoneButtonMessage, setOrderDoneButtonMessage] =
@@ -264,8 +251,6 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
                     {orderPaidButtonMessage}
                   </Button>
                   <ReactToPrint
-                  pageStyle={pageStyle}
-                    bodyClass="print-agreement"
                     content={() => ref.current}
                     trigger={() => {
                       return (
@@ -311,7 +296,7 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
             <h2>Order items</h2>
             <ListGroup variant="flush">
               {cartItems.map((item, idx) => (
-                <ListGroup.Item key={idx} className="bg-light text-center bg-opacity-50">
+                <ListGroup.Item key={idx} className="text-center">
                   <Row>
                     <Col xs={1} ><br /><small>{idx + 1})</small></Col>
                     <Col xs={3} ><br />{item.name}</Col>
@@ -350,7 +335,7 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
               <ListGroup.Item>
                 Tax: <span className="fw-bold">included</span>
               </ListGroup.Item>
-              <ListGroup.Item className="text-danger">
+              <ListGroup.Item>
                 Total price: <span className="fw-bold">Rs {cartSubtotal}/-</span>
               </ListGroup.Item>
               <ListGroup.Item>
