@@ -1,30 +1,18 @@
-body {
+  @page {
+    size: 130mm 150mm;
     margin: 0;
     padding: 0;
   }
-  .page {
-    justify-content: center;
-    text-align: center;
-    padding: 0cm;
-    margin: 0cm;
-  }
-  .subpage {
-    height: 0cm;
-  }
-  
-  @page {
-    size: 4in 8in;
-    margin: 0;
-  }
   @media print {
     .page {
-      margin: 0;
-      border: initial;
-      border-radius: initial;
-      width: initial;
-      min-height: initial;
-      box-shadow: initial;
-      background: initial;
+      margin: 0 !important;
+      padding: 0 !important;
+      justify-content: center;
+      text-align: center;
+    }
+    .sub-page {
+      margin: 0 !important;
+      padding: 0 !important;
     }
   }
   

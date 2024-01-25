@@ -120,15 +120,7 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
               <p>Service Mode: <b>{serviceMode}</b></p>
               </Col>
               <Col>
-              <Button className="danger" disabled={isConfirmed} onClick={() =>
-                        markAsConfirmed(orderId)
-                          .then((res) => {
-                            if (res) {
-                              setIsConfirmed(true);
-                            }
-                          })
-                          .catch(er => console.log(er.response.data.message ? er.response.data.message : er.response.data))
-                      }>Confirm Order</Button>
+              
               </Col>
               {userInfo ? (<Col md={6}>
                 {console.log(userInfo)}
@@ -209,6 +201,15 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
               </ListGroup.Item>)}
               <ListGroup.Item>
                 <div className="d-grid gap-2">
+                <Button size="lg" className="danger" disabled={isConfirmed} onClick={() =>
+                        markAsConfirmed(orderId)
+                          .then((res) => {
+                            if (res) {
+                              setIsConfirmed(true);
+                            }
+                          })
+                          .catch(er => console.log(er.response.data.message ? er.response.data.message : er.response.data))
+                      }>Confirm Order</Button>
                   {serviceMode === "delivery" ? (
                     <Button
                       size="lg"
@@ -289,8 +290,9 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
 
 
       </Container>
-      <Container hidden={true} className="mb-5"  fluid>
-        <Row ref={ref} className="page">
+      <div hidden={true}>
+      <Container ref={ref} fluid>
+        <Row className="page">
           <Col className="sub-page">
             <h1>Burger Cottage</h1>
             <br />
@@ -359,6 +361,7 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
 
 
       </Container>
+      </div>
 
 
     </>
