@@ -52,7 +52,7 @@ const AdminOrdersPageComponent = ({ getOrders, socketIOClient }) => {
       <Button ref={audioButtonRef} hidden={true} onClick={()=>{
         play()}}></Button>
       <Col >
-        <h1>Orders</h1>
+      {orders.length>0?(<><h1>Orders</h1>
         <Table bordered hover responsive>
           <thead>
             <tr>
@@ -194,7 +194,9 @@ const AdminOrdersPageComponent = ({ getOrders, socketIOClient }) => {
               </tr>)
             ))}
           </tbody>
-        </Table>
+        </Table></>):(<h1>Loading...</h1>)
+        }
+        
       </Col>
     </Row>
   );

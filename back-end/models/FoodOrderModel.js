@@ -1,8 +1,15 @@
 const mongoose=require("mongoose")
+const {nanoid}=require("nanoid")
 const FoodItem=require("./FoodItemModel")
 const Customer=require("./UserModel")
 
 const FoodOrderModel=mongoose.Schema({
+    orderId: {
+        type: String,
+        required: true,
+        default: () => nanoid(6),
+        index: { unique: true },
+      },
     cart:{cartItems: {
         type: ["Mixed"]
     },
