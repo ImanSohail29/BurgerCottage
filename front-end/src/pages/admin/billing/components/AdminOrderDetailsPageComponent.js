@@ -20,7 +20,6 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
   const ref = useRef();
   const { orderId } = useParams();
   const dispatch = useDispatch();
-  const [uniqueOrderId, setUniqueOrderId] = useState("");
   const [userInfo, setUserInfo] = useState({});
   const [paymentMethod, setPaymentMethod] = useState("");
   const [isPaid, setIsPaid] = useState(false);
@@ -53,7 +52,6 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
   useEffect(() => {
     getOrder(orderId)
       .then((order) => {
-        setUniqueOrderId(order.orderId)
         setUserInfo(order.customerInfo);
         setPaymentMethod(order.paymentMethod);
         setServiceMode(order.serviceMode)
@@ -104,7 +102,7 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
             <Row>
               <Col>
               <p>{orderPlacedAt}</p>
-              {uniqueOrderId!==""?(<p><b>Order Id : </b>{uniqueOrderId}</p>):(<p><b>Order Id : </b>{orderId.substring(0,6)}</p>)}
+              <p><b>Order Id : </b>{orderId}</p>
               <p>Service Mode: <b>{serviceMode}</b></p>
               </Col>
               <Col>
