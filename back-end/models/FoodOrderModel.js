@@ -1,8 +1,8 @@
 const mongoose=require("mongoose")
-const {nanoid}=require("nanoid")
+const {customAlphabet}=require("nanoid")
 const FoodItem=require("./FoodItemModel")
 const Customer=require("./UserModel")
-
+const nanoid = customAlphabet('1234567890ABCEFGHIJKLMNOPQRSTUVWXYZ',6)
 const FoodOrderModel=mongoose.Schema({
     _id: {
         type: String,
