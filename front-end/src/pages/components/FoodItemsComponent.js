@@ -97,7 +97,7 @@ const FoodItemsComponent = ({ getFoodItems, categories, addProductApiRequest, di
                     </Col>
                     <Col xs={8} className="mb-5">
 
-                        {isLoading ? (<h1>Loading Items...</h1>) : error ? (<h1>Error while loading food Items...</h1>) : (
+                        {isLoading ? (<Col style={{textAlign:"center", justifyContent:"center"}}><h1 className="loader"></h1></Col>) : error ? (<h1>Error while loading food Items...</h1>) : (
                             <>
                                 {categoryName ? (
                                     <Row className="mt-1">

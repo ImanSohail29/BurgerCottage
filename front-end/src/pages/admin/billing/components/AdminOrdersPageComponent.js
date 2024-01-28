@@ -48,7 +48,7 @@ const AdminOrdersPageComponent = ({ getOrders, socketIOClient }) => {
       );
   }, []);
   return (
-    <Row className="m-5">
+    <Row className="animate-bottom">
       <Button ref={audioButtonRef} hidden={true} onClick={()=>{
         play()}}></Button>
       <Col >
@@ -194,7 +194,7 @@ const AdminOrdersPageComponent = ({ getOrders, socketIOClient }) => {
               </tr>)
             ))}
           </tbody>
-        </Table></>):(<h1>Loading...</h1>)
+        </Table></>):(<Col style={{textAlign:"center", justifyContent:"center"}}><h1 className="loader"></h1></Col>)
         }
         
       </Col>

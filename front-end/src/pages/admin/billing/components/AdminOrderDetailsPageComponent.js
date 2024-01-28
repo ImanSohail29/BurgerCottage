@@ -93,7 +93,8 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
   }, [isDelivered, isDone, orderId,isPaid]);
 
   return (
-    <>
+    cartItems.length>0?(
+      <>
       <Container fluid>
         <Row className="mt-4">
           <h1>Order Details</h1>
@@ -346,6 +347,8 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
       </div>
     </>
 
+    ):(<Col style={{textAlign:"center", justifyContent:"center"}}><h1 className="loader"></h1></Col>)
+    
   );
 };
 

@@ -151,7 +151,7 @@ const FoodItemDetailComponent = ({
         />
         <Row className="mt-5">
           {loading ? (
-            <h2>Loading product details ...</h2>
+            (<Col style={{textAlign:"center", justifyContent:"center"}}><h1 className="loader"></h1></Col>)
           ) : error ? (
             <h2>{error}</h2>
           ) : (
@@ -171,7 +171,7 @@ const FoodItemDetailComponent = ({
                   <Col md={6}>
                     <ListGroup variant="flush">
                       <ListGroup.Item>
-                        <h1>{product.name}</h1>
+                        <h4>{product.name}</h4>
                       </ListGroup.Item>
                       {/* <ListGroup.Item>
                         <Rating
