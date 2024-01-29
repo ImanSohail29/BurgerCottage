@@ -30,7 +30,8 @@ const AdminExpensesComponent = ({ getExpenses, deleteExpense}) => {
 
 
     return (
-        <Row className="m-5">
+        expenses.length>0?(
+            <Row className="m-5 animate-bottom">
             <Col md={12}>                
                 {expenses.length > 0 ? (<>
                     <h1>Expenses List</h1>
@@ -72,6 +73,10 @@ const AdminExpensesComponent = ({ getExpenses, deleteExpense}) => {
 
             </Col>
         </Row>
+        ):(
+            <Col style={{textAlign:"center", justifyContent:"center"}}><h1 className="loader"></h1></Col>
+        )
+        
     )
 
 

@@ -22,7 +22,7 @@ const UserOrdersPageComponent = ({ getOrders }) => {
     },[])
     return (
         orders.length>0?(
-            <Row className="m-5">
+            <Row className="m-5 animate-bottom">
             <Col md={12}>
                 <Table striped bordered hover>
                     <thead>

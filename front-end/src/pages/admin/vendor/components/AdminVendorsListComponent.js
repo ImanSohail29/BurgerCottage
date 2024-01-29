@@ -26,7 +26,8 @@ const AdminVendorsListComponent = ({ fetchVendors ,  deleteVendor }) => {
         return () => abctrl.abort()
     }, [vendorDeleted])
     return (
-        <Row className="m-5">
+        vendors.length>0?(
+            <Row className="m-5 animate-bottom">
             <Col md={12}>
                 <h1>Vendors List{"  "}<LinkContainer to="/admin/create-new-vendor">
             <Button variant="primary" size="lg">
@@ -72,6 +73,10 @@ const AdminVendorsListComponent = ({ fetchVendors ,  deleteVendor }) => {
                 </Table>
             </Col>
         </Row>
+        ):(
+            <Col style={{textAlign:"center", justifyContent:"center"}}><h1 className="loader"></h1></Col>
+        )
+        
     );
 
 };
