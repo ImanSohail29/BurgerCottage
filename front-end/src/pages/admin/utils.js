@@ -1,5 +1,26 @@
 import axios from "axios"
+function replaceCharacter(str, replacement) {
+    let strLength=str.length
+    str=str.slice(1, strLength)
+    return (
+      replacement+str
+    );
+  }
+  
+export const checkPhoneNumber=(phoneNumberString)=>{
+    if(phoneNumberString)
+    {
+    var phoneNumber=phoneNumberString.split(" ").join("")
+    if(phoneNumber[0]!=="+")
+    {
+    phoneNumber=replaceCharacter(phoneNumber, '+92');
+    }
 
+    return phoneNumber
+}
+else return phoneNumberString
+
+}
 export const uploadImagesApiRequest = async (images, foodItemId) => {
     const formData = new FormData()
     // images.map((image)=>{

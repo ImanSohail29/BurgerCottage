@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 import CartItemComponent from "../../../../components/CartItemComponent";
+import { checkPhoneNumber } from "../../utils";
 
 const AdminCartDetailsPageComponent = ({ cartItems, itemsCount, cartSubtotal, userInfo, addToCart, removeFromCart, resetCart, reduxDispatch, createOrder, createOrderAdmin, createOrderCustomer, registerUserApiRequestFromAdmin, discount }) => {
   const [validated, setValidated] = useState(false);
@@ -37,7 +38,7 @@ useEffect(()=>{
     if(!userInfo.isAdmin){
     setUserName(userInfo.name)
     setUserEmail(userInfo.email)
-    setUserPhoneNumber(userInfo.phoneNumber)
+    setUserPhoneNumber(checkPhoneNumber(userInfo.phoneNumber))
     setUserDeliveryAddress(userInfo.address)
     }
   }
@@ -83,9 +84,9 @@ useEffect(()=>{
     console.log("inside order handler")
     let user={ name: userName, phoneNumber: userPhoneNumber, email: userEmail, address: userDeliveryAddress }
     console.log("user: " + JSON.stringify(user))
-
+    var userPhoneNumberAdmin=checkPhoneNumber(user.phoneNumber)
     if (user.phoneNumber!={}) {
-      registerUserApiRequestFromAdmin(user.name, user.phoneNumber, user.email, user.address)
+      registerUserApiRequestFromAdmin(user.name, userPhoneNumberAdmin, user.email, user.address)
         .then((data) => {
           setEnterUserResponseState({ success: data.success, loading: false, })
           const orderData = {
@@ -249,7 +250,7 @@ useEffect(()=>{
                             <Form.Control
                               name="phoneNumber"
                               required
-                              minLength={13}
+                              minLength={11}
                               isInvalid={userPhoneNumber === null || userPhoneNumber === undefined || userPhoneNumber === "" || userPhoneNumber.trim().length < 11}
                               onChange={(e) => {
                                 setUserPhoneNumber(e.target.value)}}
@@ -312,12 +313,12 @@ useEffect(()=>{
 
                         <Form.Group className="mb-3" controlId="formBasicPhoneNumber">
                           <Form.Label>Phone Number</Form.Label>
-\                          <Form.Control
+                          <Form.Control
                             name="phoneNumber"
                             defaultValue={userInfo.phoneNumber}
                             onChange={(e) => setUserPhoneNumber(e.target.value)}
                             type="tel"
-                            minLength={13}
+                            minLength={11}
                             required
                             placeholder="+923XXXXXXXXX"
                           />
@@ -384,7 +385,7 @@ useEffect(()=>{
                             <Form.Control
                               name="phoneNumber"
                               required
-                              minLength={13}
+                              minLength={11}
                               isInvalid={userPhoneNumber === null || userPhoneNumber === undefined || userPhoneNumber === "" || userPhoneNumber.trim().length < 11}
                               onChange={(e) => setUserPhoneNumber(e.target.value)}
                               type="tel"

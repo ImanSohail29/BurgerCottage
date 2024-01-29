@@ -61,7 +61,8 @@ const OrderDetailsPageComponent = ({ getOrder, markAsDelivered, discount }) => {
     }, [isDelivered, orderId]);
 
     return (
-        <>
+        cartSubtotal!==0?(
+            <>
             <Container fluid>
                 <Row className="mt-4">
                     <h1>Order Details</h1>
@@ -152,9 +153,9 @@ const OrderDetailsPageComponent = ({ getOrder, markAsDelivered, discount }) => {
                     </Col>
                 </Row>
             </Container>
-            <h1 className="text-center">Receipt</h1>
+            <h1 className="text-center" hidden={true}>Receipt</h1>
 
-            <Container ref={ref} fluid>
+            <Container ref={ref} hidden={true} fluid>
 
                 <Row className="mt-4 d-flex justify-content-center text-center text-dark">
                     <Col md={6} className="bg-light">
@@ -219,6 +220,10 @@ const OrderDetailsPageComponent = ({ getOrder, markAsDelivered, discount }) => {
 
         </>
 
+        ):(
+           <Col style={{textAlign:"center", justifyContent:"center"}}><h1 className="loader"></h1></Col>
+        )
+        
     );
 };
 

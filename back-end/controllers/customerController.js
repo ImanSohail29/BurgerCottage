@@ -24,7 +24,7 @@ console.log( name+ phoneNumber+ address+ password )
     console.log( JSON.stringify(userExists) )
     if (userExists&&userExists.password!=="1111") {
       return res.status(400).send("user exists");
-    } else if(userExists.password==="1111"){
+    } else if(userExists&&userExists.password==="1111"){
       const hashedPassword = hashPassword(password);
       userExists.name = name || userExists.name;
       userExists.address = address || userExists.address;

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 const UserOrdersPageComponent = ({ getOrders }) => {
     const [orders,setOrders]=useState([])
+    const [loaded,setLoaded]=useState(false)
     const toTime = (timeString) => {
         const date = new Date(timeString)
         let n = date.toLocaleString([], {
@@ -14,11 +15,14 @@ const UserOrdersPageComponent = ({ getOrders }) => {
       }
     useEffect(()=>{
         getOrders()
-        .then((data) =>setOrders(data))
+        .then((data) =>
+        {setOrders(data)
+        setLoaded(true)})
         .catch((er)=>console.log(er))
     },[])
     return (
-        <Row className="m-5">
+        orders.length>0?(
+            <Row className="m-5">
             <Col md={12}>
                 <Table striped bordered hover>
                     <thead>
@@ -49,6 +53,10 @@ const UserOrdersPageComponent = ({ getOrders }) => {
                 </Table>
             </Col>
         </Row>
+        ):(
+            loaded?(<h5>No orders yet...</h5>):(<Col style={{textAlign:"center", justifyContent:"center"}}><h1 className="loader"></h1></Col>)
+        )
+        
     )
 };
 export default UserOrdersPageComponent;

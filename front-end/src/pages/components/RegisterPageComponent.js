@@ -93,7 +93,7 @@ const RegisterPageComponent = ({
                 name="phoneNumber"
                 required
                 type="tel"
-                minLength={13}
+                minLength={11}
                 placeholder="+923XXXXXXXXX"
               />
               <Form.Control.Feedback type="invalid">
@@ -109,7 +109,7 @@ const RegisterPageComponent = ({
                 placeholder="Password"
                 minLength={6}
                 onChange={onChange}
-                isInvalid={(e)=>e.target.value.length<6}
+                isInvalid={(e)=>e.target.value.length>6}
               />
               <Form.Control.Feedback type="invalid">
                 Please enter a valid password
