@@ -24,14 +24,25 @@ const RegisterPageComponent = ({
       setPasswordsMatchState(false);
     }
   };
-
+  function replaceCharacter(str, index, replacement) {
+    let strLength=str.length
+    str=str.slice(1, strLength)
+    return (
+      replacement+str
+    );
+  }
+  
   const handleSubmit = (event) => {
     event.preventDefault();
     event.stopPropagation();
     const form = event.currentTarget.elements;
     const name = form.name.value;
     let phoneNumberString = form.phoneNumber.value;
-    const phoneNumber=phoneNumberString.split(" ").join("")
+    var phoneNumber=phoneNumberString.split(" ").join("")
+    if(phoneNumber[0]!=="+")
+    {
+      phoneNumber=replaceCharacter(phoneNumber, 0, '+92');
+    }
     const password = form.password.value;
     if (
       event.currentTarget.checkValidity() === true &&phoneNumber &&password &&name &&form.password.value === form.confirmPassword.value
@@ -82,7 +93,8 @@ const RegisterPageComponent = ({
                 name="phoneNumber"
                 required
                 type="tel"
-                placeholder="03XX-XXXXXXX"
+                minLength={13}
+                placeholder="+923XXXXXXXXX"
               />
               <Form.Control.Feedback type="invalid">
                 Please enter a valid phone Number
@@ -95,9 +107,9 @@ const RegisterPageComponent = ({
                 required
                 type="password"
                 placeholder="Password"
-                minLength={4}
+                minLength={6}
                 onChange={onChange}
-                isInvalid={!passwordsMatchState}
+                isInvalid={(e)=>e.target.value.length<6}
               />
               <Form.Control.Feedback type="invalid">
                 Please enter a valid password
@@ -113,7 +125,7 @@ const RegisterPageComponent = ({
                 required
                 type="password"
                 placeholder="Repeat Password"
-                minLength={4}
+                minLength={6}
                 onChange={onChange}
                 isInvalid={!passwordsMatchState}
               />

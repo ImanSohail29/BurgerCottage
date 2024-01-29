@@ -9,13 +9,26 @@ const AdminEditVendorComponent = ({ updateVendorApiRequest, fetchVendor }) => {
 
     const { id } = useParams()
     const navigate = useNavigate();
-    
+    function replaceCharacter(str, replacement) {
+        let strLength=str.length
+        str=str.slice(1, strLength)
+        return (
+          replacement+str
+        );
+      }
+      
     const handleSubmit = (event) => {
         event.preventDefault();
         event.stopPropagation();
         const form = event.currentTarget.elements;
         const name = form.name.value;
-        const phoneNumber = form.phoneNumber.value;
+        let phoneNumberString = form.phoneNumber.value;
+    var phoneNumber=phoneNumberString.split(" ").join("")
+    if(phoneNumber[0]!=="+")
+    {
+    phoneNumber=replaceCharacter(phoneNumber, '+92');
+    }
+
         const email = form.email.value;
         const idCardNumber = form.idCardNumber.value;
 
@@ -58,8 +71,8 @@ const AdminEditVendorComponent = ({ updateVendorApiRequest, fetchVendor }) => {
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="formBasicPhoneNumber">
                             <Form.Label>Phone Number</Form.Label>
-                            <Form.Control name="phoneNumber" defaultValue={vendor.phoneNumber} required type="tel" maxLength="12"
-                                placeholder="03XX-XXXXXXX"></Form.Control>
+                            <Form.Control name="phoneNumber" defaultValue={vendor.phoneNumber} required type="tel" maxLength="13"
+                                placeholder="+923XXXXXXXXX"></Form.Control>
                             <Form.Control.Feedback type="invalid">Please enter a valid phone Number</Form.Control.Feedback>
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="formBasicEmail">

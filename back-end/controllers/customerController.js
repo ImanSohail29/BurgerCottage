@@ -19,11 +19,29 @@ const registerUser = async (req, res, next) => {
     if (!(name && phoneNumber && password)) {
       return res.status(400).send("All inputs are required");
     }
-
+console.log( name+ phoneNumber+ address+ password )
     const userExists = await Customer.findOne({ phoneNumber });
+    console.log( JSON.stringify(userExists) )
     if (userExists&&userExists.password!=="1111") {
       return res.status(400).send("user exists");
-    } else {
+    } else if(userExists.password==="1111"){
+      const hashedPassword = hashPassword(password);
+      userExists.name = name || userExists.name;
+      userExists.address = address || userExists.address;
+      userExists.password = hashedPassword
+      await userExists.save();
+      res .status(201)
+      .json({
+        success: "User created",
+        userCreated: {
+          _id: userExists._id,
+          name: userExists.name,
+          phoneNumber: userExists.phoneNumber,
+          isAdmin: userExists.isAdmin,
+        },
+      });
+    }
+    else {
       const hashedPassword = hashPassword(password);
       const user = await Customer.create({
         name,

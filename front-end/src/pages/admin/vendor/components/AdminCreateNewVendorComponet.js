@@ -59,8 +59,8 @@ const AdminCreateNewVendorComponent = ({createNewVendorApiRequest}) => {
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="formBasicPhoneNumber">
                             <Form.Label>Phone Number</Form.Label>
-                            <Form.Control name="phoneNumber" required type="tel" maxLength="12"
-                                placeholder="03XX-XXXXXXX"></Form.Control>
+                            <Form.Control name="phoneNumber" required type="tel" maxLength="13"
+                                placeholder="+923XXXXXXXXX"></Form.Control>
                             <Form.Control.Feedback type="invalid">Please enter a valid phone Number</Form.Control.Feedback>
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="formBasicEmail">

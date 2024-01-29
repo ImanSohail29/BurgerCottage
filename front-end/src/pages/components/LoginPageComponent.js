@@ -12,14 +12,26 @@ const LoginPageComponent = ({ loginUserApiRequest,reduxDispatch, loginAction  })
   });
 
   const navigate = useNavigate();
-
+  function replaceCharacter(str, replacement) {
+    let strLength=str.length
+    str=str.slice(1, strLength)
+    return (
+      replacement+str
+    );
+  }
+  
   const handleSubmit = (event) => {
     event.preventDefault();
     event.stopPropagation();
     const form = event.currentTarget.elements;
 
     let phoneNumberString = form.phoneNumber.value;
-    const phoneNumber=phoneNumberString.split(" ").join("")
+    var phoneNumber=phoneNumberString.split(" ").join("")
+    if(phoneNumber[0]!=="+")
+    {
+    phoneNumber=replaceCharacter(phoneNumber, '+92');
+    }
+
     console.log(phoneNumber)
     const password = form.password.value;
     const doNotLogout = form.doNotLogout.checked;

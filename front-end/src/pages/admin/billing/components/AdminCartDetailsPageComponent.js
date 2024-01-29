@@ -249,12 +249,12 @@ useEffect(()=>{
                             <Form.Control
                               name="phoneNumber"
                               required
-                              minLength={10}
+                              minLength={13}
                               isInvalid={userPhoneNumber === null || userPhoneNumber === undefined || userPhoneNumber === "" || userPhoneNumber.trim().length < 11}
                               onChange={(e) => {
                                 setUserPhoneNumber(e.target.value)}}
                               type="tel"
-                              placeholder="03XXXXXXXXX"
+                              placeholder="+923XXXXXXXXX"
                             />
                             <Form.Control.Feedback type="invalid">
                               Please enter your phone Number
@@ -317,8 +317,9 @@ useEffect(()=>{
                             defaultValue={userInfo.phoneNumber}
                             onChange={(e) => setUserPhoneNumber(e.target.value)}
                             type="tel"
+                            minLength={13}
                             required
-                            placeholder="03XXXXXXXXX"
+                            placeholder="+923XXXXXXXXX"
                           />
                           <Form.Control.Feedback type="invalid">
                             Please enter a valid phone Number
@@ -383,11 +384,11 @@ useEffect(()=>{
                             <Form.Control
                               name="phoneNumber"
                               required
-                              minLength={10}
+                              minLength={13}
                               isInvalid={userPhoneNumber === null || userPhoneNumber === undefined || userPhoneNumber === "" || userPhoneNumber.trim().length < 11}
                               onChange={(e) => setUserPhoneNumber(e.target.value)}
                               type="tel"
-                              placeholder="03XXXXXXXXX"
+                              placeholder="+923XXXXXXXXX"
                             />
                             <Form.Control.Feedback type="invalid">
                               Please enter phone Number
