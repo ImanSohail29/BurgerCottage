@@ -67,7 +67,7 @@ const AdminOrdersPageComponent = ({ getOrders, socketIOClient }) => {
               <tr>
                 <th>#</th>
                 <th>User</th>
-                <th>Date <input type="date" className="form-control w-25" onChange={e => setSearchDate(e.target.value.toString())} /></th>
+                <th>Date <input type="date" className="form-control" onChange={e => setSearchDate(e.target.value.toString())} /></th>
                 <th>Time</th>
                 <th>Total</th>
                 <th>Done</th>
