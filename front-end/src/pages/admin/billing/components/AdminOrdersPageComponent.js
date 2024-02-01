@@ -1,4 +1,4 @@
-import { Row, Col, Table, Button } from "react-bootstrap";
+import { Row, Col, Table, Button, Form, InputGroup, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 import { useEffect, useRef, useState } from "react";
@@ -9,6 +9,8 @@ import useSound from 'use-sound'
 
 const AdminOrdersPageComponent = ({ getOrders, socketIOClient }) => {
   const [orders, setOrders] = useState([]);
+  const [search, setSearch] = useState('')
+  const [searchDate, setSearchDate] = useState('')
   const audio = new Audio("/sounds/newOrderSound.mp3");
   const audioButtonRef = useRef(null)
 
@@ -34,7 +36,7 @@ const AdminOrdersPageComponent = ({ getOrders, socketIOClient }) => {
           //   er.response.data.message ? er.response.data.message : er.response.data
           // )
         );
-        audioButtonRef.current.click()
+      audioButtonRef.current.click()
     })
   }, []);
   useEffect(() => {
@@ -49,154 +51,179 @@ const AdminOrdersPageComponent = ({ getOrders, socketIOClient }) => {
   }, []);
   return (
     <Row className="animate-bottom">
-      <Button ref={audioButtonRef} hidden={true} onClick={()=>{
-        play()}}></Button>
+      <Button ref={audioButtonRef} hidden={true} onClick={() => {
+        play()
+      }}></Button>
       <Col >
-      {orders.length>0?(<><h1>Orders</h1>
-        <Table bordered hover responsive>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>User</th>
-              <th>Date</th>
-              <th>Time</th>
-              <th>Total</th>
-              <th>Done</th>
-              <th>Paid</th>
-              <th>Delivered</th>
-              <th>Payment Method</th>
-              <th>Order details</th>
-            </tr>
-          </thead>
-          <tbody>
-            {orders.map((order, idx) => (
-              !order.isDone?(
-              <tr className="table-danger" key={idx} >
-                <td>{idx + 1}</td>
-                <td>
-                  {order.customerInfo ? (
-                    <>
-                      {order.customerInfo.name} {order.customerInfo.phoneNumber}
-                    </>
-                  ) : null}
-                </td>
-                <td>{order.createdAt.substring(0, 10)}</td>
-                <td>{toTime(order.createdAt)}</td>
-                <td>{order.orderTotal.cartSubtotal}</td>
-                <td>
-                  {order.isDone ? (
-                    <i className="bi bi-check-lg text-success"></i>
-                  ) : (
-                    <i className="bi bi-x-lg text-danger"></i>
-                  )}
-                </td>
-                <td>
-                  {order.isPaid ? (
-                    <i className="bi bi-check-lg text-success"></i>
-                  ) : (
-                    <i className="bi bi-x-lg text-danger"></i>
-                  )}
-                </td>
-                <td>
-                  {order.isDelivered ? (
-                    <i className="bi bi-check-lg text-success"></i>
-                  ) : (
-                    <i className="bi bi-x-lg text-danger"></i>
-                  )}
-                </td>
-                <td>{order.paymentMethod}</td>
-                <td>
-                  <Link to={`/admin/order-details/${order._id}`}>
-                    go to order
-                  </Link>
-                </td>
+        {orders.length > 0 ? (<Container><h1>Orders</h1>
+          <Form className="mb-3 w-25">
+            <InputGroup>
+              <Form.Control onChange={(e) => setSearch(e.target.value.toLowerCase())} placeholder="Search by name or phone number..."></Form.Control>
+            </InputGroup>
+          </Form>
+          {console.log(searchDate)}
+          <Table bordered hover responsive>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>User</th>
+                <th>Date <input type="date" className="form-control w-25" onChange={e => setSearchDate(e.target.value.toString())} /></th>
+                <th>Time</th>
+                <th>Total</th>
+                <th>Done</th>
+                <th>Paid</th>
+                <th>Delivered</th>
+                <th>Payment Method</th>
+                <th>Order details</th>
               </tr>
-              ):(!order.isDelivered)?(
-                <tr className="table-success" key={idx} >
-                <td>{idx + 1}</td>
-                <td>
-                  {order.customerInfo ? (
-                    <>
-                      {order.customerInfo.name} {order.customerInfo.phoneNumber}
-                    </>
-                  ) : null}
-                </td>
-                <td>{order.createdAt.substring(0, 10)}</td>
-                <td>{toTime(order.createdAt)}</td>
-                <td>{order.orderTotal.cartSubtotal}</td>
-                <td>
-                  {order.isDone ? (
-                    <i className="bi bi-check-lg text-success"></i>
-                  ) : (
-                    <i className="bi bi-x-lg text-danger"></i>
-                  )}
-                </td>
-                <td>
-                  {order.isPaid ? (
-                    <i className="bi bi-check-lg text-success"></i>
-                  ) : (
-                    <i className="bi bi-x-lg text-danger"></i>
-                  )}
-                </td>
-                <td>
-                  {order.isDelivered ? (
-                    <i className="bi bi-check-lg text-success"></i>
-                  ) : (
-                    <i className="bi bi-x-lg text-danger"></i>
-                  )}
-                </td>
-                <td>{order.paymentMethod}</td>
-                <td>
-                  <Link to={`/admin/order-details/${order._id}`}>
-                    go to order
-                  </Link>
-                </td>
-              </tr>
-              ):(<tr key={idx} >
-                <td>{idx + 1}</td>
-                <td>
-                  {order.customerInfo ? (
-                    <>
-                      {order.customerInfo.name} {order.customerInfo.phoneNumber}
-                    </>
-                  ) : null}
-                </td>
-                <td>{order.createdAt.substring(0, 10)}</td>
-                <td>{toTime(order.createdAt)}</td>
-                <td>{order.orderTotal.cartSubtotal}</td>
-                <td>
-                  {order.isDone ? (
-                    <i className="bi bi-check-lg text-success"></i>
-                  ) : (
-                    <i className="bi bi-x-lg text-danger"></i>
-                  )}
-                </td>
-                <td>
-                  {order.isPaid ? (
-                    <i className="bi bi-check-lg text-success"></i>
-                  ) : (
-                    <i className="bi bi-x-lg text-danger"></i>
-                  )}
-                </td>
-                <td>
-                  {order.isDelivered ? (
-                    <i className="bi bi-check-lg text-success"></i>
-                  ) : (
-                    <i className="bi bi-x-lg text-danger"></i>
-                  )}
-                </td>
-                <td>{order.paymentMethod}</td>
-                <td>
-                  <Link to={`/admin/order-details/${order._id}`}>
-                    go to order
-                  </Link>
-                </td>
-              </tr>)
-            ))}
-          </tbody>
-        </Table></>):(<Col style={{textAlign:"center", justifyContent:"center"}}><h1 className="loader"></h1></Col>)
+            </thead>
+            <tbody>
+              {
+              orders
+                .filter((order) => {
+                  return ( searchDate === '')
+                    ? true
+                    : (searchDate !== '')
+                    ? order.createdAt.substring(0, 10) === searchDate
+                    : null
+                }
+                )
+                .filter((order) => {
+                  return (search.toLowerCase() === '')
+                    ? true
+                    : (order.customerInfo !== undefined && order.customerInfo.phoneNumber !== undefined && order.customerInfo.name !== undefined)
+                    ? order.customerInfo.phoneNumber.includes(search) || order.customerInfo.name.toLowerCase().includes(search)
+                    : null
+                }
+                )
+                .map((order, idx) => (
+                  !order.isDone ? (
+                    <tr className="table-danger" key={order._id} >
+                      <td>{idx + 1}</td>
+                      <td>
+                        {order.customerInfo ? (
+                          <>
+                            {order.customerInfo.name} {order.customerInfo.phoneNumber}
+                          </>
+                        ) : null}
+                      </td>
+                      <td>{order.createdAt.substring(0, 10)}</td>
+                      <td>{toTime(order.createdAt)}</td>
+                      <td>{order.orderTotal.cartSubtotal}</td>
+                      <td>
+                        {order.isDone ? (
+                          <i className="bi bi-check-lg text-success"></i>
+                        ) : (
+                          <i className="bi bi-x-lg text-danger"></i>
+                        )}
+                      </td>
+                      <td>
+                        {order.isPaid ? (
+                          <i className="bi bi-check-lg text-success"></i>
+                        ) : (
+                          <i className="bi bi-x-lg text-danger"></i>
+                        )}
+                      </td>
+                      <td>
+                        {order.isDelivered ? (
+                          <i className="bi bi-check-lg text-success"></i>
+                        ) : (
+                          <i className="bi bi-x-lg text-danger"></i>
+                        )}
+                      </td>
+                      <td>{order.paymentMethod}</td>
+                      <td>
+                        <Link to={`/admin/order-details/${order._id}`}>
+                          go to order
+                        </Link>
+                      </td>
+                    </tr>
+                  ) : (!order.isDelivered) ? (
+                    <tr className="table-success" key={idx} >
+                      <td>{idx + 1}</td>
+                      <td>
+                        {order.customerInfo ? (
+                          <>
+                            {order.customerInfo.name} {order.customerInfo.phoneNumber}
+                          </>
+                        ) : null}
+                      </td>
+                      <td>{order.createdAt.substring(0, 10)}</td>
+                      <td>{toTime(order.createdAt)}</td>
+                      <td>{order.orderTotal.cartSubtotal}</td>
+                      <td>
+                        {order.isDone ? (
+                          <i className="bi bi-check-lg text-success"></i>
+                        ) : (
+                          <i className="bi bi-x-lg text-danger"></i>
+                        )}
+                      </td>
+                      <td>
+                        {order.isPaid ? (
+                          <i className="bi bi-check-lg text-success"></i>
+                        ) : (
+                          <i className="bi bi-x-lg text-danger"></i>
+                        )}
+                      </td>
+                      <td>
+                        {order.isDelivered ? (
+                          <i className="bi bi-check-lg text-success"></i>
+                        ) : (
+                          <i className="bi bi-x-lg text-danger"></i>
+                        )}
+                      </td>
+                      <td>{order.paymentMethod}</td>
+                      <td>
+                        <Link to={`/admin/order-details/${order._id}`}>
+                          go to order
+                        </Link>
+                      </td>
+                    </tr>
+                  ) : (<tr key={idx} >
+                    <td>{idx + 1}</td>
+                    <td>
+                      {order.customerInfo ? (
+                        <>
+                          {order.customerInfo.name} {order.customerInfo.phoneNumber}
+                        </>
+                      ) : null}
+                    </td>
+                    <td>{order.createdAt.substring(0, 10)}</td>
+                    <td>{toTime(order.createdAt)}</td>
+                    <td>{order.orderTotal.cartSubtotal}</td>
+                    <td>
+                      {order.isDone ? (
+                        <i className="bi bi-check-lg text-success"></i>
+                      ) : (
+                        <i className="bi bi-x-lg text-danger"></i>
+                      )}
+                    </td>
+                    <td>
+                      {order.isPaid ? (
+                        <i className="bi bi-check-lg text-success"></i>
+                      ) : (
+                        <i className="bi bi-x-lg text-danger"></i>
+                      )}
+                    </td>
+                    <td>
+                      {order.isDelivered ? (
+                        <i className="bi bi-check-lg text-success"></i>
+                      ) : (
+                        <i className="bi bi-x-lg text-danger"></i>
+                      )}
+                    </td>
+                    <td>{order.paymentMethod}</td>
+                    <td>
+                      <Link to={`/admin/order-details/${order._id}`}>
+                        go to order
+                      </Link>
+                    </td>
+                  </tr>)
+                ))}
+            </tbody>
+          </Table></Container>) : (<Col style={{ textAlign: "center", justifyContent: "center" }}><h1 className="loader"></h1></Col>)
         }
-        
+
       </Col>
     </Row>
   );
