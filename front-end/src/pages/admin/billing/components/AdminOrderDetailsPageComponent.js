@@ -15,6 +15,7 @@ import { useDispatch } from "react-redux";
 import { logout } from "../../../../redux/slices/userSlice";
 import CartItemComponent from "../../../../components/CartItemComponent";
 import "./../../../../style/AdminOrderDetails.css"
+import StiReport from "./StiReport";
 
 const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,markAsPaid,markAsConfirmed, discount }) => {
   const ref = useRef();
@@ -22,6 +23,7 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
   const dispatch = useDispatch();
   const [userInfo, setUserInfo] = useState({});
   const [paymentMethod, setPaymentMethod] = useState("");
+  const [orderData, setorderData] = useState({});
   const [isPaid, setIsPaid] = useState(false);
   const [isDelivered, setIsDelivered] = useState(false);
   const [isConfirmed, setIsConfirmed] = useState(false);
@@ -52,6 +54,7 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
   useEffect(() => {
     getOrder(orderId)
       .then((order) => {
+        setorderData(order)
         setUserInfo(order.customerInfo);
         setPaymentMethod(order.paymentMethod);
         setServiceMode(order.serviceMode)
@@ -275,6 +278,7 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
 
 
       </Container>
+      {orderData?(<StiReport orderData={orderData}></StiReport>):("")}
       <div hidden={true}>
       <Container ref={ref}>
         <Row className="page">
