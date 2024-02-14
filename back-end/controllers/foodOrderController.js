@@ -1,4 +1,4 @@
-const {sendSMS,sendSMSToCustomer}=require("./../config/twilio");
+const { sendSMS, sendSMSToCustomer } = require("./../config/twilio");
 
 const Order = require("../models/FoodOrderModel");
 const Product = require("../models/FoodItemModel");
@@ -49,8 +49,7 @@ const createOrder = async (req, res, next) => {
         //     })
         // })
         if (req.user) {
-            const dateTimeNow = new Date()
-            const dateNow = dateTimeNow.toDateString()
+
             console.log("dateNow : " + dateNow)
             let dateTimeYesterday = new Date();
             dateTimeYesterday.setDate(dateTimeYesterday.getDate() - 1);
@@ -67,19 +66,24 @@ const createOrder = async (req, res, next) => {
                 discount: discount
             })
             const createdOrder = await order.save();
-            let cartItems=[]
-            for(var i=0;i<cart.cartItems.length;i++){
+            let cartItems = []
+            for (var i = 0; i < cart.cartItems.length; i++) {
                 cartItems.push({
-                    name:cart.cartItems[i].name,
-                    size:cart.cartItems[i].size,
-                    quantity:cart.cartItems[i].quantity,
-                    AddOns:cart.cartItems[i].selectedAddOns,
+                    name: cart.cartItems[i].name,
+                    size: cart.cartItems[i].size,
+                    quantity: cart.cartItems[i].quantity,
+                    AddOns: cart.cartItems[i].selectedAddOns,
                 })
             }
-            sendSMS("Customer Info: "+JSON.stringify(order.customerInfo)+"\n\n"+"Cart Items: "+JSON.stringify(cartItems)+" "+"Total number of items: "+cart.itemsCount+"  "+"Subtotal: "+cart.cartSubtotal+"  service mode: "+order.serviceMode+"  Payment Method: "+order.paymentMethod)
+            sendSMS("Customer Info: " + JSON.stringify(order.customerInfo) + "\n\n" + "Cart Items: " + JSON.stringify(cartItems) + " " + "Total number of items: " + cart.itemsCount + "  " + "Subtotal: " + cart.cartSubtotal + "  service mode: " + order.serviceMode + "  Payment Method: " + order.paymentMethod)
+            const dateTimeNow = new Date()
+            const dateNow = dateTimeNow.toDateString()
+            if (dateTimeNow.getHours() < 5) {
+                dateTimeNow.setDate(dateTimeNow.getDate() - 1)
+            }
             const todaysReport = await Report.findOne({ date: dateNow })
-            const yesterdaysReport1 = await Report.find().sort({"$natural":-1}).limit(2)
-        const yesterdaysReport = yesterdaysReport1[1]
+            const yesterdaysReport1 = await Report.find().sort({ "$natural": -1 }).limit(2)
+            const yesterdaysReport = yesterdaysReport1[1]
             console.log("todaysReport : " + todaysReport)
             console.log("yesterdayReport : " + yesterdaysReport)
             let previousProfit = 0
@@ -107,9 +111,7 @@ const createOrder = async (req, res, next) => {
             res.status(201).send(createdOrder);
         }
         else {
-            const dateTimeNow = new Date()
-            const dateNow = dateTimeNow.toDateString()
-            console.log("dateNow : " + dateNow)
+
             let dateTimeYesterday = new Date();
             dateTimeYesterday.setDate(dateTimeYesterday.getDate() - 1);
             const dateYesterday = dateTimeYesterday.toDateString()
@@ -123,19 +125,24 @@ const createOrder = async (req, res, next) => {
                 discount: discount
             })
             const createdOrder = await order.save();
-            let cartItems=[]
-            for(var i=0;i<cart.cartItems.length;i++){
+            let cartItems = []
+            for (var i = 0; i < cart.cartItems.length; i++) {
                 cartItems.push({
-                    name:cart.cartItems[i].name,
-                    size:cart.cartItems[i].size,
-                    quantity:cart.cartItems[i].quantity,
-                    AddOns:cart.cartItems[i].selectedAddOns,
+                    name: cart.cartItems[i].name,
+                    size: cart.cartItems[i].size,
+                    quantity: cart.cartItems[i].quantity,
+                    AddOns: cart.cartItems[i].selectedAddOns,
                 })
             }
-            sendSMS("Customer Info: "+JSON.stringify(order.customerInfo)+"\n\n"+"Cart Items: "+JSON.stringify(cartItems)+" "+"Total number of items: "+cart.itemsCount+"  "+"Subtotal: "+cart.cartSubtotal+"  service mode: "+order.serviceMode+"  Payment Method: "+order.paymentMethod)
+            sendSMS("Customer Info: " + JSON.stringify(order.customerInfo) + "\n\n" + "Cart Items: " + JSON.stringify(cartItems) + " " + "Total number of items: " + cart.itemsCount + "  " + "Subtotal: " + cart.cartSubtotal + "  service mode: " + order.serviceMode + "  Payment Method: " + order.paymentMethod)
+            const dateTimeNow = new Date()
+            const dateNow = dateTimeNow.toDateString()
+            if (dateTimeNow.getHours() < 5) {
+                dateTimeNow.setDate(dateTimeNow.getDate() - 1)
+            }
             const todaysReport = await Report.findOne({ date: dateNow })
-            const yesterdaysReport1 = await Report.find().sort({"$natural":-1}).limit(2)
-        const yesterdaysReport = yesterdaysReport1[1]
+            const yesterdaysReport1 = await Report.find().sort({ "$natural": -1 }).limit(2)
+            const yesterdaysReport = yesterdaysReport1[1]
             console.log("todaysReport : " + todaysReport)
             console.log("yesterdayReport : " + yesterdaysReport)
             let previousProfit = 0
@@ -192,9 +199,7 @@ const createOrderCustomer = async (req, res, next) => {
         //     })
         // })
         if (req.user) {
-            const dateTimeNow = new Date()
-            const dateNow = dateTimeNow.toDateString()
-            console.log("dateNow : " + dateNow)
+
             let dateTimeYesterday = new Date();
             dateTimeYesterday.setDate(dateTimeYesterday.getDate() - 1);
             const dateYesterday = dateTimeYesterday.toDateString()
@@ -210,19 +215,24 @@ const createOrderCustomer = async (req, res, next) => {
                 discount: discount
             })
             const createdOrder = await order.save();
-            let cartItems=[]
-            for(var i=0;i<cart.cartItems.length;i++){
+            let cartItems = []
+            for (var i = 0; i < cart.cartItems.length; i++) {
                 cartItems.push({
-                    name:cart.cartItems[i].name,
-                    size:cart.cartItems[i].size,
-                    quantity:cart.cartItems[i].quantity,
-                    AddOns:cart.cartItems[i].selectedAddOns,
+                    name: cart.cartItems[i].name,
+                    size: cart.cartItems[i].size,
+                    quantity: cart.cartItems[i].quantity,
+                    AddOns: cart.cartItems[i].selectedAddOns,
                 })
             }
-            sendSMS("Customer Info: "+JSON.stringify(order.customerInfo)+"\n\n"+"Cart Items: "+JSON.stringify(cartItems)+" "+"Total number of items: "+cart.itemsCount+"  "+"Subtotal: "+cart.cartSubtotal+"  service mode: "+order.serviceMode+"  Payment Method: "+order.paymentMethod)
+            sendSMS("Customer Info: " + JSON.stringify(order.customerInfo) + "\n\n" + "Cart Items: " + JSON.stringify(cartItems) + " " + "Total number of items: " + cart.itemsCount + "  " + "Subtotal: " + cart.cartSubtotal + "  service mode: " + order.serviceMode + "  Payment Method: " + order.paymentMethod)
+            const dateTimeNow = new Date()
+            const dateNow = dateTimeNow.toDateString()
+            if (dateTimeNow.getHours() < 5) {
+                dateTimeNow.setDate(dateTimeNow.getDate() - 1)
+            }
             const todaysReport = await Report.findOne({ date: dateNow })
-            const yesterdaysReport1 = await Report.find().sort({"$natural":-1}).limit(2)
-        const yesterdaysReport = yesterdaysReport1[1]
+            const yesterdaysReport1 = await Report.find().sort({ "$natural": -1 }).limit(2)
+            const yesterdaysReport = yesterdaysReport1[1]
             console.log("todaysReport : " + todaysReport)
             console.log("yesterdayReport : " + yesterdaysReport)
             let previousProfit = 0
@@ -250,9 +260,7 @@ const createOrderCustomer = async (req, res, next) => {
             res.status(201).send(createdOrder);
         }
         else {
-            const dateTimeNow = new Date()
-            const dateNow = dateTimeNow.toDateString()
-            console.log("dateNow : " + dateNow)
+
             let dateTimeYesterday = new Date();
             dateTimeYesterday.setDate(dateTimeYesterday.getDate() - 1);
             const dateYesterday = dateTimeYesterday.toDateString()
@@ -266,20 +274,24 @@ const createOrderCustomer = async (req, res, next) => {
                 discount: discount
             })
             const createdOrder = await order.save();
-            let cartItems=[]
-            for(var i=0;i<cart.cartItems.length;i++){
+            let cartItems = []
+            for (var i = 0; i < cart.cartItems.length; i++) {
                 cartItems.push({
-                    name:cart.cartItems[i].name,
-                    size:cart.cartItems[i].size,
-                    quantity:cart.cartItems[i].quantity,
-                    AddOns:cart.cartItems[i].selectedAddOns,
+                    name: cart.cartItems[i].name,
+                    size: cart.cartItems[i].size,
+                    quantity: cart.cartItems[i].quantity,
+                    AddOns: cart.cartItems[i].selectedAddOns,
                 })
             }
-            sendSMS("Customer Info: "+JSON.stringify(order.customerInfo)+"\n\n"+"Cart Items: "+JSON.stringify(cartItems)+" "+"Total number of items: "+cart.itemsCount+"  "+"Subtotal: "+cart.cartSubtotal+"  service mode: "+order.serviceMode+"  Payment Method: "+order.paymentMethod)
-
+            sendSMS("Customer Info: " + JSON.stringify(order.customerInfo) + "\n\n" + "Cart Items: " + JSON.stringify(cartItems) + " " + "Total number of items: " + cart.itemsCount + "  " + "Subtotal: " + cart.cartSubtotal + "  service mode: " + order.serviceMode + "  Payment Method: " + order.paymentMethod)
+            const dateTimeNow = new Date()
+            const dateNow = dateTimeNow.toDateString()
+            if (dateTimeNow.getHours() < 5) {
+                dateTimeNow.setDate(dateTimeNow.getDate() - 1)
+            }
             const todaysReport = await Report.findOne({ date: dateNow })
-            const yesterdaysReport1 = await Report.find().sort({"$natural":-1}).limit(2)
-        const yesterdaysReport = yesterdaysReport1[1]
+            const yesterdaysReport1 = await Report.find().sort({ "$natural": -1 }).limit(2)
+            const yesterdaysReport = yesterdaysReport1[1]
             console.log("todaysReport : " + todaysReport)
             console.log("yesterdayReport : " + yesterdaysReport)
             let previousProfit = 0
@@ -337,9 +349,7 @@ const createOrderAdmin = async (req, res, next) => {
         //     })
         // })
         if (req.user) {
-            const dateTimeNow = new Date()
-            const dateNow = dateTimeNow.toDateString()
-            console.log("dateNow : " + dateNow)
+
             let dateTimeYesterday = new Date();
             dateTimeYesterday.setDate(dateTimeYesterday.getDate() - 1);
             const dateYesterday = dateTimeYesterday.toDateString()
@@ -353,10 +363,14 @@ const createOrderAdmin = async (req, res, next) => {
                 discount: discount
             })
             const createdOrder = await order.save();
-
+            const dateTimeNow = new Date()
+            const dateNow = dateTimeNow.toDateString()
+            if (dateTimeNow.getHours() < 5) {
+                dateTimeNow.setDate(dateTimeNow.getDate() - 1)
+            }
             const todaysReport = await Report.findOne({ date: dateNow })
-            const yesterdaysReport1 = await Report.find().sort({"$natural":-1}).limit(2)
-        const yesterdaysReport = yesterdaysReport1[1]
+            const yesterdaysReport1 = await Report.find().sort({ "$natural": -1 }).limit(2)
+            const yesterdaysReport = yesterdaysReport1[1]
             console.log("todaysReport : " + todaysReport)
             console.log("yesterdayReport : " + yesterdaysReport)
             let previousProfit = 0
@@ -385,9 +399,7 @@ const createOrderAdmin = async (req, res, next) => {
             res.status(201).send(createdOrder);
         }
         else {
-            const dateTimeNow = new Date()
-            const dateNow = dateTimeNow.toDateString()
-            console.log("dateNow : " + dateNow)
+           
             let dateTimeYesterday = new Date();
             dateTimeYesterday.setDate(dateTimeYesterday.getDate() - 1);
             const dateYesterday = dateTimeYesterday.toDateString()
@@ -401,10 +413,14 @@ const createOrderAdmin = async (req, res, next) => {
                 discount: discount
             })
             const createdOrder = await order.save();
-
+            const dateTimeNow = new Date()
+            const dateNow = dateTimeNow.toDateString()
+            if (dateTimeNow.getHours() < 5) {
+                dateTimeNow.setDate(dateTimeNow.getDate() - 1)
+            }
             const todaysReport = await Report.findOne({ date: dateNow })
-            const yesterdaysReport1 = await Report.find().sort({"$natural":-1}).limit(2)
-        const yesterdaysReport = yesterdaysReport1[1]
+            const yesterdaysReport1 = await Report.find().sort({ "$natural": -1 }).limit(2)
+            const yesterdaysReport = yesterdaysReport1[1]
             console.log("todaysReport : " + todaysReport)
             console.log("yesterdayReport : " + yesterdaysReport)
             let previousProfit = 0
@@ -479,7 +495,7 @@ const updateOrderToConfirmed = async (req, res, next) => {
         const order = await Order.findById(req.params.id).orFail();
         order.isConfirmed = true;
         const updatedOrder = await order.save();
-        sendSMSToCustomer(order.customerInfo.phoneNumber,"Order has been confirmed and will be delivered in 30 mins")
+        sendSMSToCustomer(order.customerInfo.phoneNumber, "Order has been confirmed and will be delivered in 30 mins")
         res.send(updatedOrder);
     } catch (err) {
         next(err);
@@ -531,4 +547,4 @@ const getFoodOrderTotalByDate = async (req, res, next) => {
         next(error)
     }
 }
-module.exports = { getUserOrders, getOrder, createOrder, createOrderAdmin, createOrderCustomer, updateOrderToPaid, updateOrderToDelivered, updateOrderToDone,updateOrderToConfirmed, getOrders, getOrderForAnalysis, getFoodOrderTotalByDate }
+module.exports = { getUserOrders, getOrder, createOrder, createOrderAdmin, createOrderCustomer, updateOrderToPaid, updateOrderToDelivered, updateOrderToDone, updateOrderToConfirmed, getOrders, getOrderForAnalysis, getFoodOrderTotalByDate }

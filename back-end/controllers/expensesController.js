@@ -12,6 +12,7 @@ const getExpenses = async (req, res, next) => {
 const getExpense = async (req, res, next) => {
     try {
         const expense = await Expenses.findById(req.params.id).orFail()
+
         return res.send(expense);
     } catch (error) {
         next(error)
@@ -26,8 +27,7 @@ const createNewExpense = async (req, res, next) => {
         else {
 
             const dateTimeNow = new Date()
-            const dateNow = dateTimeNow.toDateString()
-            console.log("dateNow : " + dateNow)
+
             let dateTimeYesterday = new Date();
             dateTimeYesterday.setDate(dateTimeYesterday.getDate() - 1);
             const dateYesterday = dateTimeYesterday.toDateString()
@@ -38,11 +38,16 @@ const createNewExpense = async (req, res, next) => {
                 totalAmount: totalAmount,
                 date: dateTimeNow,
             })
+            if (dateTimeNow.getHours() < 5) {
+                dateTimeNow.setDate(dateTimeNow.getDate() - 1)
+            }
+            const dateNow = dateTimeNow.toDateString()
+            console.log("dateNow : " + dateNow)
             const todaysReport = await Report.findOne({ date: dateNow })
-            
 
-            const yesterdaysReport1 = await Report.find().sort({"$natural":-1}).limit(2)
-        const yesterdaysReport = yesterdaysReport1[1]
+
+            const yesterdaysReport1 = await Report.find().sort({ "$natural": -1 }).limit(2)
+            const yesterdaysReport = yesterdaysReport1[1]
             console.log("todaysReport : " + todaysReport)
             console.log("yesterdayReport : " + yesterdaysReport)
             let previousProfit = 0
@@ -63,7 +68,7 @@ const createNewExpense = async (req, res, next) => {
                     totalExpenses: totalAmount,
                     totalSale: 0,
                     profit: todaysProfit,
-                    totalProfit: previousProfit+todaysProfit
+                    totalProfit: previousProfit + todaysProfit
                 })
             }
             console.log("Updated todaysReportCreated : " + todaysReport)
@@ -94,16 +99,19 @@ const updateExpense = async (req, res, next) => {
             await expense.save()
 
             const dateTimeNow = new Date()
-            const dateNow = dateTimeNow.toDateString()
             console.log("dateNow : " + dateNow)
             let dateTimeYesterday = new Date();
             dateTimeYesterday.setDate(dateTimeYesterday.getDate() - 1);
             const dateYesterday = dateTimeYesterday.toDateString()
 
-
+            if (dateTimeNow.getHours() < 5) {
+                dateTimeNow.setDate(dateTimeNow.getDate() - 1)
+            }
+            const dateNow = dateTimeNow.toDateString()
+            console.log("dateNow : " + dateNow)
             const todaysReport = await Report.findOne({ date: dateNow })
-            const yesterdaysReport1 = await Report.find().sort({"$natural":-1}).limit(2)
-        const yesterdaysReport = yesterdaysReport1[1]
+            const yesterdaysReport1 = await Report.find().sort({ "$natural": -1 }).limit(2)
+            const yesterdaysReport = yesterdaysReport1[1]
             console.log("todaysReport : " + todaysReport)
             console.log("yesterdayReport : " + yesterdaysReport)
             let previousProfit = 0
@@ -125,7 +133,7 @@ const updateExpense = async (req, res, next) => {
                     totalExpenses: totalAmount,
                     totalSale: 0,
                     profit: todaysProfit,
-                    totalProfit: previousProfit+todaysProfit
+                    totalProfit: previousProfit + todaysProfit
                 })
             }
             console.log("Updated todays Report Created : " + todaysReport)
@@ -144,6 +152,9 @@ const deleteExpense = async (req, res, next) => {
 
 
         const dateTimeNow = new Date()
+        if (dateTimeNow.getHours() < 5) {
+            dateTimeNow.setDate(dateTimeNow.getDate() - 1)
+        }
         const dateNow = dateTimeNow.toDateString()
         console.log("dateNow : " + dateNow)
         let dateTimeYesterday = new Date();
@@ -153,7 +164,7 @@ const deleteExpense = async (req, res, next) => {
 
 
         const todaysReport = await Report.findOne({ date: dateNow })
-        const yesterdaysReport1 = await Report.find().sort({"$natural":-1}).limit(2)
+        const yesterdaysReport1 = await Report.find().sort({ "$natural": -1 }).limit(2)
         const yesterdaysReport = yesterdaysReport1[1]
 
         console.log("todaysReport : " + todaysReport)
@@ -174,7 +185,7 @@ const deleteExpense = async (req, res, next) => {
                 totalExpenses: 0,
                 totalSale: 0,
                 profit: todaysProfit,
-                totalProfit: previousProfit+todaysProfit
+                totalProfit: previousProfit + todaysProfit
             })
         }
         console.log("Updated todays Report Created : " + todaysReport)

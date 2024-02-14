@@ -11,6 +11,9 @@ const AdminReportComponent = ({ getReport }) => {
   const [reportData, setReportData] = useState([]);
   const dispatch = useDispatch();
   useEffect(() => {
+    setTimeout(() => window.scrollTo(0, 1000),1000);
+  }, []);
+  useEffect(() => {
     getReport()
       .then((reportData) => setReportData(reportData))
       .catch((er) =>
@@ -28,7 +31,7 @@ const AdminReportComponent = ({ getReport }) => {
                             <Button variant="primary" className="ms-2" size="lg">Daily Expenses</Button>
                         </LinkContainer></h1>
         
-        <Table striped bordered hover responsive>
+        <Table bordered hover responsive>
           <thead>
             <tr>
               <th>#</th>
@@ -42,7 +45,22 @@ const AdminReportComponent = ({ getReport }) => {
           </thead>
           <tbody>
             {reportData.map((data, idx) => (
-              <tr key={idx}>
+              idx===(reportData.length-1)?(
+                <tr key={idx} className="table-success">
+                <td>{idx + 1}</td>
+                <td className="font-weight-bold" style={{fontWeight:"bold"}}>{data.date}</td>
+                <td>{data.totalExpenses}</td>
+                <td>{data.totalSale}</td>
+                <td>{data.profit}</td>
+                <td>{data.totalProfit}</td>
+                {/* <td>
+                  <Link to={`/admin/report/${data.date}`}>
+                    go to detail
+                  </Link>
+                </td> */}
+              </tr>
+              ):(
+                <tr key={idx}>
                 <td>{idx + 1}</td>
                 <td>{data.date}</td>
                 <td>{data.totalExpenses}</td>
@@ -55,6 +73,8 @@ const AdminReportComponent = ({ getReport }) => {
                   </Link>
                 </td> */}
               </tr>
+              )
+              
             ))}
           </tbody>
         </Table>
