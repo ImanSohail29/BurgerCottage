@@ -5,7 +5,7 @@ body {
   }
   
   @page {
-    size: 5in 8in;
+    size: 5in auto;
     margin: 0px;
     padding: 0px;
   }

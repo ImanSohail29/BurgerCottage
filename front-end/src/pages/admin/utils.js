@@ -6,7 +6,11 @@ function replaceCharacter(str, replacement) {
       replacement+str
     );
   }
-  
+export const convertToDateString=(str)=> {
+    const DateStr=new Date(str)
+    return DateStr.toDateString()
+  }
+    
 export const checkPhoneNumber=(phoneNumberString)=>{
     if(phoneNumberString)
     {

@@ -1,10 +1,10 @@
 {
   "ReportVersion": "2020.4.1.0",
-  "ReportGuid": "aa503aa6bec1445c8df0ded1f9d803f0",
+  "ReportGuid": "8daf7ab1ee014b2aa535de389d70bd9e",
   "ReportName": "Report",
   "ReportAlias": "Report",
   "ReportCreated": "/Date(0+0500)/",
-  "ReportChanged": "/Date(1706878455111+0500)/",
+  "ReportChanged": "/Date(1707909868235+0500)/",
   "EngineVersion": "EngineV2",
   "CalculationMode": "Interpretation",
   "ReportUnit": "HundredthsOfInch",
@@ -649,7 +649,7 @@
             "0": {
               "Ident": "StiText",
               "Name": "Text1",
-              "ClientRectangle": "70,5.33,255,16.67",
+              "ClientRectangle": "70,3.33,255,26.67",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -657,7 +657,7 @@
                 "Value": "Burger Cottage"
               },
               "HorAlignment": "Center",
-              "Font": "Verdana;11;Bold;",
+              "Font": "Arial Black;11;Bold;",
               "Border": ";;;;;;;solid:Black",
               "Brush": "solid:White",
               "TextBrush": "solid:0,32,96",
@@ -668,7 +668,7 @@
               "Name": "Text8",
               "CanGrow": true,
               "GrowToHeight": true,
-              "ClientRectangle": "82,25,240,40",
+              "ClientRectangle": "82,27,240,30",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -676,7 +676,7 @@
                 "Value": "Near Swera Departmental Store\r\nPunjab Soceity, Lahore."
               },
               "HorAlignment": "Center",
-              "Font": "Verdana;9;Bold;",
+              "Font": ";9;Bold;",
               "Border": ";;;;;;;solid:Black",
               "Brush": "solid:White",
               "TextBrush": "solid:0,32,96",
@@ -684,18 +684,6 @@
                 "WordWrap": true
               },
               "Type": "Expression"
-            },
-            "2": {
-              "Ident": "StiImage",
-              "Name": "Image1",
-              "ClientRectangle": "10,0,60,60",
-              "Interaction": {
-                "Ident": "StiInteraction"
-              },
-              "Border": ";White;;;;;;solid:Black",
-              "Brush": "solid:White",
-              "Stretch": true,
-              "File": "D:\\Rounded.png"
             }
           }
         },
@@ -719,7 +707,7 @@
               "Text": {
                 "Value": "{root._id}"
               },
-              "Font": "Verdana;9;;",
+              "Font": ";9;;",
               "Border": ";;;;;;;solid:Black",
               "Brush": "solid:White",
               "TextBrush": "solid:0,32,96",
@@ -735,7 +723,7 @@
               "Text": {
                 "Value": "Date: "
               },
-              "Font": "Verdana;10;;",
+              "Font": ";10;;",
               "Border": ";;;;;;;solid:Black",
               "Brush": "solid:White",
               "TextBrush": "solid:0,32,96"
@@ -751,7 +739,7 @@
                 "Value": "{Duplicate}"
               },
               "HorAlignment": "Center",
-              "Font": "Verdana;12;Bold;",
+              "Font": "Arial Black;12;Bold;",
               "Border": ";;;;;;;solid:Black",
               "Brush": "solid:White",
               "TextBrush": "solid:0,32,96",
@@ -768,7 +756,7 @@
                 "Value": "MOP : {root.paymentMethod}"
               },
               "HorAlignment": "Right",
-              "Font": "Verdana;10;;",
+              "Font": ";10;;",
               "Border": ";;;;;;;solid:Black",
               "Brush": "solid:White",
               "TextBrush": "solid:0,32,96",
@@ -785,7 +773,7 @@
                 "Value": "Sr."
               },
               "HorAlignment": "Center",
-              "Font": "Verdana;10;Bold;",
+              "Font": ";10;Bold;",
               "Border": ";;;;;;;solid:Black",
               "Brush": "solid:White",
               "TextBrush": "solid:0,32,96"
@@ -800,7 +788,7 @@
               "Text": {
                 "Value": "{root.orderPlacedAt}"
               },
-              "Font": "Verdana;10;;",
+              "Font": ";10;;",
               "Border": ";;;;;;;solid:Black",
               "Brush": "solid:White",
               "TextBrush": "solid:0,32,96",
@@ -820,7 +808,7 @@
               "Text": {
                 "Value": "{Time}"
               },
-              "Font": "Verdana;10;;",
+              "Font": ";10;;",
               "Border": ";;;;;;;solid:Black",
               "Brush": "solid:White",
               "TextBrush": "solid:0,32,96",
@@ -839,7 +827,7 @@
               "Text": {
                 "Value": "Product"
               },
-              "Font": "Verdana;10;Bold;",
+              "Font": ";10;Bold;",
               "Border": ";;;;;;;solid:Black",
               "Brush": "solid:White",
               "TextBrush": "solid:0,32,96"
@@ -854,8 +842,8 @@
               "Text": {
                 "Value": "Rate"
               },
-              "HorAlignment": "Right",
-              "Font": "Verdana;10;Bold;",
+              "HorAlignment": "Center",
+              "Font": ";10;Bold;",
               "Border": ";;;;;;;solid:Black",
               "Brush": "solid:White",
               "TextBrush": "solid:0,32,96"
@@ -870,8 +858,8 @@
               "Text": {
                 "Value": "Qty"
               },
-              "HorAlignment": "Right",
-              "Font": "Verdana;10;Bold;",
+              "HorAlignment": "Center",
+              "Font": ";10;Bold;",
               "Border": ";;;;;;;solid:Black",
               "Brush": "solid:White",
               "TextBrush": "solid:0,32,96"
@@ -887,7 +875,7 @@
                 "Value": "Total"
               },
               "HorAlignment": "Right",
-              "Font": "Verdana;10;Bold;",
+              "Font": ";10;Bold;",
               "Border": ";;;;;;;solid:Black",
               "Brush": "solid:White",
               "TextBrush": "solid:0,32,96"
@@ -941,7 +929,7 @@
                 "Value": "{Line}"
               },
               "HorAlignment": "Center",
-              "Font": "Verdana;;;",
+              "Font": ";9;;",
               "Border": ";;;;;;;solid:Black",
               "Brush": "solid:White",
               "TextBrush": "solid:0,32,96",
@@ -959,7 +947,7 @@
                 "Value": "{root_cart_cartItems.name}"
               },
               "CanBreak": true,
-              "Font": "Verdana;;;",
+              "Font": ";9;;",
               "Border": ";;;;;;;solid:Black",
               "Brush": "solid:White",
               "TextBrush": "solid:0,32,96",
@@ -979,7 +967,7 @@
                 "Value": "{root_cart_cartItems_size.price}"
               },
               "HorAlignment": "Center",
-              "Font": "Verdana;;;",
+              "Font": ";9;;",
               "Border": ";;;;;;;solid:Black",
               "Brush": "solid:White",
               "TextBrush": "solid:0,32,96",
@@ -996,7 +984,7 @@
                 "Value": "{root_cart_cartItems.quantity}"
               },
               "HorAlignment": "Center",
-              "Font": "Verdana;;;",
+              "Font": ";9;;",
               "Border": ";;;;;;;solid:Black",
               "Brush": "solid:White",
               "TextBrush": "solid:0,32,96",
@@ -1013,7 +1001,7 @@
                 "Value": "{root_cart.cartSubtotal}"
               },
               "HorAlignment": "Right",
-              "Font": "Verdana;;;",
+              "Font": ";9;;",
               "Border": ";;;;;;;solid:Black",
               "Brush": "solid:White",
               "TextBrush": "solid:0,32,96",
@@ -1038,7 +1026,7 @@
         "3": {
           "Ident": "StiReportSummaryBand",
           "Name": "ReportFooter1",
-          "ClientRectangle": "0,322.99,375,169.51",
+          "ClientRectangle": "0,322.99,375,179.51",
           "Interaction": {
             "Ident": "StiInteraction"
           },
@@ -1056,7 +1044,7 @@
                 "Value": "Net Total:"
               },
               "HorAlignment": "Right",
-              "Font": "Verdana;9;Bold;",
+              "Font": ";9;Bold;",
               "Border": ";;;;;;;solid:Black",
               "Brush": "solid:White",
               "TextBrush": "solid:0,32,96"
@@ -1071,7 +1059,7 @@
               "Text": {
                 "Value": "Thanks for your visit/order."
               },
-              "Font": "Verdana;9;Bold, Italic;",
+              "Font": ";9;Bold, Italic;",
               "Border": ";;;;;;;solid:Black",
               "Brush": "solid:White",
               "TextBrush": "solid:0,32,96",
@@ -1122,7 +1110,7 @@
                 "Value": "{root_cart.cartSubtotal}"
               },
               "HorAlignment": "Right",
-              "Font": "Verdana;9;Bold;",
+              "Font": ";9;Bold;",
               "Border": ";;;;;;;solid:Black",
               "Brush": "solid:White",
               "TextBrush": "solid:0,32,96",
@@ -1139,7 +1127,7 @@
               "Text": {
                 "Value": "Total "
               },
-              "Font": "Verdana;9;;",
+              "Font": ";9;;",
               "Border": ";;;;;;;solid:Black",
               "Brush": "solid:White",
               "TextBrush": "solid:0,32,96",
@@ -1156,7 +1144,7 @@
                 "Value": "https://www.burgercottage.pk/"
               },
               "HorAlignment": "Center",
-              "Font": "Verdana;;Italic, Underline;",
+              "Font": ";;Italic, Underline;",
               "Border": ";;;;;;;solid:Black",
               "Brush": "solid:White",
               "TextBrush": "solid:0,32,96",
@@ -1165,7 +1153,7 @@
             "7": {
               "Ident": "StiText",
               "Name": "Text12",
-              "ClientRectangle": "220,149.01,150,30",
+              "ClientRectangle": "214,145.01,150,30",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -1173,7 +1161,7 @@
                 "Value": "03114119900"
               },
               "HorAlignment": "Center",
-              "Font": "Verdana;;Italic;",
+              "Font": ";;Italic;",
               "Border": ";;;;;;;solid:Black",
               "Brush": "solid:White",
               "TextBrush": "solid:0,32,96",
@@ -1182,7 +1170,7 @@
             "8": {
               "Ident": "StiText",
               "Name": "Text13",
-              "ClientRectangle": "220,161.01,150,20",
+              "ClientRectangle": "217,157.01,150,20",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -1190,7 +1178,7 @@
                 "Value": "03274119900"
               },
               "HorAlignment": "Center",
-              "Font": "Verdana;;Italic;",
+              "Font": ";;Italic;",
               "Border": ";;;;;;;solid:Black",
               "Brush": "solid:White",
               "TextBrush": "solid:0,32,96",
@@ -1199,33 +1187,19 @@
             "9": {
               "Ident": "StiText",
               "Name": "Text16",
-              "ClientRectangle": "17,130.01,340,20",
+              "ClientRectangle": "14,126.01,340,20",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
               "Text": {
                 "Value": "For online orders pl visit our website or call us directly."
               },
-              "Font": "Verdana;;;",
               "Border": ";;;;;;;solid:Black",
               "Brush": "solid:White",
               "TextBrush": "solid:0,32,96",
               "Type": "Expression"
             },
             "10": {
-              "Ident": "StiImage",
-              "Name": "Image2",
-              "ClientRectangle": "220,147.01,30,30",
-              "Interaction": {
-                "Ident": "StiInteraction"
-              },
-              "HorAlignment": "Center",
-              "Border": ";;;;;;;solid:Black",
-              "Brush": "solid:White",
-              "Stretch": true,
-              "File": "D:\\Tele.png"
-            },
-            "11": {
               "Ident": "StiText",
               "Name": "Text17",
               "ClientRectangle": "130,47.01,95.97,16.67",
@@ -1236,13 +1210,13 @@
                 "Value": "Discount %:"
               },
               "HorAlignment": "Right",
-              "Font": "Verdana;9;;",
+              "Font": ";9;;",
               "Border": ";;;;;;;solid:Black",
               "Brush": "solid:White",
               "TextBrush": "solid:0,32,96",
               "Type": "Expression"
             },
-            "12": {
+            "11": {
               "Ident": "StiText",
               "Name": "Text18",
               "ClientRectangle": "225.97,47.01,142.36,16.67",
@@ -1253,13 +1227,13 @@
                 "Value": "{root_discount.root.discount}"
               },
               "HorAlignment": "Right",
-              "Font": "Verdana;9;;",
+              "Font": ";9;;",
               "Border": ";;;;;;;solid:Black",
               "Brush": "solid:White",
               "TextBrush": "solid:0,32,96",
               "Type": "Expression"
             },
-            "13": {
+            "12": {
               "Ident": "StiText",
               "Name": "Text20",
               "ClientRectangle": "110,27.01,120,20",
@@ -1270,13 +1244,13 @@
                 "Value": "Sub Total:"
               },
               "HorAlignment": "Right",
-              "Font": "Verdana;9;;",
+              "Font": ";9;;",
               "Border": ";;;;;;;solid:Black",
               "Brush": "solid:White",
               "TextBrush": "solid:0,32,96",
               "Type": "Expression"
             },
-            "14": {
+            "13": {
               "Ident": "StiText",
               "Name": "Text21",
               "ClientRectangle": "230,27.01,140,20",
@@ -1287,13 +1261,13 @@
                 "Value": "{root_cart.cartSubtotal}"
               },
               "HorAlignment": "Right",
-              "Font": "Verdana;9;;",
+              "Font": ";9;;",
               "Border": ";;;;;;;solid:Black",
               "Brush": "solid:White",
               "TextBrush": "solid:0,32,96",
               "Type": "DataColumn"
             },
-            "15": {
+            "14": {
               "Ident": "StiHorizontalLinePrimitive",
               "Name": "HorizontalLinePrimitive1",
               "Guid": "1708cfd0ef1d2383c6b92153c1c195e0",

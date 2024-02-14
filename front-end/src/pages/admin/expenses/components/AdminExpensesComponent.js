@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from 'react-redux';
 import {logout} from "../../../../redux/slices/userSlice"
 import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { convertToDateString } from "../../utils";
 const AdminExpensesComponent = ({ getExpenses, deleteExpense}) => {
     const [expenses, setExpenses] = useState([])
     const [expenseDeleted, seExpenseDeleted] = useState(false)
@@ -56,7 +57,7 @@ const AdminExpensesComponent = ({ getExpenses, deleteExpense}) => {
                                 return (
                                     <tr key={idx}>
                                         <td>{idx + 1}</td>
-                                        <td>{expense.date}</td>
+                                        <td>{convertToDateString(expense.date)}</td>
                                         <td>{expense.name}</td>
                                         <td>{expense.pricePerItem}</td>
                                         <td>{expense.quantity}</td>

@@ -249,7 +249,7 @@ useEffect(()=>{
                             <Form.Label>Phone Number</Form.Label>
                             <Form.Control
                               name="phoneNumber"
-                              required
+                              
                               minLength={11}
                               isInvalid={userPhoneNumber === null || userPhoneNumber === undefined || userPhoneNumber === "" || userPhoneNumber.trim().length < 11}
                               onChange={(e) => {
@@ -266,7 +266,7 @@ useEffect(()=>{
                               <Form.Label>Address</Form.Label>
                               <Form.Control
                                 name="address"
-                                required
+                                
                                 type="text" as="textarea"
                                 isInvalid={userDeliveryAddress === '' || userDeliveryAddress === undefined}
                                 onChange={(e) => setUserDeliveryAddress(e.target.value)}
@@ -454,14 +454,17 @@ useEffect(()=>{
               <option value="online">Online</option>
             </Form.Select>
           </Row>
-          <Row className="mb-4 p-4">
-            <h2>Service mode</h2>
-            <Form.Select onChange={chooseServiceMode}>
-              <option value="delivery">Delivery</option>
-              <option value="takeAway">Take Away</option>
-              <option value="dineIn">Dine in</option>
-            </Form.Select>
-          </Row>
+          {userInfo.isAdmin?(
+             <Row className="mb-4 p-4">
+             <h2>Service mode</h2>
+             <Form.Select onChange={chooseServiceMode}>
+               <option value="delivery">Delivery</option>
+               <option value="takeAway">Take Away</option>
+               <option value="dineIn">Dine in</option>
+             </Form.Select>
+           </Row>
+          ):("")}
+         
           <ListGroup>
             <ListGroup.Item>
               <h3>Order summary</h3>
