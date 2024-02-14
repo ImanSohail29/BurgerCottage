@@ -1,10 +1,11 @@
-import { Row, Col, Table } from "react-bootstrap";
+import { Row, Col, Table, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 import { useEffect, useState } from "react";
 
 import { logout } from "../../../../redux/slices/userSlice";
 import { useDispatch } from "react-redux";
+import { LinkContainer } from "react-router-bootstrap";
 
 const AdminReportComponent = ({ getReport }) => {
   const [reportData, setReportData] = useState([]);
@@ -23,7 +24,10 @@ const AdminReportComponent = ({ getReport }) => {
   return (
     <Row className="m-5">
       <Col >
-        <h1>Report</h1>
+        <h1>Report <LinkContainer to={"/admin/expenses"}>
+                            <Button variant="primary" className="ms-2" size="lg">Daily Expenses</Button>
+                        </LinkContainer></h1>
+        
         <Table striped bordered hover responsive>
           <thead>
             <tr>
