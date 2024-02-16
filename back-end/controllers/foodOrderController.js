@@ -495,7 +495,9 @@ const updateOrderToConfirmed = async (req, res, next) => {
         const order = await Order.findById(req.params.id).orFail();
         order.isConfirmed = true;
         const updatedOrder = await order.save();
+        if(order.customerInfo&&order.customerInfo.phoneNumber){
         sendSMSToCustomer(order.customerInfo.phoneNumber, "Order has been confirmed and will be delivered in 30 mins")
+        }
         res.send(updatedOrder);
     } catch (err) {
         next(err);
