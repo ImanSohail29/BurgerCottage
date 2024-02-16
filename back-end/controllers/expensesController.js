@@ -62,6 +62,7 @@ const createNewExpense = async (req, res, next) => {
 
             }
             else {
+                previousProfit=yesterdaysReport1[0].totalProfit
                 let todaysProfit = 0 - totalAmount
                 await Report.create({
                     date: dateNow,
@@ -127,6 +128,7 @@ const updateExpense = async (req, res, next) => {
                 todaysReport.totalProfit = previousProfit + todaysReport.profit
             }
             else {
+                previousProfit=yesterdaysReport1[0].totalProfit
                 let todaysProfit = 0 - totalAmount
                 await Report.create({
                     date: dateNow,
@@ -179,6 +181,7 @@ const deleteExpense = async (req, res, next) => {
             todaysReport.totalProfit = previousProfit + todaysReport.profit
         }
         else {
+            previousProfit=yesterdaysReport1[0].totalProfit
             let todaysProfit = 0 - totalAmount
             await Report.create({
                 date: dateNow,

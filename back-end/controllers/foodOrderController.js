@@ -98,6 +98,7 @@ const createOrder = async (req, res, next) => {
 
             }
             else {
+                previousProfit=yesterdaysReport1[0].totalProfit
                 let todaysProfit = 0 + orderTotal.cartSubtotal
                 await Report.create({
                     date: dateNow,
@@ -157,6 +158,7 @@ const createOrder = async (req, res, next) => {
 
             }
             else {
+                previousProfit=yesterdaysReport1[0].totalProfit
                 let todaysProfit = 0 + orderTotal.cartSubtotal
                 await Report.create({
                     date: dateNow,
@@ -247,6 +249,7 @@ const createOrderCustomer = async (req, res, next) => {
 
             }
             else {
+                previousProfit=yesterdaysReport1[0].totalProfit
                 let todaysProfit = 0 + orderTotal.cartSubtotal
                 await Report.create({
                     date: dateNow,
@@ -306,6 +309,7 @@ const createOrderCustomer = async (req, res, next) => {
 
             }
             else {
+                previousProfit=yesterdaysReport1[0].totalProfit
                 let todaysProfit = 0 + orderTotal.cartSubtotal
                 await Report.create({
                     date: dateNow,
@@ -385,6 +389,7 @@ const createOrderAdmin = async (req, res, next) => {
 
             }
             else {
+                previousProfit=yesterdaysReport1[0].totalProfit
                 let todaysProfit = 0 + orderTotal.cartSubtotal
                 await Report.create({
                     date: dateNow,
@@ -435,6 +440,7 @@ const createOrderAdmin = async (req, res, next) => {
 
             }
             else {
+                previousProfit=yesterdaysReport1[0].totalProfit
                 let todaysProfit = 0 + orderTotal.cartSubtotal
                 await Report.create({
                     date: dateNow,
