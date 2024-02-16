@@ -1,19 +1,34 @@
 {
-  "ReportGuid": "0ee547d0e7b488b0d313ae7002d84d8b",
+  "ReportVersion": "2020.4.1.0",
+  "ReportGuid": "55b83bf89d704dddae7968bd7f8aa1e2",
   "ReportName": "Report",
   "ReportAlias": "Report",
-  "ReportFile": "PrintSaleSlip.mrt",
   "ReportCreated": "/Date(0+0500)/",
-  "ReportChanged": "/Date(1708064100000+0500)/",
+  "ReportChanged": "/Date(1708109017330+0500)/",
   "EngineVersion": "EngineV2",
   "CalculationMode": "Interpretation",
   "ReportUnit": "HundredthsOfInch",
   "PreviewSettings": 268435455,
+  "Script": "using System;\r\nusing System.Drawing;\r\nusing System.Windows.Forms;\r\nusing System.Data;\r\nusing Stimulsoft.Controls;\r\nusing Stimulsoft.Base.Drawing;\r\nusing Stimulsoft.Report;\r\nusing Stimulsoft.Report.Dialogs;\r\nusing Stimulsoft.Report.Components;\r\n\r\nnamespace Reports\r\n{\r\n    public class Report : Stimulsoft.Report.StiReport\r\n    {\r\n        public Report()        {\r\n            this.InitializeComponent();\r\n        }\r\n\r\n        #region StiReport Designer generated code - do not modify\r\n\t\t#endregion StiReport Designer generated code - do not modify\r\n    }\r\n}\r\n",
   "MetaTags": {
     "0": {
       "Name": "InternalVersion",
       "Tag": "2017.1.11.0"
+    },
+    "1": {
+      "Name": "InternalVersion",
+      "Tag": "2017.1.11.0"
     }
+  },
+  "ReferencedAssemblies": {
+    "0": "System.Dll",
+    "1": "System.Drawing.Dll",
+    "2": "System.Windows.Forms.Dll",
+    "3": "System.Data.Dll",
+    "4": "System.Xml.Dll",
+    "5": "Stimulsoft.Controls.Dll",
+    "6": "Stimulsoft.Base.Dll",
+    "7": "Stimulsoft.Report.Dll"
   },
   "Dictionary": {
     "Resources": {
@@ -673,19 +688,6 @@
                 "WordWrap": true
               },
               "Type": "Expression"
-            },
-            "2": {
-              "Ident": "StiImage",
-              "Name": "Image1",
-              "ClientRectangle": "10,0,60,60",
-              "Interaction": {
-                "Ident": "StiInteraction"
-              },
-              "Border": ";White;;;;;;solid:Black",
-              "Brush": "solid:White",
-              "Stretch": true,
-              "File": "D:\\Rounded.png",
-              "ImageBytes": ""
             }
           }
         },
@@ -891,7 +893,7 @@
                 "Ident": "StiInteraction"
               },
               "Style": "Dot",
-              "Size": 0,
+              "Size": 0.0,
               "StartCap": ";;;",
               "EndCap": ";;;"
             },
@@ -904,7 +906,7 @@
                 "Ident": "StiInteraction"
               },
               "Style": "Dot",
-              "Size": 0,
+              "Size": 0.0,
               "StartCap": ";;;",
               "EndCap": ";;;"
             }
@@ -1000,7 +1002,7 @@
                 "Ident": "StiInteraction"
               },
               "Text": {
-                "Value": "{root_cart.cartSubtotal}"
+                "Value": "{root_cart_cartItems_size.price*root_cart_cartItems.quantity}"
               },
               "HorAlignment": "Right",
               "Font": "Verdana;;;",
@@ -1018,7 +1020,7 @@
                 "Ident": "StiInteraction"
               },
               "Style": "Dot",
-              "Size": 0,
+              "Size": 0.0,
               "StartCap": ";;;",
               "EndCap": ";;;"
             }
@@ -1028,7 +1030,7 @@
         "3": {
           "Ident": "StiReportSummaryBand",
           "Name": "ReportFooter1",
-          "ClientRectangle": "0,322.99,375,169.51",
+          "ClientRectangle": "0,322.99,375,179.51",
           "Interaction": {
             "Ident": "StiInteraction"
           },
@@ -1075,7 +1077,7 @@
                 "Ident": "StiInteraction"
               },
               "Text": {
-                "Value": "{Sum(root_cart.cartSubtotal)}"
+                "Value": "{Sum(root_cart_cartItems_size.price*root_cart_cartItems.quantity)}"
               },
               "HorAlignment": "Right",
               "Font": ";10;Bold;",
@@ -1109,14 +1111,14 @@
                 "Ident": "StiInteraction"
               },
               "Text": {
-                "Value": "{root_cart.cartSubtotal}"
+                "Value": "{Sum(root_cart_cartItems_size.price*root_cart_cartItems.quantity)}"
               },
               "HorAlignment": "Right",
               "Font": "Verdana;9;Bold;",
               "Border": ";;;;;;;solid:Black",
               "Brush": "solid:White",
               "TextBrush": "solid:0,32,96",
-              "Type": "DataColumn"
+              "Type": "Expression"
             },
             "5": {
               "Ident": "StiText",
@@ -1203,20 +1205,6 @@
               "Type": "Expression"
             },
             "10": {
-              "Ident": "StiImage",
-              "Name": "Image2",
-              "ClientRectangle": "220,147.01,30,30",
-              "Interaction": {
-                "Ident": "StiInteraction"
-              },
-              "HorAlignment": "Center",
-              "Border": ";;;;;;;solid:Black",
-              "Brush": "solid:White",
-              "Stretch": true,
-              "File": "D:\\Tele.png",
-              "ImageBytes": ""
-            },
-            "11": {
               "Ident": "StiText",
               "Name": "Text17",
               "ClientRectangle": "130,47.01,95.97,16.67",
@@ -1233,7 +1221,7 @@
               "TextBrush": "solid:0,32,96",
               "Type": "Expression"
             },
-            "12": {
+            "11": {
               "Ident": "StiText",
               "Name": "Text18",
               "ClientRectangle": "225.97,47.01,142.36,16.67",
@@ -1250,7 +1238,7 @@
               "TextBrush": "solid:0,32,96",
               "Type": "Expression"
             },
-            "13": {
+            "12": {
               "Ident": "StiText",
               "Name": "Text20",
               "ClientRectangle": "110,27.01,120,20",
@@ -1267,7 +1255,7 @@
               "TextBrush": "solid:0,32,96",
               "Type": "Expression"
             },
-            "14": {
+            "13": {
               "Ident": "StiText",
               "Name": "Text21",
               "ClientRectangle": "230,27.01,140,20",
@@ -1275,16 +1263,16 @@
                 "Ident": "StiInteraction"
               },
               "Text": {
-                "Value": "{root_cart.cartSubtotal}"
+                "Value": "{Sum(root_cart_cartItems_size.price*root_cart_cartItems.quantity)}"
               },
               "HorAlignment": "Right",
               "Font": "Verdana;9;;",
               "Border": ";;;;;;;solid:Black",
               "Brush": "solid:White",
               "TextBrush": "solid:0,32,96",
-              "Type": "DataColumn"
+              "Type": "Expression"
             },
-            "15": {
+            "14": {
               "Ident": "StiHorizontalLinePrimitive",
               "Name": "HorizontalLinePrimitive1",
               "Guid": "1708cfd0ef1d2383c6b92153c1c195e0",
@@ -1293,7 +1281,7 @@
                 "Ident": "StiInteraction"
               },
               "Style": "Dot",
-              "Size": 0,
+              "Size": 0.0,
               "StartCap": ";;;",
               "EndCap": ";;;"
             }
@@ -1301,8 +1289,8 @@
         }
       },
       "TitleBeforeHeader": true,
-      "PageWidth": 400,
-      "PageHeight": 600,
+      "PageWidth": 400.0,
+      "PageHeight": 600.0,
       "Watermark": {
         "TextBrush": "solid:50,0,0,0"
       },
