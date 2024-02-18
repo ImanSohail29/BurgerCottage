@@ -51,7 +51,7 @@ const AdminReportComponent = ({ getReport }) => {
                 <td className="font-weight-bold" style={{fontWeight:"bold"}}>{data.date}</td>
                 <td>{data.totalExpenses}</td>
                 <td>{data.totalSale}</td>
-                <td>{data.profit}</td>
+                {data.profit>0?(<td  className="bg-success">{data.profit}</td>):(<td  className="bg-danger">{data.profit}</td>)}
                 <td>{data.totalProfit}</td>
                 {/* <td>
                   <Link to={`/admin/report/${data.date}`}>
@@ -65,7 +65,7 @@ const AdminReportComponent = ({ getReport }) => {
                 <td>{data.date}</td>
                 <td>{data.totalExpenses}</td>
                 <td>{data.totalSale}</td>
-                <td>{data.profit}</td>
+                {data.profit>0?(<td  className="bg-success">{data.profit}</td>):(<td  className="bg-danger">{data.profit}</td>)}
                 <td>{data.totalProfit}</td>
                 {/* <td>
                   <Link to={`/admin/report/${data.date}`}>

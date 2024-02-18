@@ -107,7 +107,6 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
               <Col>
               <p>{orderPlacedAt}</p>
               <p><b>Order Id : </b>{orderId}</p>
-              <p>Service Mode: <b>{serviceMode}</b></p>
               </Col>
               <Col>
               
@@ -124,16 +123,15 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
               )}
 
               <Col md={6}>
-                <h2>Payment method</h2>
-                <Form.Select value={paymentMethod} disabled={true}>
-                  <option value="cash">Cash</option>
-                  <option value="online">
-                    Online Payment
-                  </option>
-                </Form.Select>
+                <p>Payment Method: <b>{paymentMethod}</b></p>
+
+                <Alert className="mt-3" variant={isPaid ? "success" : "danger"}>
+                    {isPaid ? <>Paid on {isPaid.toString().substring(0,10)+", Time: "+toTime(isPaid)}</> : <>Not paid yet</>}
+                  </Alert>
               </Col>
               <Row>
                 <Col>
+                <p>Service Mode: <b>{serviceMode}</b></p>
                   {serviceMode === "delivery" ? (
                     <Alert
                       className="mt-3"
@@ -149,9 +147,7 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
 
                 </Col>
                 <Col>
-                  <Alert className="mt-3" variant={isPaid ? "success" : "danger"}>
-                    {isPaid ? <>Paid on {isPaid.toString().substring(0,10)+", Time: "+toTime(isPaid)}</> : <>Not paid yet</>}
-                  </Alert>
+                 
                 </Col>
               </Row>
             </Row>

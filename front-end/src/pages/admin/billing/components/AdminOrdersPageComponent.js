@@ -10,6 +10,7 @@ import useSound from 'use-sound'
 const AdminOrdersPageComponent = ({ getOrders, socketIOClient }) => {
   const [orders, setOrders] = useState([]);
   const [search, setSearch] = useState('')
+  const [searchId, setSearchId] = useState('')
   const [searchDate, setSearchDate] = useState('')
   const audio = new Audio("/sounds/newOrderSound.mp3");
   const audioButtonRef = useRef(null)
@@ -66,6 +67,7 @@ const AdminOrdersPageComponent = ({ getOrders, socketIOClient }) => {
             <thead>
               <tr>
                 <th>#</th>
+                <th>order Id <input type="text" className="form-control" onChange={e => setSearchId(e.target.value.toUpperCase())} /></th>
                 <th>User</th>
                 <th>Date <input type="date" className="form-control" onChange={e => setSearchDate(e.target.value.toString())} /></th>
                 <th>Time</th>
@@ -74,6 +76,7 @@ const AdminOrdersPageComponent = ({ getOrders, socketIOClient }) => {
                 <th>Paid</th>
                 <th>Delivered</th>
                 <th>Payment Method</th>
+                <th>Service Type</th>
                 <th>Order details</th>
               </tr>
             </thead>
@@ -96,10 +99,19 @@ const AdminOrdersPageComponent = ({ getOrders, socketIOClient }) => {
                     : null
                 }
                 )
+                .filter((order) => {
+                  return (searchId === '')
+                    ? true
+                    : (searchId !== '')
+                    ? order._id.includes(searchId)
+                    : null
+                }
+                )
                 .map((order, idx) => (
                   !order.isDone ? (
                     <tr className="table-danger" key={order._id} >
                       <td>{idx + 1}</td>
+                      <td>{order._id}</td>
                       <td>
                         {order.customerInfo ? (
                           <>
@@ -132,6 +144,7 @@ const AdminOrdersPageComponent = ({ getOrders, socketIOClient }) => {
                         )}
                       </td>
                       <td>{order.paymentMethod}</td>
+                      <td>{order.serviceMode}</td>
                       <td>
                         <Link to={`/admin/order-details/${order._id}`}>
                           go to order
@@ -141,6 +154,7 @@ const AdminOrdersPageComponent = ({ getOrders, socketIOClient }) => {
                   ) : (!order.isDelivered) ? (
                     <tr className="table-success" key={idx} >
                       <td>{idx + 1}</td>
+                      <td>{order._id}</td>
                       <td>
                         {order.customerInfo ? (
                           <>
@@ -173,6 +187,7 @@ const AdminOrdersPageComponent = ({ getOrders, socketIOClient }) => {
                         )}
                       </td>
                       <td>{order.paymentMethod}</td>
+                      <td>{order.serviceMode}</td>
                       <td>
                         <Link to={`/admin/order-details/${order._id}`}>
                           go to order
@@ -181,6 +196,7 @@ const AdminOrdersPageComponent = ({ getOrders, socketIOClient }) => {
                     </tr>
                   ) : (<tr key={idx} >
                     <td>{idx + 1}</td>
+                    <td>{order._id}</td>
                     <td>
                       {order.customerInfo ? (
                         <>
@@ -213,6 +229,7 @@ const AdminOrdersPageComponent = ({ getOrders, socketIOClient }) => {
                       )}
                     </td>
                     <td>{order.paymentMethod}</td>
+                    <td>{order.serviceMode}</td>
                     <td>
                       <Link to={`/admin/order-details/${order._id}`}>
                         go to order
