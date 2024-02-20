@@ -511,7 +511,15 @@ const updateOrderToConfirmed = async (req, res, next) => {
 }
 const getOrders = async (req, res, next) => {
     try {
-        const orders = await Order.find({}).populate("user", "-password").sort({ createdAt: "desc" });
+        const orders = await Order.find({}).populate("user", "-password").sort({ orderPlacedAt: "desc" });
+        res.send(orders);
+    } catch (err) {
+        next(err)
+    }
+}
+const getOrdersAsc = async (req, res, next) => {
+    try {
+        const orders = await Order.find({}).populate("user", "-password").sort({ orderPlacedAt: "asc" });
         res.send(orders);
     } catch (err) {
         next(err)
@@ -555,4 +563,4 @@ const getFoodOrderTotalByDate = async (req, res, next) => {
         next(error)
     }
 }
-module.exports = { getUserOrders, getOrder, createOrder, createOrderAdmin, createOrderCustomer, updateOrderToPaid, updateOrderToDelivered, updateOrderToDone, updateOrderToConfirmed, getOrders, getOrderForAnalysis, getFoodOrderTotalByDate }
+module.exports = { getUserOrders, getOrder, createOrder, createOrderAdmin, createOrderCustomer, updateOrderToPaid, updateOrderToDelivered, updateOrderToDone, updateOrderToConfirmed, getOrders,getOrdersAsc, getOrderForAnalysis, getFoodOrderTotalByDate }

@@ -1,28 +1,43 @@
 import axios from "axios"
 function replaceCharacter(str, replacement) {
-    let strLength=str.length
-    str=str.slice(1, strLength)
+    let strLength = str.length
+    str = str.slice(1, strLength)
     return (
-      replacement+str
+        replacement + str
     );
-  }
-export const convertToDateString=(str)=> {
-    const DateStr=new Date(str)
-    return DateStr.toDateString()
-  }
-    
-export const checkPhoneNumber=(phoneNumberString)=>{
-    if(phoneNumberString)
-    {
-    var phoneNumber=phoneNumberString.split(" ").join("")
-    if(phoneNumber[0]!=="+")
-    {
-    phoneNumber=replaceCharacter(phoneNumber, '+92');
-    }
-
-    return phoneNumber
 }
-else return phoneNumberString
+export const convertToDateString = (str) => {
+    const DateStr = new Date(str)
+    return DateStr.toDateString()
+}
+export const nextDate = (dateStr) => {
+    const nextDate = new Date(dateStr)
+    nextDate.setDate(nextDate.getDate() + 1)
+    return nextDate.toISOString()
+}
+export const toTime = (timeString) => {
+    const date = new Date(timeString)
+    let n = date.toLocaleString([], {
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+    return n
+}
+export const getHour = (timeString) => {
+    const date = new Date(timeString)
+    let n = date.getHours()
+    return n
+}
+export const checkPhoneNumber = (phoneNumberString) => {
+    if (phoneNumberString) {
+        var phoneNumber = phoneNumberString.split(" ").join("")
+        if (phoneNumber[0] !== "+") {
+            phoneNumber = replaceCharacter(phoneNumber, '+92');
+        }
+
+        return phoneNumber
+    }
+    else return phoneNumberString
 
 }
 export const uploadImagesApiRequest = async (images, foodItemId) => {
