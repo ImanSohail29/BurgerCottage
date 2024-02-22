@@ -2,7 +2,7 @@
     .App {
         color: aliceblue;
         font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-        background-image: url("https://res.cloudinary.com/dyqklwu1n/image/upload/v1705073382/burger_cottage_vertical_xua9su.jpg");
+        background-image: url("../public/images/burger-with-neon-sign-that-says-burger-it.jpg");
         background-repeat: no-repeat;
         background-size: 100% 100%;
         min-height: 100vh;
@@ -12,15 +12,27 @@
 }
 @media (min-width: 900px) {
     .App {
-        color: aliceblue;
+        color: rgb(255, 240, 241);
         font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-        background-image: url("https://res.cloudinary.com/dyqklwu1n/image/upload/b_rgb:f81212,c_crop,h_1000,o_53,w_2000/v1701793424/BurgerCottage/burger-fries_ul6f8w.avif");
+        /* background-image: url("https://res.cloudinary.com/dyqklwu1n/image/upload/b_rgb:f81212,c_crop,h_1000,o_53,w_2000/v1701793424/BurgerCottage/burger-fries_ul6f8w.avif"); */
         background-repeat: no-repeat;
         background-size: 100% 100%;
         min-height: 100vh;
             display: flex;
             flex-direction: column;
         } 
+}
+.form-control {
+  background-color: rgb(196, 192, 192) !important;
+}
+
+.form-control:focus {
+  background-color: rgb(45, 52, 61) !important;
+}
+.tbody, td, tfoot, th, thead,tr,table {
+  opacity: 93%  !important;
+  color: rgb(255, 255, 255)  !important;
+  background-color: rgb(0, 0, 0) !important;
 }
 .loader {
     position: absolute;
@@ -65,4 +77,4 @@
     from{ bottom:-100px; opacity:0 } 
     to{ bottom:0; opacity:1 }
   }
-  
+ 

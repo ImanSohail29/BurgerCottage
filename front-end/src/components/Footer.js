@@ -7,9 +7,9 @@ import { faLocationDot, faMapLocationDot,faPhone } from '@fortawesome/free-solid
 const Footer = () => {
     return (
         <footer>
-            <Container fluid>
+            <Container style={{ background: "rgba(180,0,0)" }} fluid>
                 <Row>
-                    <Col className="bg-dark text-white text-center text-muted py-4  bg-opacity-50">
+                    <Col className="text-white text-center text-muted py-4">
                         <small>
                         Copyright &copy; Shop Best Burgers Online{" "}
                         <div>

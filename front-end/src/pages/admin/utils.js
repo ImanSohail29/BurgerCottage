@@ -15,6 +15,11 @@ export const nextDate = (dateStr) => {
     nextDate.setDate(nextDate.getDate() + 1)
     return nextDate.toISOString()
 }
+export const previousDate = (dateStr) => {
+    const nextDate = new Date(dateStr)
+    nextDate.setDate(nextDate.getDate() - 1)
+    return nextDate.toISOString()
+}
 export const convertToDateObj = (dateStr) => {
     const dateObj = new Date(dateStr)
     return dateObj

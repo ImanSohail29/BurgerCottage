@@ -27,9 +27,7 @@ const AdminReportComponent = ({ getReport }) => {
   return (
     <Row className="m-5">
       <Col >
-        <h1>Report <LinkContainer to={"/admin/expenses"}>
-          <Button variant="primary" className="ms-2" size="lg">Daily Expenses</Button>
-        </LinkContainer></h1>
+        <h1>Report</h1>
 
         <Table bordered hover responsive>
           <thead>

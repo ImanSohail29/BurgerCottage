@@ -63,7 +63,7 @@ const AdminOrdersPageComponent = ({ getOrders, socketIOClient }) => {
             </InputGroup>
           </Form>
           {console.log(searchDate)}
-          <Table bordered hover responsive>
+          <Table className="table" style={{backgroundColor:"red"}} bordered hover responsive>
             <thead>
               <tr>
                 <th>#</th>
