@@ -25,6 +25,16 @@ const getOrder = async (req, res, next) => {
         next(err)
     }
 }
+const getOrderByDate = async (req, res, next) => {
+    try {
+        const order = await Order.find({orderPlacedAt:req.body.date}).orFail();
+        order.orderPlacedAt.toLocaleTimeString();
+        res.send(order);
+    } catch (err) {
+        next(err)
+    }
+}
+
 
 const createOrder = async (req, res, next) => {
     console.log("inside createOrder")
@@ -78,7 +88,7 @@ const createOrder = async (req, res, next) => {
             sendSMS("Customer Info: " + JSON.stringify(order.customerInfo) + "\n\n" + "Cart Items: " + JSON.stringify(cartItems) + " " + "Total number of items: " + cart.itemsCount + "  " + "Subtotal: " + cart.cartSubtotal + "  service mode: " + order.serviceMode + "  Payment Method: " + order.paymentMethod)
             const dateTimeNow = new Date()
             const dateNow = dateTimeNow.toDateString()
-            if (dateTimeNow.getHours() < 5) {
+            if (dateTimeNow.getHours() < 6) {
                 dateTimeNow.setDate(dateTimeNow.getDate() - 1)
             }
             const todaysReport = await Report.findOne({ date: dateNow })
@@ -138,7 +148,7 @@ const createOrder = async (req, res, next) => {
             sendSMS("Customer Info: " + JSON.stringify(order.customerInfo) + "\n\n" + "Cart Items: " + JSON.stringify(cartItems) + " " + "Total number of items: " + cart.itemsCount + "  " + "Subtotal: " + cart.cartSubtotal + "  service mode: " + order.serviceMode + "  Payment Method: " + order.paymentMethod)
             const dateTimeNow = new Date()
             const dateNow = dateTimeNow.toDateString()
-            if (dateTimeNow.getHours() < 5) {
+            if (dateTimeNow.getHours() < 6) {
                 dateTimeNow.setDate(dateTimeNow.getDate() - 1)
             }
             const todaysReport = await Report.findOne({ date: dateNow })
@@ -229,7 +239,7 @@ const createOrderCustomer = async (req, res, next) => {
             sendSMS("Customer Info: " + JSON.stringify(order.customerInfo) + "\n\n" + "Cart Items: " + JSON.stringify(cartItems) + " " + "Total number of items: " + cart.itemsCount + "  " + "Subtotal: " + cart.cartSubtotal + "  service mode: " + order.serviceMode + "  Payment Method: " + order.paymentMethod)
             const dateTimeNow = new Date()
             const dateNow = dateTimeNow.toDateString()
-            if (dateTimeNow.getHours() < 5) {
+            if (dateTimeNow.getHours() < 6) {
                 dateTimeNow.setDate(dateTimeNow.getDate() - 1)
             }
             const todaysReport = await Report.findOne({ date: dateNow })
@@ -289,7 +299,7 @@ const createOrderCustomer = async (req, res, next) => {
             sendSMS("Customer Info: " + JSON.stringify(order.customerInfo) + "\n\n" + "Cart Items: " + JSON.stringify(cartItems) + " " + "Total number of items: " + cart.itemsCount + "  " + "Subtotal: " + cart.cartSubtotal + "  service mode: " + order.serviceMode + "  Payment Method: " + order.paymentMethod)
             const dateTimeNow = new Date()
             const dateNow = dateTimeNow.toDateString()
-            if (dateTimeNow.getHours() < 5) {
+            if (dateTimeNow.getHours() < 6) {
                 dateTimeNow.setDate(dateTimeNow.getDate() - 1)
             }
             const todaysReport = await Report.findOne({ date: dateNow })
@@ -369,7 +379,7 @@ const createOrderAdmin = async (req, res, next) => {
             const createdOrder = await order.save();
             const dateTimeNow = new Date()
             const dateNow = dateTimeNow.toDateString()
-            if (dateTimeNow.getHours() < 5) {
+            if (dateTimeNow.getHours() < 6) {
                 dateTimeNow.setDate(dateTimeNow.getDate() - 1)
             }
             const todaysReport = await Report.findOne({ date: dateNow })
@@ -420,7 +430,7 @@ const createOrderAdmin = async (req, res, next) => {
             const createdOrder = await order.save();
             const dateTimeNow = new Date()
             const dateNow = dateTimeNow.toDateString()
-            if (dateTimeNow.getHours() < 5) {
+            if (dateTimeNow.getHours() < 6) {
                 dateTimeNow.setDate(dateTimeNow.getDate() - 1)
             }
             const todaysReport = await Report.findOne({ date: dateNow })

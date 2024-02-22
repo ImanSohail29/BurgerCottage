@@ -21,7 +21,6 @@ const deleteCategories=async(categoryId)=>{
     return data
 }
 const AdminProductsPage = () => {
-    const abctrl=""
     const { categories } = useSelector((state) => state.category)
 
 return <AdminProductsComponent fetchProducts={fetchProducts} deleteProducts={deleteProducts} categories={categories} deleteCategories={deleteCategories}></AdminProductsComponent>

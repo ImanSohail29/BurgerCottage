@@ -38,7 +38,7 @@ const createNewExpense = async (req, res, next) => {
                 totalAmount: totalAmount,
                 date: dateTimeNow,
             })
-            if (dateTimeNow.getHours() < 5) {
+            if (dateTimeNow.getHours() < 6) {
                 dateTimeNow.setDate(dateTimeNow.getDate() - 1)
             }
             const dateNow = dateTimeNow.toDateString()
@@ -105,7 +105,7 @@ const updateExpense = async (req, res, next) => {
             dateTimeYesterday.setDate(dateTimeYesterday.getDate() - 1);
             const dateYesterday = dateTimeYesterday.toDateString()
 
-            if (dateTimeNow.getHours() < 5) {
+            if (dateTimeNow.getHours() < 6) {
                 dateTimeNow.setDate(dateTimeNow.getDate() - 1)
             }
             const dateNow = dateTimeNow.toDateString()
@@ -154,7 +154,7 @@ const deleteExpense = async (req, res, next) => {
 
 
         const dateTimeNow = new Date()
-        if (dateTimeNow.getHours() < 5) {
+        if (dateTimeNow.getHours() < 6) {
             dateTimeNow.setDate(dateTimeNow.getDate() - 1)
         }
         const dateNow = dateTimeNow.toDateString()

@@ -33,30 +33,30 @@ const AdminCartDetailsPageComponent = ({ cartItems, itemsCount, cartSubtotal, us
   const [customerDiscount, setCustomerDiscount] = useState(0)
   const [finalCartSubtotal, setFinalCartSubtotal] = useState(cartSubtotal)
   const navigate = useNavigate();
-useEffect(()=>{
-  if(userInfo!=undefined){
-    if(!userInfo.isAdmin){
-    setUserName(userInfo.name)
-    setUserEmail(userInfo.email)
-    setUserPhoneNumber(checkPhoneNumber(userInfo.phoneNumber))
-    setUserDeliveryAddress(userInfo.address)
+  useEffect(() => {
+    if (userInfo != undefined) {
+      if (!userInfo.isAdmin) {
+        setUserName(userInfo.name)
+        setUserEmail(userInfo.email)
+        setUserPhoneNumber(checkPhoneNumber(userInfo.phoneNumber))
+        setUserDeliveryAddress(userInfo.address)
+      }
     }
-  }
-},[userInfo])
+  }, [userInfo])
   useEffect(() => {
     setMissingAddress(false)
     setButtonDisabled(false)
     console.log("inside use effect before if")
-      if (serviceMode === "delivery" && ((userDeliveryAddress === ""||userDeliveryAddress==undefined) || (userPhoneNumber===""||userPhoneNumber===undefined))) {
-        setMissingAddress("Customer Details are required")
-        setButtonDisabled(true)
-        console.log("inside use effect after if")
+    if (serviceMode === "delivery" && ((userDeliveryAddress === "" || userDeliveryAddress == undefined) || (userPhoneNumber === "" || userPhoneNumber === undefined))) {
+      setMissingAddress("Customer Details are required")
+      setButtonDisabled(true)
+      console.log("inside use effect after if")
 
-      }
+    }
     if (cartItems.length < 1) {
       setButtonDisabled(true)
     }
-  }, [userDeliveryAddress,userPhoneNumber,userDeliveryAddress,serviceMode, cartItems])
+  }, [userDeliveryAddress, userPhoneNumber, userDeliveryAddress, serviceMode, cartItems])
 
   const handleDiscount = (event) => {
     event.preventDefault();
@@ -82,10 +82,10 @@ useEffect(()=>{
 
   const orderHandler = () => {
     console.log("inside order handler")
-    let user={ name: userName, phoneNumber: userPhoneNumber, email: userEmail, address: userDeliveryAddress }
+    let user = { name: userName, phoneNumber: userPhoneNumber, email: userEmail, address: userDeliveryAddress }
     console.log("user: " + JSON.stringify(user))
-    var userPhoneNumberAdmin=checkPhoneNumber(user.phoneNumber)
-    if (user.phoneNumber!={}) {
+    var userPhoneNumberAdmin = checkPhoneNumber(user.phoneNumber)
+    if (user.phoneNumber != {}) {
       registerUserApiRequestFromAdmin(user.name, userPhoneNumberAdmin, user.email, user.address)
         .then((data) => {
           setEnterUserResponseState({ success: data.success, loading: false, })
@@ -249,11 +249,12 @@ useEffect(()=>{
                             <Form.Label>Phone Number</Form.Label>
                             <Form.Control
                               name="phoneNumber"
-                              
+
                               minLength={11}
                               isInvalid={userPhoneNumber === null || userPhoneNumber === undefined || userPhoneNumber === "" || userPhoneNumber.trim().length < 11}
                               onChange={(e) => {
-                                setUserPhoneNumber(e.target.value)}}
+                                setUserPhoneNumber(e.target.value)
+                              }}
                               type="tel"
                               placeholder="+923XXXXXXXXX"
                             />
@@ -266,7 +267,7 @@ useEffect(()=>{
                               <Form.Label>Address</Form.Label>
                               <Form.Control
                                 name="address"
-                                
+
                                 type="text" as="textarea"
                                 isInvalid={userDeliveryAddress === '' || userDeliveryAddress === undefined}
                                 onChange={(e) => setUserDeliveryAddress(e.target.value)}
@@ -282,82 +283,12 @@ useEffect(()=>{
 
                       </>) : (
                       <>
-                      <Form  noValidate validated={validated}>
-                        <Form.Group className="mb-3" controlId="validationCustom01">
-                          <Form.Label>Customer Name</Form.Label>
-                          <Form.Control
-                            type="text"
-                            defaultValue={userInfo.name}
-                            onChange={(e) => setUserName(e.target.value)}
-                            placeholder="Enter Customers name"
-                            name="name"
-                          />
-                          <Form.Control.Feedback type="invalid">
-                            Please enter a name
-                          </Form.Control.Feedback>
-                        </Form.Group>
-
-                        <Form.Group className="mb-3" controlId="formBasicEmail">
-                          <Form.Label>Email address</Form.Label>
-                          <Form.Control
-                            name="email"
-                            type="email"
-                            defaultValue={userInfo.email}
-                            onChange={(e) => setUserEmail(e.target.value)}
-                            placeholder="Enter email"
-                          />
-                          <Form.Control.Feedback type="invalid">
-                            Please enter a valid email address
-                          </Form.Control.Feedback>
-                        </Form.Group>
-
-                        <Form.Group className="mb-3" controlId="formBasicPhoneNumber">
-                          <Form.Label>Phone Number</Form.Label>
-                          <Form.Control
-                            name="phoneNumber"
-                            defaultValue={userInfo.phoneNumber}
-                            onChange={(e) => setUserPhoneNumber(e.target.value)}
-                            type="tel"
-                            minLength={11}
-                            required
-                            placeholder="+923XXXXXXXXX"
-                          />
-                          <Form.Control.Feedback type="invalid">
-                            Please enter a valid phone Number
-                          </Form.Control.Feedback>
-                        </Form.Group>
-                        {serviceMode && serviceMode === "delivery" ? (
-                          <Form.Group className="mb-3" controlId="formBasicAddress">
-                            <Form.Label>Address</Form.Label>
-                            <Form.Control
-                              name="address"
-                              defaultValue={userInfo.address}
-                              onChange={(e) => setUserDeliveryAddress(e.target.value)}
-                              type="text" as="textarea"
-                              required
-                              placeholder="House no., Block, Town, City"
-                            />
-                            <Form.Control.Feedback type="invalid">
-                              Please enter a valid Address
-                            </Form.Control.Feedback>
-                          </Form.Group>) : ("")}
-                      </Form>
-                      </>)
-                    }
-                  </Col>
-                </Row>
-              </Container>) : <>
-              <Container>
-                <Row >
-                  <Col>
-                  <>
-                    <h1>Customer Details</h1>
-                  
                         <Form noValidate validated={validated}>
                           <Form.Group className="mb-3" controlId="validationCustom01">
                             <Form.Label>Customer Name</Form.Label>
                             <Form.Control
                               type="text"
+                              defaultValue={userInfo.name}
                               onChange={(e) => setUserName(e.target.value)}
                               placeholder="Enter Customers name"
                               name="name"
@@ -371,8 +302,9 @@ useEffect(()=>{
                             <Form.Label>Email address</Form.Label>
                             <Form.Control
                               name="email"
-                              onChange={(e) => setUserEmail(e.target.value)}
                               type="email"
+                              defaultValue={userInfo.email}
+                              onChange={(e) => setUserEmail(e.target.value)}
                               placeholder="Enter email"
                             />
                             <Form.Control.Feedback type="invalid">
@@ -384,15 +316,15 @@ useEffect(()=>{
                             <Form.Label>Phone Number</Form.Label>
                             <Form.Control
                               name="phoneNumber"
-                              required
-                              minLength={11}
-                              isInvalid={userPhoneNumber === null || userPhoneNumber === undefined || userPhoneNumber === "" || userPhoneNumber.trim().length < 11}
+                              defaultValue={userInfo.phoneNumber}
                               onChange={(e) => setUserPhoneNumber(e.target.value)}
                               type="tel"
+                              minLength={11}
+                              required
                               placeholder="+923XXXXXXXXX"
                             />
                             <Form.Control.Feedback type="invalid">
-                              Please enter phone Number
+                              Please enter a valid phone Number
                             </Form.Control.Feedback>
                           </Form.Group>
                           {serviceMode && serviceMode === "delivery" ? (
@@ -400,18 +332,87 @@ useEffect(()=>{
                               <Form.Label>Address</Form.Label>
                               <Form.Control
                                 name="address"
-                                required
-                                type="text" as="textarea"
-                                isInvalid={userDeliveryAddress === '' || userDeliveryAddress === undefined}
+                                defaultValue={userInfo.address}
                                 onChange={(e) => setUserDeliveryAddress(e.target.value)}
+                                type="text" as="textarea"
+                                required
                                 placeholder="House no., Block, Town, City"
                               />
                               <Form.Control.Feedback type="invalid">
-                                Please enter Address
+                                Please enter a valid Address
                               </Form.Control.Feedback>
-                            </Form.Group>):("")}
+                            </Form.Group>) : ("")}
                         </Form>
-                      </>
+                      </>)
+                    }
+                  </Col>
+                </Row>
+              </Container>) : <>
+              <Container>
+                <Row >
+                  <Col>
+                    <>
+                      <h1>Customer Details</h1>
+
+                      <Form noValidate validated={validated}>
+                        <Form.Group className="mb-3" controlId="validationCustom01">
+                          <Form.Label>Customer Name</Form.Label>
+                          <Form.Control
+                            type="text"
+                            onChange={(e) => setUserName(e.target.value)}
+                            placeholder="Enter Customers name"
+                            name="name"
+                          />
+                          <Form.Control.Feedback type="invalid">
+                            Please enter a name
+                          </Form.Control.Feedback>
+                        </Form.Group>
+
+                        <Form.Group className="mb-3" controlId="formBasicEmail">
+                          <Form.Label>Email address</Form.Label>
+                          <Form.Control
+                            name="email"
+                            onChange={(e) => setUserEmail(e.target.value)}
+                            type="email"
+                            placeholder="Enter email"
+                          />
+                          <Form.Control.Feedback type="invalid">
+                            Please enter a valid email address
+                          </Form.Control.Feedback>
+                        </Form.Group>
+
+                        <Form.Group className="mb-3" controlId="formBasicPhoneNumber">
+                          <Form.Label>Phone Number</Form.Label>
+                          <Form.Control
+                            name="phoneNumber"
+                            required
+                            minLength={11}
+                            isInvalid={userPhoneNumber === null || userPhoneNumber === undefined || userPhoneNumber === "" || userPhoneNumber.trim().length < 11}
+                            onChange={(e) => setUserPhoneNumber(e.target.value)}
+                            type="tel"
+                            placeholder="+923XXXXXXXXX"
+                          />
+                          <Form.Control.Feedback type="invalid">
+                            Please enter phone Number
+                          </Form.Control.Feedback>
+                        </Form.Group>
+                        {serviceMode && serviceMode === "delivery" ? (
+                          <Form.Group className="mb-3" controlId="formBasicAddress">
+                            <Form.Label>Address</Form.Label>
+                            <Form.Control
+                              name="address"
+                              required
+                              type="text" as="textarea"
+                              isInvalid={userDeliveryAddress === '' || userDeliveryAddress === undefined}
+                              onChange={(e) => setUserDeliveryAddress(e.target.value)}
+                              placeholder="House no., Block, Town, City"
+                            />
+                            <Form.Control.Feedback type="invalid">
+                              Please enter Address
+                            </Form.Control.Feedback>
+                          </Form.Group>) : ("")}
+                      </Form>
+                    </>
                   </Col>
                 </Row>
               </Container>
@@ -451,20 +452,22 @@ useEffect(()=>{
             <h2>Payment method</h2>
             <Form.Select onChange={choosePayment}>
               <option value="cash">Cash</option>
-              <option value="online">Online</option>
+              <option value="jazzcash">JazzCash</option>
+              <option value="easypaisa">EasyPaisa</option>
+              <option value="online">Online Payment</option>
             </Form.Select>
           </Row>
-          {userInfo.isAdmin?(
-             <Row className="mb-4 p-4">
-             <h2>Service mode</h2>
-             <Form.Select onChange={chooseServiceMode}>
-               <option value="delivery">Delivery</option>
-               <option value="takeAway">Take Away</option>
-               <option value="dineIn">Dine in</option>
-             </Form.Select>
-           </Row>
-          ):("")}
-         
+          {userInfo.isAdmin ? (
+            <Row className="mb-4 p-4">
+              <h2>Service mode</h2>
+              <Form.Select onChange={chooseServiceMode}>
+              <option value="dineIn">Dine in</option>
+                <option value="delivery">Delivery</option>
+                <option value="takeAway">Take Away</option>
+              </Form.Select>
+            </Row>
+          ) : ("")}
+
           <ListGroup>
             <ListGroup.Item>
               <h3>Order summary</h3>

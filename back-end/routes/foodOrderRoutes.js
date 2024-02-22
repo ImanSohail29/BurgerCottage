@@ -20,6 +20,6 @@ router.put("/paid/:id", updateOrderToPaid);
 router.put("/confirm/:id", updateOrderToConfirmed);
 router.get("/admin", getOrders);
 router.get("/admin/asc", getOrdersAsc);
-router.get("/analysis/:date", getOrderForAnalysis);
+router.get("/admin/analysis/:date", getOrderForAnalysis);
 
 module.exports = router

@@ -61,7 +61,7 @@ const AdminReportDetailsComponent = ({ getExpenses, getOrders, getReport }) => {
                     <Col md={8}>
                         <h1>Report Details</h1>
                     </Col>
-                    <Col className="mt-2" md={4}>
+                    <Col className="mt-2" md={3}>
                         <input type="date" className="form-control" defaultValue={date} onChange={e => {
                             setSearchDate(e.target.value.toString())
                             setNextSearchDate(nextDate(e.target.value.toString()).substring(0, 10))
@@ -91,7 +91,7 @@ const AdminReportDetailsComponent = ({ getExpenses, getOrders, getReport }) => {
                                             return (searchDate === '')
                                                 ? true
                                                 : (searchDate !== '')
-                                                    ? (data.orderPlacedAt.substring(0, 10) === searchDate && getHour(data.orderPlacedAt) > 5) || (data.orderPlacedAt.substring(0, 10) === nextSearchDate && getHour(data.orderPlacedAt) < 5)
+                                                    ? (data.orderPlacedAt.substring(0, 10) === searchDate && getHour(data.orderPlacedAt) > 6) || (data.orderPlacedAt.substring(0, 10) === nextSearchDate && getHour(data.orderPlacedAt) < 6)
                                                     : null
                                         }).map((orderData, idx) => {
                                             return (

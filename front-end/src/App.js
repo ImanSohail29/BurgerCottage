@@ -36,6 +36,7 @@ import AdminReport from "./pages/admin/expenses/AdminReport";
 import UserOrdersPage from "./pages/customer/UserOrdersPage";
 import AdminReportDetailsComponent from "./pages/admin/expenses/components/AdminReportDetailsComponent";
 import AdminReportDetails from "./pages/admin/expenses/AdminReportDetails";
+import AdminAnalyticsPage from "./pages/admin/expenses/AdminAnalyticsPage";
 
 function App() {
   return (
@@ -57,6 +58,7 @@ function App() {
           <Route path="/admin/orders" element={<AdminOrdersPage />} />
           <Route path="/admin/report" element={<AdminReport></AdminReport>} />
           <Route path="/admin/report-details/:date" element={<AdminReportDetails></AdminReportDetails>} />
+          <Route path="/admin/analytics" element={<AdminAnalyticsPage></AdminAnalyticsPage>} />
           <Route path="/admin/products" element={<AdminProductsPage />} />
           <Route path="/admin/discount/:discountId" element={<AdminEditDiscountPage />} />
           <Route path="/admin/products/category/:categoryName" element={<AdminProductsPage />} />
