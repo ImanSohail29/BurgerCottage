@@ -15,6 +15,10 @@ export const nextDate = (dateStr) => {
     nextDate.setDate(nextDate.getDate() + 1)
     return nextDate.toISOString()
 }
+export const convertToDateObj = (dateStr) => {
+    const dateObj = new Date(dateStr)
+    return dateObj
+}
 export const toTime = (timeString) => {
     const date = new Date(timeString)
     let n = date.toLocaleString([], {
