@@ -61,8 +61,6 @@ const AdminReportDetailsComponent = ({ getExpenses, getOrders, getReport, getRep
         console.log("reportData: "+reportData)
         console.log("todaysReportData: "+todaysReportData)
         console.log("SumOfOrdersWRTPaymentMethod: "+SumOfOrdersWRTPaymentMethod)
-
-
     }, []);
     useEffect(() => {
         getReport()
@@ -78,7 +76,7 @@ const AdminReportDetailsComponent = ({ getExpenses, getOrders, getReport, getRep
                 // )
             );
         if (searchDate !== '' && nextSearchDate !== '') {
-            getReportFromDateToDate(searchDate, previousDate(nextSearchDate))
+            getReportFromDateToDate(searchDate, nextSearchDate)
                 .then((data) => {
                     let orderSum = 0;
                     let expenseSum = 0;
@@ -111,9 +109,9 @@ const AdminReportDetailsComponent = ({ getExpenses, getOrders, getReport, getRep
             let orderSumEasyPaisa = 0;
             const sumOfOrdersWRT = ordersData.map((orderData) => {
                 if ((orderData.orderPlacedAt.substring(0, 10) === searchDate && getHour(orderData.orderPlacedAt) > 6) ||
-                    (orderData.orderPlacedAt.substring(0, 10) === nextSearchDate && getHour(orderData.orderPlacedAt) < 6) ||
+                    (orderData.orderPlacedAt.substring(0, 10) === nextDate(nextSearchDate).substring(0, 10) && getHour(orderData.orderPlacedAt) < 6) ||
                     (convertToDateObj(searchDate).getTime() < convertToDateObj(orderData.orderPlacedAt.substring(0, 10)).getTime()
-                        && convertToDateObj(nextSearchDate).getTime() > convertToDateObj(orderData.orderPlacedAt.substring(0, 10)).getTime())) {
+                        && convertToDateObj(nextSearchDate).getTime() >= convertToDateObj(orderData.orderPlacedAt.substring(0, 10)).getTime())) {
                     if (orderData.paymentMethod == "cash") {
                         orderSumCash += orderData.orderTotal.cartSubtotal;
                     }
@@ -137,6 +135,12 @@ const AdminReportDetailsComponent = ({ getExpenses, getOrders, getReport, getRep
             let finalSumOfOrders = sumOfOrdersWRT[sumOfOrdersWRT.length - 1]
             setSumOfOrdersWRTPaymentMethod(finalSumOfOrders);
         }
+        console.log("Hi i am here")
+        console.log("searchDate: "+searchDate)
+        console.log("nextSearchDate: "+nextSearchDate)
+        console.log("reportData: "+reportData)
+        console.log("todaysReportData: "+todaysReportData)
+        console.log("SumOfOrdersWRTPaymentMethod: "+SumOfOrdersWRTPaymentMethod)
 
     }, [ordersData,searchDate, nextSearchDate]);
 
@@ -155,14 +159,14 @@ const AdminReportDetailsComponent = ({ getExpenses, getOrders, getReport, getRep
                                     ))
                                 }} />
                                 <input type="date" className="form-control  form-control-lg m-1" defaultValue={nextSearchDate} onChange={e => {
-                                    setNextSearchDate(nextDate(e.target.value.toString()).substring(0, 10))
+                                    setNextSearchDate(e.target.value.toString())
                                     setTodaysReportData(reportData.find((data) => (data.createdAt.substring(0, 10) === e.target.value.toString())
                                     ))
                                 }} />
                             </Row>
                         </Col>
                         <Col md={10}>
-                            {SumOfOrdersWRTPaymentMethod ? (
+                            {SumOfOrdersWRTPaymentMethod&&dataForReport ? (
                                 <>
                                 <Row className="justify-content-md-center m-1" md={4}>
                                     <div>
@@ -244,9 +248,9 @@ const AdminReportDetailsComponent = ({ getExpenses, getOrders, getReport, getRep
                                                 ? true
                                                 : (searchDate !== '')
                                                     ? (data.orderPlacedAt.substring(0, 10) === searchDate && getHour(data.orderPlacedAt) > 6) ||
-                                                    (data.orderPlacedAt.substring(0, 10) === nextSearchDate && getHour(data.orderPlacedAt) < 6) ||
+                                                    (data.orderPlacedAt.substring(0, 10) === nextDate(searchDate).substring(0, 10) && getHour(data.orderPlacedAt) < 6) ||
                                                     (convertToDateObj(searchDate).getTime() < convertToDateObj(data.orderPlacedAt.substring(0, 10)).getTime()
-                                                        && convertToDateObj(nextSearchDate).getTime() > convertToDateObj(data.orderPlacedAt.substring(0, 10)).getTime())
+                                                        && convertToDateObj(nextSearchDate).getTime() >= convertToDateObj(data.orderPlacedAt.substring(0, 10)).getTime())
                                                     : null
                                         }).map((orderData, idx) => {
                                             return (
@@ -284,7 +288,7 @@ const AdminReportDetailsComponent = ({ getExpenses, getOrders, getReport, getRep
                                                 ? true
                                                 : (searchDate !== '')
                                                     ? (data.date.substring(0, 10) === searchDate && getHour(data.date) > 6) ||
-                                                    (data.date.substring(0, 10) === nextSearchDate && getHour(data.date) < 6) ||
+                                                    (data.date.substring(0, 10) === nextDate(searchDate).substring(0, 10) && getHour(data.date) < 6) ||
                                                     (convertToDateObj(searchDate).getTime() < convertToDateObj(data.date.substring(0, 10)).getTime()
                                                         && convertToDateObj(nextSearchDate).getTime() > convertToDateObj(data.date.substring(0, 10)).getTime())
 
