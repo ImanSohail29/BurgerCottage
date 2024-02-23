@@ -214,11 +214,17 @@ const AdminReportDetailsComponent = ({ getExpenses, getOrders, getReport, getRep
                                     </Card>
                                 </div>
                                 <div>
-                                    <Card className="bg-success bg-gradient text-white bg-opacity-75 border-start" >
+                                    {dataForReport.profit>0?(<Card className="bg-dark bg-gradient text-white bg-opacity-75 border-start" >
                                         <Card.Body>
                                             <Card.Title style={{ fontSize: "1.2em" }}>Revenue: {dataForReport.profit}</Card.Title>
                                         </Card.Body>
-                                    </Card>
+                                    </Card>):(<Card className="bg-dark bg-gradient text-danger bg-opacity-75 border-start" >
+                                        <Card.Body>
+                                            <Card.Title style={{ fontSize: "1.2em" }}>Revenue: {dataForReport.profit}</Card.Title>
+                                        </Card.Body>
+                                    </Card>)}
+                                    
+                                   
                                 </div>
                                 
                             </Row>

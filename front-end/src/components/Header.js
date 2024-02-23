@@ -23,7 +23,7 @@ const Header = () => {
     dispatch(getDiscounts())
   }, [dispatch])
   return (
-    <Navbar collapseOnSelect expand="lg" style={{ background: "rgba(180,0,0)" }} variant="dark">
+    <Navbar collapseOnSelect expand="lg" variant="dark">
       <Container>
       {userInfo.isAdmin ? ( <Navbar.Brand href="/home">
             <FontAwesomeIcon icon={faBurger} />

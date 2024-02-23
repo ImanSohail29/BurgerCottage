@@ -12,7 +12,8 @@ code {
     monospace;
 }
 footer {
+  background: rgba(165, 35, 35, 0.5) !important;
+  color: rgb(255, 255, 255)  !important;
   margin-top: auto;
-  background-color: rgb(148, 30, 22);
   width: 100%;
 }
