@@ -14,7 +14,7 @@ const getReport = async() => {
     return data
 }
 const getReportFromDateToDate = async(startDate,endDate) => {
-    const { data } = await axios.get("/api/report/admin/toDate",{startDate,endDate});
+    const { data } = await axios.get(`/api/report/admin/toDate?startDate=${startDate}&endDate=${endDate}`);
     return data
 }
 

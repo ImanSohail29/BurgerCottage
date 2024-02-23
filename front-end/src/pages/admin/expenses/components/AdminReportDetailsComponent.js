@@ -1,4 +1,4 @@
-import { Row, Col, Table, Button, Container } from "react-bootstrap";
+import { Row, Col, Table, Button, Container, Card } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 
 import { useEffect, useState } from "react";
@@ -6,21 +6,24 @@ import { useEffect, useState } from "react";
 import { logout } from "../../../../redux/slices/userSlice";
 import { useDispatch } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
-import { convertToDateObj, convertToDateString, getHour, nextDate, toTime } from "../../utils";
+import { convertToDateObj, convertToDateString, getHour, nextDate, toTime, previousDate } from "../../utils";
 
-const AdminReportDetailsComponent = ({ getExpenses, getOrders, getReport }) => {
+const AdminReportDetailsComponent = ({ getExpenses, getOrders, getReport, getReportFromDateToDate }) => {
     const [expensesData, setExpensesData] = useState([]);
+    const [dataForReport, setDataForReport] = useState({});
+    const [SumOfOrdersWRTPaymentMethod, setSumOfOrdersWRTPaymentMethod] = useState({});
+    const { date } = useParams();
     const [ordersData, setOrdersData] = useState([]);
     const [reportData, setReportData] = useState([]);
     const [todaysReportData, setTodaysReportData] = useState({});
-    const [searchDate, setSearchDate] = useState('');
-    const [nextSearchDate, setNextSearchDate] = useState('');
+    const [searchDate, setSearchDate] = useState(date);
+    const [nextSearchDate, setNextSearchDate] = useState(nextDate(date).substring(0,10));
     const dispatch = useDispatch();
-    const { date } = useParams();
 
     useEffect(() => {
         getExpenses()
-            .then((data) => setExpensesData(data))
+            .then((data) =>
+                setExpensesData(data))
             .catch((er) =>
                 dispatch(logout())
                 // console.log(
@@ -29,15 +32,37 @@ const AdminReportDetailsComponent = ({ getExpenses, getOrders, getReport }) => {
             );
 
         getOrders()
-            .then((data) => setOrdersData(data))
+            .then((data) => {
+                setOrdersData(data)
+            })
             .catch((er) =>
                 dispatch(logout())
                 // console.log(
                 //   er.response.data.message ? er.response.data.message : er.response.data
                 // )
             );
-        setSearchDate(date)
-        setNextSearchDate(nextDate(date).substring(0, 10))
+        getReport()
+            .then((data) => {
+                setReportData(data)
+                setTodaysReportData(data.find((data) => data.createdAt.substring(0, 10) === date))
+            }
+            )
+            .catch((er) =>
+                dispatch(logout())
+                // console.log(
+                //   er.response.data.message ? er.response.data.message : er.response.data
+                // )
+            );
+    }, []);
+    useEffect(() => {
+        console.log("Hi i am here")
+        console.log("searchDate: "+searchDate)
+        console.log("nextSearchDate: "+nextSearchDate)
+        console.log("reportData: "+reportData)
+        console.log("todaysReportData: "+todaysReportData)
+        console.log("SumOfOrdersWRTPaymentMethod: "+SumOfOrdersWRTPaymentMethod)
+
+
     }, []);
     useEffect(() => {
         getReport()
@@ -52,33 +77,152 @@ const AdminReportDetailsComponent = ({ getExpenses, getOrders, getReport }) => {
                 //   er.response.data.message ? er.response.data.message : er.response.data
                 // )
             );
-    }, [searchDate,nextSearchDate]);
+        if (searchDate !== '' && nextSearchDate !== '') {
+            getReportFromDateToDate(searchDate, previousDate(nextSearchDate))
+                .then((data) => {
+                    let orderSum = 0;
+                    let expenseSum = 0;
+                    let profit = 0;
+
+                    const reports = data.map((reportData) => {
+                        orderSum += reportData.totalSale;
+                        expenseSum += reportData.totalExpenses;
+                        profit += reportData.profit;
+                        return {
+                            ordersSum: orderSum,
+                            expensesSum: expenseSum,
+                            profit:profit
+                        };
+                    });
+                    let finalReportData = reports[reports.length - 1]
+                    setDataForReport(finalReportData);
+                }
+                )
+                .catch((er) =>
+                    dispatch(logout())
+
+                    // console.log(
+                    //   er.response.data.message ? er.response.data.message : er.response.data
+                    // )
+                );
+            let orderSumCash = 0;
+            let orderSumOnline = 0;
+            let orderSumJazzCash = 0;
+            let orderSumEasyPaisa = 0;
+            const sumOfOrdersWRT = ordersData.map((orderData) => {
+                if ((orderData.orderPlacedAt.substring(0, 10) === searchDate && getHour(orderData.orderPlacedAt) > 6) ||
+                    (orderData.orderPlacedAt.substring(0, 10) === nextSearchDate && getHour(orderData.orderPlacedAt) < 6) ||
+                    (convertToDateObj(searchDate).getTime() < convertToDateObj(orderData.orderPlacedAt.substring(0, 10)).getTime()
+                        && convertToDateObj(nextSearchDate).getTime() > convertToDateObj(orderData.orderPlacedAt.substring(0, 10)).getTime())) {
+                    if (orderData.paymentMethod == "cash") {
+                        orderSumCash += orderData.orderTotal.cartSubtotal;
+                    }
+                    if (orderData.paymentMethod == "online") {
+                        orderSumOnline += orderData.orderTotal.cartSubtotal;
+                    }
+                    if (orderData.paymentMethod == "jazzcash") {
+                        orderSumJazzCash += orderData.orderTotal.cartSubtotal;
+                    }
+                    if (orderData.paymentMethod == "easypaisa") {
+                        orderSumEasyPaisa += orderData.orderTotal.cartSubtotal;
+                    }
+                }
+                return {
+                    ordersSumCash: orderSumCash,
+                    ordersSumOnline: orderSumOnline,
+                    ordersSumJazzCash: orderSumJazzCash,
+                    ordersSumEasyPaisa: orderSumEasyPaisa,
+                };
+            });
+            let finalSumOfOrders = sumOfOrdersWRT[sumOfOrdersWRT.length - 1]
+            setSumOfOrdersWRTPaymentMethod(finalSumOfOrders);
+        }
+
+    }, [ordersData,searchDate, nextSearchDate]);
 
 
     return (
         <Row className="m-5">
             <Col >
-                {console.log("searchDate: "+searchDate)}
-                {console.log("nextSearchDate: "+nextSearchDate)}
-                {console.log(convertToDateObj(searchDate).getTime()<convertToDateObj(nextSearchDate).getTime())}
-
                 <Row>
-                    <Col md={8}>
-                        <h1>Report Details</h1>
-                    </Col>
-                    <Col className="mt-2" md={3}>
-                        <input type="date" className="form-control m-1" defaultValue={date} onChange={e => {
-                            setSearchDate(e.target.value.toString())
-                            setNextSearchDate(nextDate(e.target.value.toString()).substring(0, 10))
-                            setTodaysReportData(reportData.find((data) => (data.createdAt.substring(0, 10) === e.target.value.toString())
-                            ))
-                        }} />
-                        <input type="date" className="form-control m-1" defaultValue={nextSearchDate} onChange={e => {
-                            setNextSearchDate(nextDate(e.target.value.toString()).substring(0, 10))
-                            setTodaysReportData(reportData.find((data) => (data.createdAt.substring(0, 10) === e.target.value.toString())
-                            ))
-                        }} />
-                    </Col>
+                    <h1>Report Details</h1>
+                    <Row className="m-2">
+                        <Col md={2}>
+                            <Row className="justify-content-md-center " md={4}>
+                                <input type="date" className="form-control form-control-lg m-1" defaultValue={date} onChange={e => {
+                                    setSearchDate(e.target.value.toString())
+                                    setTodaysReportData(reportData.find((data) => (data.createdAt.substring(0, 10) === e.target.value.toString())
+                                    ))
+                                }} />
+                                <input type="date" className="form-control  form-control-lg m-1" defaultValue={nextSearchDate} onChange={e => {
+                                    setNextSearchDate(nextDate(e.target.value.toString()).substring(0, 10))
+                                    setTodaysReportData(reportData.find((data) => (data.createdAt.substring(0, 10) === e.target.value.toString())
+                                    ))
+                                }} />
+                            </Row>
+                        </Col>
+                        <Col md={10}>
+                            {SumOfOrdersWRTPaymentMethod ? (
+                                <>
+                                <Row className="justify-content-md-center m-1" md={4}>
+                                    <div>
+                                        <Card className="bg-danger bg-gradient text-white bg-opacity-75 border-start" >
+                                            <Card.Body>
+                                                <Card.Title style={{ fontSize: "1.2em" }}>Cash: {SumOfOrdersWRTPaymentMethod.ordersSumCash}</Card.Title>
+                                            </Card.Body>
+                                        </Card>
+                                    </div>
+                                    <div>
+                                        <Card className="bg-danger bg-gradient text-white bg-opacity-75 border-start" >
+                                            <Card.Body>
+                                                <Card.Title style={{ fontSize: "1.2em" }}>Online: {SumOfOrdersWRTPaymentMethod.ordersSumOnline}</Card.Title>
+                                            </Card.Body>
+                                        </Card>
+                                    </div>
+                                    <div>
+                                        <Card className="bg-danger bg-gradient text-white bg-opacity-75 border-start" >
+                                            <Card.Body>
+                                                <Card.Title style={{ fontSize: "1.2em" }}>JazzCash: {SumOfOrdersWRTPaymentMethod.ordersSumJazzCash}</Card.Title>
+                                            </Card.Body>
+                                        </Card>
+                                    </div>
+                                    <div>
+                                        <Card className="bg-danger bg-gradient text-white bg-opacity-75 border-start" >
+                                            <Card.Body>
+                                                <Card.Title style={{ fontSize: "1.2em" }}>EasyPaisa: {SumOfOrdersWRTPaymentMethod.ordersSumEasyPaisa}</Card.Title>
+                                            </Card.Body>
+                                        </Card>
+                                    </div>
+                                </Row>
+                                <Row className="justify-content-md-center m-1" md={4}>
+                                <div>
+                                    <Card className="bg-success bg-gradient text-white bg-opacity-75 border-start" >
+                                        <Card.Body>
+                                            <Card.Title style={{ fontSize: "1.2em" }}>Sale: {dataForReport.ordersSum}</Card.Title>
+                                        </Card.Body>
+                                    </Card>
+                                </div>
+                                <div>
+                                    <Card className="bg-success bg-gradient text-white bg-opacity-75 border-start" >
+                                        <Card.Body>
+                                            <Card.Title style={{ fontSize: "1.2em" }}>Expenses: {dataForReport.expensesSum}</Card.Title>
+                                        </Card.Body>
+                                    </Card>
+                                </div>
+                                <div>
+                                    <Card className="bg-success bg-gradient text-white bg-opacity-75 border-start" >
+                                        <Card.Body>
+                                            <Card.Title style={{ fontSize: "1.2em" }}>Revenue: {dataForReport.profit}</Card.Title>
+                                        </Card.Body>
+                                    </Card>
+                                </div>
+                                
+                            </Row>
+                            </>
+                            ) : ("")}
+
+                        </Col>
+                    </Row>
                 </Row>
                 <Container>
                     <Row>
@@ -99,10 +243,10 @@ const AdminReportDetailsComponent = ({ getExpenses, getOrders, getReport }) => {
                                             return (searchDate === '')
                                                 ? true
                                                 : (searchDate !== '')
-                                                    ? (data.orderPlacedAt.substring(0, 10) === searchDate && getHour(data.orderPlacedAt) > 6) || 
-                                                      (data.orderPlacedAt.substring(0, 10) === searchDate && getHour(data.orderPlacedAt) > 6) ||
-                                                      (convertToDateObj(searchDate).getTime()<convertToDateObj(data.orderPlacedAt.substring(0, 10)).getTime() 
-                                                      && convertToDateObj(nextSearchDate).getTime()>convertToDateObj(data.orderPlacedAt.substring(0, 10)).getTime())
+                                                    ? (data.orderPlacedAt.substring(0, 10) === searchDate && getHour(data.orderPlacedAt) > 6) ||
+                                                    (data.orderPlacedAt.substring(0, 10) === nextSearchDate && getHour(data.orderPlacedAt) < 6) ||
+                                                    (convertToDateObj(searchDate).getTime() < convertToDateObj(data.orderPlacedAt.substring(0, 10)).getTime()
+                                                        && convertToDateObj(nextSearchDate).getTime() > convertToDateObj(data.orderPlacedAt.substring(0, 10)).getTime())
                                                     : null
                                         }).map((orderData, idx) => {
                                             return (
@@ -115,10 +259,10 @@ const AdminReportDetailsComponent = ({ getExpenses, getOrders, getReport }) => {
                                                 </tr>)
                                         })
                                     }
-                                    {todaysReportData ?
+                                    {todaysReportData && dataForReport ?
                                         <tr>
                                             <td className="bg-success text-light" colSpan={4}><b>Total Sale:  </b></td>
-                                            <td className="bg-success text-light text-end" colSpan={1}><b>{todaysReportData.totalSale}</b></td>
+                                            <td className="bg-success text-light text-end" colSpan={1}><b>{dataForReport.ordersSum}</b></td>
                                         </tr> : ("")}
                                 </tbody>
                             </Table>
@@ -139,11 +283,11 @@ const AdminReportDetailsComponent = ({ getExpenses, getOrders, getReport }) => {
                                             return (searchDate === '')
                                                 ? true
                                                 : (searchDate !== '')
-                                                    ? (data.date.substring(0, 10) === searchDate && getHour(data.date) > 6) || 
-                                                    (data.date.substring(0, 10) === nextSearchDate && getHour(data.date) < 6)||
-                                                    (convertToDateObj(searchDate).getTime()<convertToDateObj(data.date.substring(0, 10)).getTime() 
-                                                    && convertToDateObj(nextSearchDate).getTime()>convertToDateObj(data.date.substring(0, 10)).getTime())
-                                                  
+                                                    ? (data.date.substring(0, 10) === searchDate && getHour(data.date) > 6) ||
+                                                    (data.date.substring(0, 10) === nextSearchDate && getHour(data.date) < 6) ||
+                                                    (convertToDateObj(searchDate).getTime() < convertToDateObj(data.date.substring(0, 10)).getTime()
+                                                        && convertToDateObj(nextSearchDate).getTime() > convertToDateObj(data.date.substring(0, 10)).getTime())
+
                                                     : null
                                         }).map((expense, idx) => {
                                             return (
@@ -155,10 +299,10 @@ const AdminReportDetailsComponent = ({ getExpenses, getOrders, getReport }) => {
                                                 </tr>)
                                         })
                                     }
-                                    {todaysReportData ?
+                                    {todaysReportData && dataForReport ?
                                         <tr>
                                             <td className="bg-danger  text-light" colSpan={2}><b className="">Total Expenses:</b></td>
-                                            <td className="bg-danger  text-light text-end" colSpan={2}><b className="">{ todaysReportData.totalExpenses}</b></td>
+                                            <td className="bg-danger  text-light text-end" colSpan={2}><b className="">{dataForReport.expensesSum}</b></td>
                                         </tr> : ("")}
                                 </tbody>
                             </Table>

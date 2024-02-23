@@ -14,7 +14,7 @@
     .App {
         color: rgb(255, 240, 241);
         font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-        /* background-image: url("https://res.cloudinary.com/dyqklwu1n/image/upload/b_rgb:f81212,c_crop,h_1000,o_53,w_2000/v1701793424/BurgerCottage/burger-fries_ul6f8w.avif"); */
+        background-image: url("../public/images/burger-with-neon-sign-that-says-burger-it.jpg");
         background-repeat: no-repeat;
         background-size: 100% 100%;
         min-height: 100vh;
