@@ -40,7 +40,7 @@ const createOrder = async (req, res, next) => {
     console.log("inside createOrder")
     try {
         console.log("req.body: " + JSON.stringify(req.body))
-        const { cart, orderTotal, paymentMethod, customerInfo, customerId, serviceMode, discount } = req.body;
+        const { cart, orderTotal, paymentMethod, customerInfo, customerId, serviceMode, discount,discountAmount } = req.body;
         if (!cart || !orderTotal || !paymentMethod) {
             return res.status(400).send("All inputs are required");
         }
@@ -73,7 +73,8 @@ const createOrder = async (req, res, next) => {
                 cart: cart,
                 paymentMethod: paymentMethod,
                 serviceMode: serviceMode,
-                discount: discount
+                discount: discount,
+                discountAmount:discountAmount
             })
             const createdOrder = await order.save();
             let cartItems = []
@@ -133,7 +134,8 @@ const createOrder = async (req, res, next) => {
                 cart: cart,
                 paymentMethod: paymentMethod,
                 serviceMode: serviceMode,
-                discount: discount
+                discount: discount,
+                discountAmount:discountAmount,
             })
             const createdOrder = await order.save();
             let cartItems = []
@@ -192,7 +194,7 @@ const createOrderCustomer = async (req, res, next) => {
     try {
         console.log("req.body: " + JSON.stringify(req.body))
         console.log("req.user: " + JSON.stringify(req.user))
-        const { cart, orderTotal, paymentMethod, customerInfo, customerId, serviceMode, discount } = req.body;
+        const { cart, orderTotal, paymentMethod, customerInfo, customerId, serviceMode, discount,discountAmount } = req.body;
         if (!cart || !orderTotal || !paymentMethod) {
             return res.status(400).send("All inputs are required");
         }
@@ -224,7 +226,8 @@ const createOrderCustomer = async (req, res, next) => {
                 cart: cart,
                 paymentMethod: paymentMethod,
                 serviceMode: serviceMode,
-                discount: discount
+                discount: discount,
+                discountAmount:discountAmount,
             })
             const createdOrder = await order.save();
             let cartItems = []
@@ -284,7 +287,8 @@ const createOrderCustomer = async (req, res, next) => {
                 cart: cart,
                 paymentMethod: paymentMethod,
                 serviceMode: serviceMode,
-                discount: discount
+                discount: discount,
+                discountAmount:discountAmount
             })
             const createdOrder = await order.save();
             let cartItems = []
@@ -343,7 +347,7 @@ const createOrderAdmin = async (req, res, next) => {
     try {
         console.log("req.body: " + JSON.stringify(req.body))
         console.log("req.user: " + JSON.stringify(req.user))
-        const { cart, orderTotal, paymentMethod, customerInfo, customerId, serviceMode, discount } = req.body;
+        const { cart, orderTotal, paymentMethod, customerInfo, customerId, serviceMode, discount,discountAmount } = req.body;
         console.log("req.body: " + req.body)
         if (!cart || !orderTotal || !paymentMethod) {
             return res.status(400).send("All inputs are required");
@@ -374,7 +378,8 @@ const createOrderAdmin = async (req, res, next) => {
                 cart: cart,
                 paymentMethod: paymentMethod,
                 serviceMode: serviceMode,
-                discount: discount
+                discount: discount,
+                discountAmount:discountAmount
             })
             const createdOrder = await order.save();
             const dateTimeNow = new Date()
@@ -425,7 +430,9 @@ const createOrderAdmin = async (req, res, next) => {
                 cart: cart,
                 paymentMethod: paymentMethod,
                 serviceMode: serviceMode,
-                discount: discount
+                discount: discount,
+                discountAmount:discountAmount
+            
             })
             const createdOrder = await order.save();
             const dateTimeNow = new Date()

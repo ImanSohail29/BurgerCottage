@@ -31,6 +31,7 @@ const AdminCartDetailsPageComponent = ({ cartItems, itemsCount, cartSubtotal, us
   const [paymentMethod, setPaymentMethod] = useState("cash");
   const [serviceMode, setServiceMode] = useState("dineIn");
   const [customerDiscount, setCustomerDiscount] = useState(0)
+  const [customerDiscountAmount, setCustomerDiscountAmount] = useState(0)
   const [finalCartSubtotal, setFinalCartSubtotal] = useState(cartSubtotal)
   const navigate = useNavigate();
   useEffect(() => {
@@ -70,6 +71,19 @@ const AdminCartDetailsPageComponent = ({ cartItems, itemsCount, cartSubtotal, us
       setFinalCartSubtotal(Math.ceil(cartSubtotal - ((cartSubtotal * customerDiscount) / 100)))
     }
   }
+  const handleDiscountAmount = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    const form = event.currentTarget.elements;
+    const custDiscountAmount = form.custDiscountAmount.value;
+    if (
+      event.currentTarget.checkValidity() === true
+    ) {
+      console.log("custDiscountAmount: "+custDiscountAmount)
+      setCustomerDiscountAmount(custDiscountAmount);
+      setFinalCartSubtotal(Math.ceil(cartSubtotal - customerDiscountAmount))
+    }
+  }
   const changeCount = (id, quantity, size, instructions, selectedAddOns) => {
     const sameProduct = true
     reduxDispatch(addToCart({ id, quantity, size, instructions, sameProduct, selectedAddOns }))
@@ -94,17 +108,19 @@ const AdminCartDetailsPageComponent = ({ cartItems, itemsCount, cartSubtotal, us
             {
               cartItems: cartItems,
               itemsCount: itemsCount,
-              cartSubtotal: Math.ceil((cartSubtotal - ((cartSubtotal * customerDiscount) / 100)))
+              cartSubtotal: Math.ceil((cartSubtotal - ((cartSubtotal * customerDiscount) / 100)-customerDiscountAmount))
             },
             orderTotal: {
               itemsCount: itemsCount,
-              cartSubtotal: Math.ceil((cartSubtotal - ((cartSubtotal * customerDiscount) / 100)))
+              cartSubtotal: Math.ceil((cartSubtotal - ((cartSubtotal * customerDiscount) / 100)-customerDiscountAmount))
             },
             paymentMethod: paymentMethod,
             customerInfo: user,
             customerId: data.userCreated._id,
             serviceMode: serviceMode,
             discount: { figure: Number(discount.figure) + Number(customerDiscount) },
+            discountAmount: customerDiscountAmount,
+
           }
           if (userInfo.isAdmin) {
             createOrderAdmin(orderData)
@@ -151,16 +167,17 @@ const AdminCartDetailsPageComponent = ({ cartItems, itemsCount, cartSubtotal, us
         {
           cartItems: cartItems,
           itemsCount: itemsCount,
-          cartSubtotal: Math.ceil((cartSubtotal - ((cartSubtotal * customerDiscount) / 100)))
+          cartSubtotal: Math.ceil((cartSubtotal - ((cartSubtotal * customerDiscount) / 100)-customerDiscountAmount))
         },
         orderTotal: {
           itemsCount: itemsCount,
-          cartSubtotal: Math.ceil((cartSubtotal - ((cartSubtotal * customerDiscount) / 100)))
+          cartSubtotal: Math.ceil((cartSubtotal - ((cartSubtotal * customerDiscount) / 100)-customerDiscountAmount))
         },
         paymentMethod: paymentMethod,
         customerInfo: user,
         serviceMode: serviceMode,
         discount: { figure: Number(discount.figure) + Number(customerDiscount) },
+        discountAmount:customerDiscountAmount
       }
       if (userInfo.isAdmin) {
         createOrderAdmin(orderData)
@@ -206,8 +223,11 @@ const AdminCartDetailsPageComponent = ({ cartItems, itemsCount, cartSubtotal, us
   return (
     <Container fluid >
       <h1 className="m-4 text-white text-center justify-content-md-center">Cart Details</h1>
+      {console.log("customerDiscountAmount: "+customerDiscountAmount)}
+      {console.log("customerDiscountAmount: "+customerDiscount)}
 
-      <Row className="m-4 p-5 text-white bg-dark bg-opacity-50">
+
+      <Row className="m-4 p-1 text-white bg-dark bg-opacity-50">
         <Col md={6}>
           <br />
           <Row>
@@ -263,7 +283,7 @@ const AdminCartDetailsPageComponent = ({ cartItems, itemsCount, cartSubtotal, us
                             </Form.Control.Feedback>
                           </Form.Group>
                           {serviceMode && serviceMode === "delivery" ? (
-                            <Form.Group className="mb-3" controlId="formBasicAddress">
+                            <Form.Group className="" controlId="formBasicAddress">
                               <Form.Label>Address</Form.Label>
                               <Form.Control
                                 name="address"
@@ -328,7 +348,7 @@ const AdminCartDetailsPageComponent = ({ cartItems, itemsCount, cartSubtotal, us
                             </Form.Control.Feedback>
                           </Form.Group>
                           {serviceMode && serviceMode === "delivery" ? (
-                            <Form.Group className="mb-3" controlId="formBasicAddress">
+                            <Form.Group  controlId="formBasicAddress">
                               <Form.Label>Address</Form.Label>
                               <Form.Control
                                 name="address"
@@ -397,7 +417,7 @@ const AdminCartDetailsPageComponent = ({ cartItems, itemsCount, cartSubtotal, us
                           </Form.Control.Feedback>
                         </Form.Group>
                         {serviceMode && serviceMode === "delivery" ? (
-                          <Form.Group className="mb-3" controlId="formBasicAddress">
+                          <Form.Group controlId="formBasicAddress">
                             <Form.Label>Address</Form.Label>
                             <Form.Control
                               name="address"
@@ -426,10 +446,38 @@ const AdminCartDetailsPageComponent = ({ cartItems, itemsCount, cartSubtotal, us
                 <CartItemComponent item={item} key={idx} changeCount={changeCount} removeFromCartHandler={removeFromCartHandler} index={idx} discount={discount} />
               ))}
           </ListGroup>
+       
+        </Col>
+        <Col md={6} className="mt-4">
+        <Row  className="m-3">
+
+          <Col >
+            <h2>Payment method</h2>
+            <Form.Select onChange={choosePayment}>
+              <option value="cash">Cash</option>
+              <option value="jazzcash">JazzCash</option>
+              <option value="easypaisa">EasyPaisa</option>
+              <option value="online">Online Payment</option>
+            </Form.Select>
+          </Col>
           {userInfo.isAdmin ? (
+            <Col>
+              <h2>Service mode</h2>
+              <Form.Select onChange={chooseServiceMode}>
+              <option value="dineIn">Dine in</option>
+                <option value="delivery">Delivery</option>
+                <option value="takeAway">Take Away</option>
+              </Form.Select>
+            </Col>
+          ) : ("")}
+                      </Row>
+
+   {userInfo.isAdmin ? (
+            <Row className="m-3">
+              <Col>
             <Form noValidate validated={validated} onSubmit={handleDiscount}>
               <Form.Group className="mb-3" controlId="formBasicCustomerDiscount">
-                <Form.Label>Discount</Form.Label>
+                <Form.Label>Discount Percentage</Form.Label>
                 <Form.Control
                   type="number"
                   min={0}
@@ -438,43 +486,42 @@ const AdminCartDetailsPageComponent = ({ cartItems, itemsCount, cartSubtotal, us
                   name="custDiscount"
                 />
                 <Form.Control.Feedback type="invalid">
-                  Enter Valid Discount Value
+                  Enter Valid Discount Percentage Value
                 </Form.Control.Feedback>
               </Form.Group>
               <Button type="submit" style={{ width: "100%" }}>
-                Apply Discount
+                Apply Discount %
               </Button>
             </Form>
+            </Col>
+            <Col>
+             <Form noValidate validated={validated} onSubmit={handleDiscountAmount}>
+             <Form.Group className="mb-3" controlId="formBasicCustomerDiscountAmount">
+               <Form.Label>Discount Amount in Rupees</Form.Label>
+               <Form.Control
+                 type="number"
+                 min={0}
+                 placeholder="Enter Discount in Rupees"
+                 name="custDiscountAmount"
+               />
+               <Form.Control.Feedback type="invalid">
+                 Enter Valid Discount Amount Value
+               </Form.Control.Feedback>
+             </Form.Group>
+             <Button variant="danger" type="submit" style={{ width: "100%" }}>
+               Apply Discount Rs
+             </Button>
+           </Form>
+           </Col>
+           </Row>
           ) : ("")}
-        </Col>
-        <Col md={6} className="mt-4">
-          <Row className="mb-4 p-4">
-            <h2>Payment method</h2>
-            <Form.Select onChange={choosePayment}>
-              <option value="cash">Cash</option>
-              <option value="jazzcash">JazzCash</option>
-              <option value="easypaisa">EasyPaisa</option>
-              <option value="online">Online Payment</option>
-            </Form.Select>
-          </Row>
-          {userInfo.isAdmin ? (
-            <Row className="mb-4 p-4">
-              <h2>Service mode</h2>
-              <Form.Select onChange={chooseServiceMode}>
-              <option value="dineIn">Dine in</option>
-                <option value="delivery">Delivery</option>
-                <option value="takeAway">Take Away</option>
-              </Form.Select>
-            </Row>
-          ) : ("")}
-
           <ListGroup>
             <ListGroup.Item>
               <h3>Order summary</h3>
             </ListGroup.Item>
 
             <ListGroup.Item>
-              Items price (after tax): <span className="fw-bold">Rs. {Math.ceil(cartSubtotal - ((cartSubtotal * customerDiscount) / 100))} /-</span>
+              Items price (after tax): <span className="fw-bold">Rs. {Math.ceil(cartSubtotal - ((cartSubtotal * customerDiscount) / 100)-customerDiscountAmount)} /-</span>
             </ListGroup.Item>
 
             <ListGroup.Item>
@@ -484,7 +531,7 @@ const AdminCartDetailsPageComponent = ({ cartItems, itemsCount, cartSubtotal, us
               Tax: <span className="fw-bold">included</span>
             </ListGroup.Item>
             <ListGroup.Item className="text-danger">
-              Total price:  Rs.<span className="fw-bold">{Math.ceil(cartSubtotal - ((cartSubtotal * customerDiscount) / 100))}/-</span>
+              Total price:  Rs.<span className="fw-bold">{Math.ceil(cartSubtotal - ((cartSubtotal * customerDiscount) / 100)-customerDiscountAmount)}/-</span>
             </ListGroup.Item>
             <ListGroup.Item>
               <div className="d-grid gap-2">

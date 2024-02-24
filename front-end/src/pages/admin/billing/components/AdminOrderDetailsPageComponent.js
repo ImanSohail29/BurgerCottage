@@ -17,7 +17,7 @@ import CartItemComponent from "../../../../components/CartItemComponent";
 import "./../../../../style/AdminOrderDetails.css"
 import StiReport from "./StiReport";
 
-const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,markAsPaid,markAsConfirmed, discount }) => {
+const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone, markAsPaid, markAsConfirmed, discount }) => {
   const ref = useRef();
   const { orderId } = useParams();
   const dispatch = useDispatch();
@@ -40,6 +40,7 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
     useState("Mark as Paid");
   const [cartItems, setCartItems] = useState([]);
   const [discounted, setDiscounted] = useState(0);
+  const [discountedAmount, setDiscountedAmount] = useState(0);
   const [orderPlacedAt, setOrderPlacedAt] = useState("");
   const [serviceMode, setServiceMode] = useState("");
   const [print, setPrint] = useState(false)
@@ -59,6 +60,7 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
         setPaymentMethod(order.paymentMethod);
         setServiceMode(order.serviceMode)
         setDiscounted(order.discount)
+        setDiscountedAmount(order.discountAmount)
         order.isPaid ? setIsPaid(order.paidAt) : setIsPaid(false);
         order.isDelivered
           ? setIsDelivered(order.deliveredAt)
@@ -85,7 +87,7 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
         }
         setCartItems(order.cart.cartItems);
         let dateObject = new Date(order.orderPlacedAt)
-        setOrderPlacedAt(dateObject.toString().substring(0,15)+",  "+toTime(order.orderPlacedAt));
+        setOrderPlacedAt(dateObject.toString().substring(0, 15) + ",  " + toTime(order.orderPlacedAt));
       })
       .catch((er) =>
         dispatch(logout)
@@ -93,100 +95,86 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
         //   er.response.data.message ? er.response.data.message : er.response.data
         // )
       );
-  }, [isDelivered, isDone, orderId,isPaid]);
+  }, [isDelivered, isDone, orderId, isPaid]);
 
   return (
-    cartItems.length>0?(
+    cartItems.length > 0 ? (
       <>
-      <Container fluid>
-        <Row className="mt-4">
-          <h1>Order Details</h1>
-          <Col md={8}>
-            <br />
-            <Row>
-              <Col>
-              <p>{orderPlacedAt}</p>
-              <p><b>Order Id : </b>{orderId}</p>
-              </Col>
-              <Col>
-              
-              </Col>
-              {userInfo ? (<Col md={6}>
-                {console.log(userInfo)}
-                <h2>Customer Information</h2>
-                {userInfo.name?(<div><b>Name</b>: {userInfo.name} {userInfo.lastName} <br /></div>):("")}
-                 {userInfo.address?(<div><b>Address</b>: {userInfo.address}{" "}</div>):("")}
-                 {userInfo.email?(<div><b>Email</b>: {userInfo.email}{" "}</div>):("")}
-                 {userInfo.phoneNumber?(<div><b>Phone</b>: {userInfo.phoneNumber}</div>):("")}
-              </Col>) : (
-                ""
-              )}
+        <Container fluid>
 
-              <Col md={6}>
-                <p>Payment Method: <b>{paymentMethod}</b></p>
+          <Row className="mt-4">
+            <h1 className="text-center">Order Details</h1>
 
-                <Alert className="mt-3" variant={isPaid ? "success" : "danger"}>
-                    {isPaid ? <>Paid on {isPaid.toString().substring(0,10)+", Time: "+toTime(isPaid)}</> : <>Not paid yet</>}
-                  </Alert>
-              </Col>
-              <Row>
-                <Col>
-                <p>Service Mode: <b>{serviceMode}</b></p>
-                  {serviceMode === "delivery" ? (
-                    <Alert
-                      className="mt-3"
-                      variant={isDelivered ? "success" : "danger"}
-                    >
-                      {isDelivered ? (
-                        <>Delivered at {isDelivered.toString().substring(0,10)+", Time: "+toTime(isDelivered)}</>
-                      ) : (
-                        <>Not delivered</>
-                      )}
-                    </Alert>
-                  ) : ("")}
-
-                </Col>
-                <Col>
-                 
-                </Col>
-              </Row>
-            </Row>
-            <br />
-            <h2>Order items</h2>
-            <ListGroup variant="flush">
-              {discounted ? (cartItems.map((item, idx) => (
-                <CartItemComponent key={idx} item={item} orderCreated={true} index={idx} discount={discounted} />
-              ))) : ("")}
-
-            </ListGroup>
-          </Col>
-          <Col md={4}>
-            <ListGroup>
-              <ListGroup.Item>
-                <h3>Order summary</h3>
-              </ListGroup.Item>
-              {discounted ? (
+            <Col lg={3}>
+              <ListGroup>
                 <ListGroup.Item>
-                  Items price (after tax):{" "}
-                  <span className="fw-bold">Rs {cartSubtotal}/-</span>
+                  <h5>Order summary <b className="text-primary"> {orderId}</b></h5>
                 </ListGroup.Item>
-              ) : ("")}
-
-              <ListGroup.Item>
-                Shipping: <span className="fw-bold">included</span>
-              </ListGroup.Item>
-              <ListGroup.Item>
-                Tax: <span className="fw-bold">included</span>
-              </ListGroup.Item>
-              {discounted ? (
-                <ListGroup.Item className="text-danger">
+                <ListGroup.Item>
+                  <span className="fst-italic"> {orderPlacedAt}/-</span>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  {userInfo ? (
+                    <>
+                      {console.log(userInfo)}
+                      <h5>Customer Information</h5>
+                      {userInfo.name ? (<div><b>Name</b>: {userInfo.name} {userInfo.lastName} <br /></div>) : ("")}
+                      {userInfo.address ? (<div><b>Address</b>: {userInfo.address}{" "}</div>) : ("")}
+                      {userInfo.email ? (<div><b>Email</b>: {userInfo.email}{" "}</div>) : ("")}
+                      {userInfo.phoneNumber ? (<div><b>Phone</b>: {userInfo.phoneNumber}</div>) : ("")}
+                    </>) : (
+                    ""
+                  )}
+                </ListGroup.Item>
+                {discounted ? (
+                  <ListGroup.Item>
+                    Items price (after tax):{" "}
+                    <span className="fw-bold">Rs {cartSubtotal}/-</span>
+                  </ListGroup.Item>
+                ) : ("")}
+                <ListGroup.Item>
+                  Discount %:<span className="fw-bold">{discounted.figure}</span>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  Discount in Rs.: <span className="fw-bold">{discountedAmount}</span>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  Shipping: <span className="fw-bold">included</span>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  Tax: <span className="fw-bold">included</span>
+                </ListGroup.Item>
+                {discounted ? (
+                  <ListGroup.Item className="text-danger">
+                    Total price: <span className="fw-bold">Rs {cartSubtotal}/-</span>
+                  </ListGroup.Item>
+                ) : (<ListGroup.Item className="text-danger">
                   Total price: <span className="fw-bold">Rs {cartSubtotal}/-</span>
+                </ListGroup.Item>)}
+                <ListGroup.Item>
+                <ListGroup.Item>
+                      <p>Payment Method: <b>{paymentMethod}</b></p>
+
+                      <Alert variant={isPaid ? "success" : "danger"}>
+                        {isPaid ? <>Paid on {isPaid.toString().substring(0, 10) + ", Time: " + toTime(isPaid)}</> : <>Not paid yet</>}
+                      </Alert>
+                        <p>Service Mode: <b>{serviceMode}</b></p>
+                        {serviceMode === "delivery" ? (
+                          <Alert
+                            
+                            variant={isDelivered ? "success" : "danger"}
+                          >
+                            {isDelivered ? (
+                              <>Delivered at {isDelivered.toString().substring(0, 10) + ", Time: " + toTime(isDelivered)}</>
+                            ) : (
+                              <>Not delivered</>
+                            )}
+                          </Alert>
+                        ) : ("")}                 
                 </ListGroup.Item>
-              ) : (<ListGroup.Item className="text-danger">
-                Total price: <span className="fw-bold">Rs {cartSubtotal}/-</span>
-              </ListGroup.Item>)}
-              <ListGroup.Item>
-                <div className="d-grid gap-2">
+                
+
+                  {/* <div className="d-grid gap-2">
                 <Button size="lg" className="danger" disabled={isConfirmed} onClick={() =>
                         markAsConfirmed(orderId)
                           .then((res) => {
@@ -265,17 +253,29 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
                     }
                     }
                   />
-                </div>
-              </ListGroup.Item>
-            </ListGroup>
+                </div> */}
+                </ListGroup.Item>
+              </ListGroup>
 
-          </Col>
-        </Row>
+            </Col>
+            
+            <Col lg={4}>
+              {orderData ? (<StiReport orderData={orderData}></StiReport>) : ("")}
+            </Col>
+            <Col xl={5}>
+              <ListGroup variant="flush">
+                {discounted ? (cartItems.map((item, idx) => (
+                  <CartItemComponent key={idx} item={item} orderCreated={true} index={idx} discount={discounted} />
+                ))) : ("")}
+
+              </ListGroup>
+            </Col>
+          </Row>
 
 
-      </Container>
-      {orderData?(<StiReport orderData={orderData}></StiReport>):("")}
-      <div hidden={true}>
+        </Container>
+
+        {/* <div hidden={true}>
       <Container ref={ref}>
         <Row className="page">
           <Col className="sub-page">
@@ -344,11 +344,11 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
           </Col>
         </Row>
       </Container>
-      </div>
-    </>
+      </div> */}
+      </>
 
-    ):(<Col style={{textAlign:"center", justifyContent:"center"}}><h1 className="loader"></h1></Col>)
-    
+    ) : (<Col style={{ textAlign: "center", justifyContent: "center" }}><h1 className="loader"></h1></Col>)
+
   );
 };
 
