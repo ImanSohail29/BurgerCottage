@@ -28,6 +28,7 @@ import AdminProductsPage from "./pages/admin/billing/AdminProductsPage";
 import AdminEditProductPage from "./pages/admin/billing/AdminEditProductPage";
 import AdminEditCategoryPage from "./pages/admin/billing/AdminEditCategoryPage";
 import AdminEditDiscountPage from "./pages/admin/billing/AdminDiscountPage";
+import AdminStocksPage from "./pages/admin/billing/AdminStocksPage";
 import OrderDetailsPage from "./pages/OrderDetailsPage";
 import AdminAddNewExpense from "./pages/admin/expenses/AdminAddNewExpense";
 import AdminEditExpense from "./pages/admin/expenses/AdminEditExpense";
@@ -37,6 +38,8 @@ import UserOrdersPage from "./pages/customer/UserOrdersPage";
 import AdminReportDetailsComponent from "./pages/admin/expenses/components/AdminReportDetailsComponent";
 import AdminReportDetails from "./pages/admin/expenses/AdminReportDetails";
 import AdminAnalyticsPage from "./pages/admin/expenses/AdminAnalyticsPage";
+import AdminAddNewStockPage from "./pages/admin/billing/AdminAddNewStockPage";
+import AdminEditStockPage from "./pages/admin/billing/AdminEditStockPage";
 
 function App() {
   return (
@@ -62,6 +65,10 @@ function App() {
           <Route path="/admin/products" element={<AdminProductsPage />} />
           <Route path="/admin/discount/:discountId" element={<AdminEditDiscountPage />} />
           <Route path="/admin/products/category/:categoryName" element={<AdminProductsPage />} />
+          <Route path="/admin/stocks" element={<AdminStocksPage/>} />
+          <Route path="/admin/add-stock" element={<AdminAddNewStockPage/>} />
+          <Route path="/admin/edit-stock/:stockId" element={<AdminEditStockPage/>} />
+
           <Route
             path="/admin/order-details/:orderId"
             element={<AdminOrderDetailsPage />}

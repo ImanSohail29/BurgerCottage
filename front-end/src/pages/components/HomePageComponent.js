@@ -39,7 +39,7 @@ const HomePageComponent = () => {
                             </Card.Body>
                         </Card>
                     </Link>
-                    <Link to={"/"} style={{ textDecoration: 'none', textAlign: "center" }} >
+                    <Link to={"/admin/stocks"} style={{ textDecoration: 'none', textAlign: "center" }} >
                         <Card className="bg-danger text-white p-5 m-4 bg-opacity-50 border-start" >
                             <Card.Body>
                                 <Card.Title style={{ fontSize: "2em" }}>Inventory</Card.Title>
