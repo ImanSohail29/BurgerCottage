@@ -125,8 +125,9 @@ const FoodItemsComponent = ({ getFoodItems, categories, addProductApiRequest, di
                                     </Col>):("")}
                                     
                                 </Row>)}
-                                {
-                                    foodItems.map((foodItem) => {
+                                
+                                    <Row sm={2} md={3} lg={4}  className="m-1">
+                                        {foodItems.map((foodItem) => {
                                         let discountFigure=discount
                                         if(foodItem.category==="Deals"){
                                             discountFigure=0
@@ -146,8 +147,10 @@ const FoodItemsComponent = ({ getFoodItems, categories, addProductApiRequest, di
 
                                         )
                                     }
-                                    )
-                                }
+                                    )}
+                                    </Row>
+                                   
+                                
                             </>)}
                         {paginationLinksNumber > 1 ? (
 

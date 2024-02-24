@@ -4,34 +4,32 @@ import { LinkContainer } from "react-router-bootstrap"
 const FoodItemForListComponent = ({ foodItemId, name, description, size, image, discount }) => {
     const cursorP = { cursor: "pointer" }
     return (
-        <Card className="bg-danger text-white p-1 m-1 bg-opacity-50 border-start" style={{ backgroundColor: " rgb(255, 30, 22)", color: "white", maxHeight: "400px" }}>
+        <div style={{background:(`${image.path}`)}}>
+        <Card className="bg-danger text-white p-1 bg-opacity-50 border-start" style={{ color: "black",margin:"1px", maxHeight: "400px" }}>
             <LinkContainer style={cursorP} to={`/foodItem-detail/${foodItemId}`}>
                 <Row>
-                    <Col lg={5}>
-                        <Card.Img style={{ maxHeight: "200px", padding: "4px" }}
+                        <Card.Img style={{ height: "250px",width:"500px" }}
                             crossOrigin='anonymous'
                             variant="top"
                             src={image ? image.path : ''} />
-                    </Col>
-                    <Col lg={7}>
-                        <Card.Body>
-                            <Card.Title>{name}</Card.Title>
-                            <Card.Text>
+                    <Card.ImgOverlay>
+                            <Card.Title className="text-dark fw-bold">{name}</Card.Title>
+                            <Card.Text className="text-dark fw-bold">
                                 {description}
                             </Card.Text>
                             {discount.figure > 0 ? (
                                 <>
-                                      <Card.Text className="h5"><s>Rs.{size[0].price}/-</s>{"  "}</Card.Text>
-                                      <Card.Text className="h3">Rs.{Math.ceil((size[0].price)-(((discount.figure)*(size[0].price))/100))}/-{"  "}</Card.Text>
+                                      <Card.Text className="h5 text-dark fw-bold"><s>Rs.{size[0].price}/-</s>{"  "}</Card.Text>
+                                      <Card.Text className="h3 text-dark fw-bold">Rs.{Math.ceil((size[0].price)-(((discount.figure)*(size[0].price))/100))}/-{"  "}</Card.Text>
                                 </>
                             ) : (
-                                <Card.Text className="h4">Rs.{size[0].price}/-{"  "}</Card.Text>
+                                <Card.Text className="h4 text-dark fw-bold">Rs.{size[0].price}/-{"  "}</Card.Text>
                             )}
-                        </Card.Body>
-                    </Col>
+                        </Card.ImgOverlay>
                 </Row>
             </LinkContainer>
         </Card>
+        </div>
     )
 };
 export default FoodItemForListComponent;

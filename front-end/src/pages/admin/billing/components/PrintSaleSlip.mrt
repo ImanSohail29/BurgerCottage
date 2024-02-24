@@ -1,10 +1,10 @@
 {
   "ReportVersion": "2020.4.1.0",
-  "ReportGuid": "55b83bf89d704dddae7968bd7f8aa1e2",
+  "ReportGuid": "52afb030b8924a33ac9269752af05872",
   "ReportName": "Report",
   "ReportAlias": "Report",
   "ReportCreated": "/Date(0+0500)/",
-  "ReportChanged": "/Date(1708109017330+0500)/",
+  "ReportChanged": "/Date(1708783963080+0500)/",
   "EngineVersion": "EngineV2",
   "CalculationMode": "Interpretation",
   "ReportUnit": "HundredthsOfInch",
@@ -653,7 +653,7 @@
             "0": {
               "Ident": "StiText",
               "Name": "Text1",
-              "ClientRectangle": "70,5.33,255,16.67",
+              "ClientRectangle": "70,1.33,255,26.67",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -661,7 +661,7 @@
                 "Value": "Burger Cottage"
               },
               "HorAlignment": "Center",
-              "Font": "Verdana;11;Bold;",
+              "Font": "Verdana;12;Bold;",
               "Border": ";;;;;;;solid:Black",
               "Brush": "solid:White",
               "TextBrush": "solid:0,32,96",
@@ -672,7 +672,7 @@
               "Name": "Text8",
               "CanGrow": true,
               "GrowToHeight": true,
-              "ClientRectangle": "82,25,240,40",
+              "ClientRectangle": "42,25,310,40",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -680,7 +680,7 @@
                 "Value": "Near Swera Departmental Store\r\nPunjab Soceity, Lahore."
               },
               "HorAlignment": "Center",
-              "Font": "Verdana;9;Bold;",
+              "Font": "Verdana;12;Bold;",
               "Border": ";;;;;;;solid:Black",
               "Brush": "solid:White",
               "TextBrush": "solid:0,32,96",
