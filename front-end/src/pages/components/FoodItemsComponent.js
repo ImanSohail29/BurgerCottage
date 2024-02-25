@@ -126,7 +126,7 @@ const FoodItemsComponent = ({ getFoodItems, categories, addProductApiRequest, di
                                     
                                 </Row>)}
                                 
-                                    <Row sm={2} md={3} lg={4}  className="m-1">
+                                    <Row sm={2} md={3} lg={4}>
                                         {foodItems.map((foodItem) => {
                                         let discountFigure=discount
                                         if(foodItem.category==="Deals"){
