@@ -6,7 +6,7 @@ const getExpenses = async (req, res, next) => {
         const expenses = await Expenses.find({}).sort({ date: "desc" })
         return res.json(expenses)
     } catch (error) {
-        next(error)
+        return res.json([])
     }
 }
 const getExpense = async (req, res, next) => {

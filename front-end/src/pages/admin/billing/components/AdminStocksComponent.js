@@ -21,17 +21,20 @@ const AdminStocksPageComponent = ({ getStocks, deleteStock }) => {
     useEffect(() => {
         getStocks()
             .then((stocks) => {
+                console.log("stocks:"+JSON.stringify(stocks))
                 setStocks(stocks)})
-            .catch((er) => { }
+            .catch((er) => { 
+                setStocks([])
                 // console.log(
                 //   er.response.data.message ? er.response.data.message : er.response.data
                 // )
+            }  
             );
     }, [stockDeleted,setStockDeleted]);
     const deleteHandler = async (stockId) => {
         if (window.confirm("Are you sure?")) {
             const data = await deleteStock(stockId)
-            if (data.message === 'stock removed') {
+            if (data.message === "stock removed") {
                 setStockDeleted(!stockDeleted)
             }
         }

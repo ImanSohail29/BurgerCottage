@@ -86,8 +86,8 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
           setOrderPaidButtonDisabled(true);
         }
         setCartItems(order.cart.cartItems);
-        let dateObject = new Date(order.orderPlacedAt)
-        setOrderPlacedAt(dateObject.toString().substring(0, 15) + ",  " + toTime(order.orderPlacedAt));
+        let dateObject = new Date(order.createdAt)
+        setOrderPlacedAt(dateObject.toString().substring(0, 15) + ",  " + toTime(order.createdAt));
       })
       .catch((er) =>
         dispatch(logout)
@@ -105,7 +105,7 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
           <Row className="mt-4">
             <h1 className="text-center">Order Details</h1>
 
-            <Col lg={3}>
+            <Col sm={4} xl={3}>
               <ListGroup>
                 <ListGroup.Item>
                   <h5>Order summary <b className="text-primary"> {orderId}</b></h5>
@@ -259,8 +259,10 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
 
             </Col>
             
-            <Col lg={4}>
+            <Col sm={3} xl={4}>
+              <Row className="justify-content-md-center">
               {orderData ? (<StiReport orderData={orderData}></StiReport>) : ("")}
+              </Row>
             </Col>
             <Col xl={5}>
               <ListGroup variant="flush">

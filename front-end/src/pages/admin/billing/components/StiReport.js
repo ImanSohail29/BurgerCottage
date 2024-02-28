@@ -7,7 +7,7 @@ const StiReport =  ({orderData}) => {
   var options = new window.Stimulsoft.Viewer.StiViewerOptions();
   options.width ="500px";
 
-options.height = "700px";
+options.height = "600px";
 // options.appearance.theme = window.Stimulsoft.Viewer.StiViewerTheme.Office2013VeryDarkGrayPurple;
   options.appearance.reportDisplayMode = window.Stimulsoft.Report.Export.StiHtmlExportMode.Div;
   options.appearance.scrollbarsMode = true;

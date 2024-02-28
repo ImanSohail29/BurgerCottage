@@ -9,7 +9,6 @@ const getFoodItems = async (req, res, next) => {
     let query = {};
     let queryCondition = false;
     const categoryName = req.params.categoryName || "";
-    console.log(categoryName)
     if (categoryName) {
         queryCondition=true
         categoryQueryCondition = {
@@ -30,7 +29,6 @@ console.log(query)
       .populate("addOns")
       .skip(recordsPerPage * (pageNum - 1))
       .limit(recordsPerPage);
-      console.log(foodItems)
 
     res.json({
       foodItems,

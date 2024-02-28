@@ -32,7 +32,6 @@ const AdminEditStockComponent = ({ fetchStock, updateStockApiRequest }) => {
             name: form.name.value,
             quantity: form.quantity.value,
             inStock: form.inStock.checked,
-            description: form.description.value,
         }
         if (event.currentTarget.checkValidity() === true) {
             updateStockApiRequest(stockId, formInputs)

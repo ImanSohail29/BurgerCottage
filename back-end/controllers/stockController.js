@@ -3,10 +3,11 @@ const Stock = require("../models/StockModel")
 const getStocks = async (req, res, next) => {
     try {
         const stocks = await Stock.find({}).orFail()
+        console.log("stocks:"+JSON.stringify(stocks))
         return res.json(stocks)
     }
     catch (error) {
-      return null
+      return res.json([])
       next(error)
     }
     res.send("Handling stock routes, e.g. search for stock")
