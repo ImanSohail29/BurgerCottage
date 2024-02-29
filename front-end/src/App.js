@@ -40,6 +40,7 @@ import AdminReportDetails from "./pages/admin/expenses/AdminReportDetails";
 import AdminAnalyticsPage from "./pages/admin/expenses/AdminAnalyticsPage";
 import AdminAddNewStockPage from "./pages/admin/billing/AdminAddNewStockPage";
 import AdminEditStockPage from "./pages/admin/billing/AdminEditStockPage";
+import AdminCustomersPage from "./pages/admin/customers/AdminCustomersPage";
 
 function App() {
   return (
@@ -55,6 +56,7 @@ function App() {
           <Route path="/admin/edit-vendor/:id" element={<AdminEditVendorPage></AdminEditVendorPage>}></Route>
           <Route path="/admin/vendors/:vendorId/" element={<AdminVendorDetailsPage></AdminVendorDetailsPage>}></Route>
           <Route path="/admin/vendors/:vendorId/add-inventoryOrder" element={<AdminAddNewInventoryOrder></AdminAddNewInventoryOrder>}></Route>
+          <Route path="/admin/users" element={<AdminCustomersPage></AdminCustomersPage>}></Route>
           <Route path="/admin/expenses" element={<AdminExpenses></AdminExpenses>}></Route>
           <Route path="/admin/create-new-expense" element={<AdminAddNewExpense></AdminAddNewExpense>}></Route>
           <Route path="/admin/edit-expense/:id" element={<AdminEditExpense></AdminEditExpense>}></Route>
