@@ -2,6 +2,8 @@ import { Form, Button, Col, Container, Row, Spinner, Table, InputGroup } from "r
 import { LinkContainer } from "react-router-bootstrap";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { getDate, getDateStr} from "../../utils";
+
 const AdminVendorDetailsPageComponent = ({
     getVendor,
     fetchVendorInventoryOrders,
@@ -114,7 +116,7 @@ const AdminVendorDetailsPageComponent = ({
                                         return (
                                             <tr key={idx} >
                                                 <td>{idx}</td>
-                                                <td>{inventoryOrder.date.substring(0, 10)}</td>
+                                                <td>{getDateStr(inventoryOrder.date)}</td>
                                                 <td>{inventoryOrder.ingredient}</td>
                                                 <td>{inventoryOrder.quantity}</td>
                                                 <td>{inventoryOrder.pricePerItem ? (inventoryOrder.pricePerItem + "/-") : "-"}</td>

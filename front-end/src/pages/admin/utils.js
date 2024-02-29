@@ -8,17 +8,25 @@ function replaceCharacter(str, replacement) {
 }
 export const convertToDateString = (str) => {
     const DateStr = new Date(str)
-    return DateStr.toDateString()
+    return DateStr.toUTCString()
+}
+export const getDateStr = (str) => {
+    const date = new Date(str)
+    return date.toDateString().substring(0,16)
+}
+export const getDate = (str) => {
+    const date = new Date(str)
+    return date.toISOString().substring(0,10)
 }
 export const nextDate = (dateStr) => {
     const nextDate = new Date(dateStr)
-    nextDate.setDate(nextDate.getDate() + 1)
-    return nextDate.toISOString()
+    nextDate.setDate(nextDate.getUTCDate() + 1)
+    return nextDate.toUTCString()
 }
 export const previousDate = (dateStr) => {
     const nextDate = new Date(dateStr)
-    nextDate.setDate(nextDate.getDate() - 1)
-    return nextDate.toISOString()
+    nextDate.setDate(nextDate.getUTCDate() - 1)
+    return nextDate.toUTCString()
 }
 export const convertToDateObj = (dateStr) => {
     const dateObj = new Date(dateStr)
@@ -34,7 +42,7 @@ export const toTime = (timeString) => {
 }
 export const getHour = (timeString) => {
     const date = new Date(timeString)
-    let n = date.getHours()
+    let n = date.getUTCHours()
     return n
 }
 export const checkPhoneNumber = (phoneNumberString) => {

@@ -16,6 +16,8 @@ import { logout } from "../../../../redux/slices/userSlice";
 import CartItemComponent from "../../../../components/CartItemComponent";
 import "./../../../../style/AdminOrderDetails.css"
 import StiReport from "./StiReport";
+import { getDate} from "../../utils";
+
 
 const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone, markAsPaid, markAsConfirmed, discount }) => {
   const ref = useRef();
@@ -86,8 +88,7 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
           setOrderPaidButtonDisabled(true);
         }
         setCartItems(order.cart.cartItems);
-        let dateObject = new Date(order.createdAt)
-        setOrderPlacedAt(dateObject.toString().substring(0, 15) + ",  " + toTime(order.createdAt));
+        setOrderPlacedAt(getDate(order.createdAt) + ",  " + toTime(order.createdAt));
       })
       .catch((er) =>
         dispatch(logout)
@@ -156,7 +157,7 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
                       <p>Payment Method: <b>{paymentMethod}</b></p>
 
                       <Alert variant={isPaid ? "success" : "danger"}>
-                        {isPaid ? <>Paid on {isPaid.toString().substring(0, 10) + ", Time: " + toTime(isPaid)}</> : <>Not paid yet</>}
+                        {isPaid ? <>Paid on {getDate(isPaid) + ", Time: " + toTime(isPaid)}</> : <>Not paid yet</>}
                       </Alert>
                         <p>Service Mode: <b>{serviceMode}</b></p>
                         {serviceMode === "delivery" ? (
@@ -165,7 +166,7 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
                             variant={isDelivered ? "success" : "danger"}
                           >
                             {isDelivered ? (
-                              <>Delivered at {isDelivered.toString().substring(0, 10) + ", Time: " + toTime(isDelivered)}</>
+                              <>Delivered at {getDate(isDelivered) + ", Time: " + toTime(isDelivered)}</>
                             ) : (
                               <>Not delivered</>
                             )}

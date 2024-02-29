@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from 'react-redux';
 import { logout } from "../../../../redux/slices/userSlice"
 import { Navigate, useNavigate, useParams } from "react-router-dom";
-import { convertToDateString } from "../../utils";
+import { convertToDateString, getDate } from "../../utils";
 const AdminExpensesComponent = ({ getExpenses, deleteExpense }) => {
     const [expenses, setExpenses] = useState([])
     const [expenseDate, setExpenseDate] = useState('')
@@ -22,8 +22,7 @@ const AdminExpensesComponent = ({ getExpenses, deleteExpense }) => {
     }
     const todayDate = () => {
         const td = new Date()
-        const td1=td.toISOString().substring(0,10)
-        return td1
+        return getDate(td)
     }
     useEffect(() => {
         const abctrl = new AbortController();
@@ -64,7 +63,7 @@ const AdminExpensesComponent = ({ getExpenses, deleteExpense }) => {
                                     return (expenseDate === '')
                                         ? true
                                         : (expenseDate !== '')
-                                            ? expense.date.substring(0, 10) === expenseDate
+                                            ? getDate(expense.date) === expenseDate
                                             : null
                                 }
                                 ).map((expense, idx) => {

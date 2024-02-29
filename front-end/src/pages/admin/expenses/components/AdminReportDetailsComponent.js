@@ -5,8 +5,7 @@ import { useEffect, useState } from "react";
 
 import { logout } from "../../../../redux/slices/userSlice";
 import { useDispatch } from "react-redux";
-import { LinkContainer } from "react-router-bootstrap";
-import { convertToDateObj, convertToDateString, getHour, nextDate, toTime, previousDate } from "../../utils";
+import { convertToDateObj, convertToDateString, getDate, getDateStr, getHour, nextDate, toTime } from "../../utils";
 
 const AdminReportDetailsComponent = ({ getExpenses, getOrders, getReport, getReportFromDateToDate }) => {
     const [expensesData, setExpensesData] = useState([]);
@@ -15,9 +14,8 @@ const AdminReportDetailsComponent = ({ getExpenses, getOrders, getReport, getRep
     const { date } = useParams();
     const [ordersData, setOrdersData] = useState([]);
     const [reportData, setReportData] = useState([]);
-    const [todaysReportData, setTodaysReportData] = useState({});
-    const [searchDate, setSearchDate] = useState(date);
-    const [nextSearchDate, setNextSearchDate] = useState(date);
+    const [searchDate, setSearchDate] = useState(getDate(date));
+    const [nextSearchDate, setNextSearchDate] = useState(getDate(date));
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -44,7 +42,6 @@ const AdminReportDetailsComponent = ({ getExpenses, getOrders, getReport, getRep
         getReport()
             .then((data) => {
                 setReportData(data)
-                setTodaysReportData(data.find((data) => data.createdAt.substring(0, 10) === date))
             }
             )
             .catch((er) =>
@@ -57,16 +54,15 @@ const AdminReportDetailsComponent = ({ getExpenses, getOrders, getReport, getRep
     useEffect(() => {
         console.log("Hi i am here")
         console.log("searchDate: "+searchDate)
-        console.log("nextSearchDate: "+nextSearchDate)
-        console.log("reportData: "+JSON.stringify(reportData))
-        console.log("todaysReportData: "+JSON.stringify(todaysReportData))
+        console.log("nextSearchDate: "+nextDate(nextSearchDate))
         console.log("SumOfOrdersWRTPaymentMethod: "+JSON.stringify(SumOfOrdersWRTPaymentMethod))
+        console.log("dataForReport: "+JSON.stringify(dataForReport))
+
     }, []);
     useEffect(() => {
         getReport()
             .then((data) => {
                 setReportData(data)
-                setTodaysReportData(data.find((data) => data.createdAt.substring(0, 10) === date))
             }
             )
             .catch((er) =>
@@ -81,7 +77,6 @@ const AdminReportDetailsComponent = ({ getExpenses, getOrders, getReport, getRep
                     let orderSum = 0;
                     let expenseSum = 0;
                     let profit = 0;
-
                     const reports = data.map((reportData) => {
                         orderSum += reportData.totalSale;
                         expenseSum += reportData.totalExpenses;
@@ -108,10 +103,10 @@ const AdminReportDetailsComponent = ({ getExpenses, getOrders, getReport, getRep
             let orderSumJazzCash = 0;
             let orderSumEasyPaisa = 0;
             const sumOfOrdersWRT = ordersData.map((orderData) => {
-                if ((orderData.orderPlacedAt.substring(0, 10) === searchDate && getHour(orderData.orderPlacedAt) > 6) ||
-                    (orderData.orderPlacedAt.substring(0, 10) === nextDate(nextSearchDate).substring(0, 10) && getHour(orderData.orderPlacedAt) < 6) ||
-                    (convertToDateObj(searchDate).getTime() < convertToDateObj(orderData.orderPlacedAt.substring(0, 10)).getTime()
-                        && convertToDateObj(nextSearchDate).getTime() >= convertToDateObj(orderData.orderPlacedAt.substring(0, 10)).getTime())) {
+                if ((getDate(orderData.createdAt) === searchDate && getHour(orderData.createdAt) > 6) ||
+                    (getDate(orderData.createdAt) === nextDate(nextSearchDate).substring(0, 10) && getHour(orderData.createdAt) < 6) ||
+                    (convertToDateObj(searchDate).getTime() < convertToDateObj(getDate(orderData.createdAt)).getTime()
+                        && convertToDateObj(nextSearchDate).getTime() >= convertToDateObj(getDate(orderData.createdAt)).getTime())) {
                     if (orderData.paymentMethod == "cash") {
                         orderSumCash += orderData.orderTotal.cartSubtotal;
                     }
@@ -138,9 +133,8 @@ const AdminReportDetailsComponent = ({ getExpenses, getOrders, getReport, getRep
         console.log("Hi i am here")
         console.log("searchDate: "+searchDate)
         console.log("nextSearchDate: "+nextSearchDate)
-        console.log("reportData: "+JSON.stringify(reportData))
-        console.log("todaysReportData: "+JSON.stringify(todaysReportData))
         console.log("SumOfOrdersWRTPaymentMethod: "+JSON.stringify(SumOfOrdersWRTPaymentMethod))
+        console.log("dataForReport: "+JSON.stringify(dataForReport))
 
     }, [ordersData,searchDate, nextSearchDate]);
 
@@ -153,15 +147,15 @@ const AdminReportDetailsComponent = ({ getExpenses, getOrders, getReport, getRep
                     <Row className="m-2">
                         <Col md={2}>
                             <Row className="justify-content-md-center " md={4}>
-                                <input type="date" className="form-control form-control-lg m-1" defaultValue={date} onChange={e => {
-                                    setSearchDate(e.target.value.toString())
-                                    setTodaysReportData(reportData.find((data) => (data.createdAt.substring(0, 10) === e.target.value.toString())
-                                    ))
+                                <input type="date" className="form-control form-control-lg m-1" defaultValue={searchDate} onChange={e => {
+                                    setSearchDate(getDate(e.target.value.toString()))
+                                    // setDataForReport(reportData.find((data) => (data.createdAt.substring(0, 10) === e.target.value.toString())
+                                    // ))
                                 }} />
                                 <input type="date" className="form-control  form-control-lg m-1" defaultValue={nextSearchDate} onChange={e => {
-                                    setNextSearchDate(e.target.value.toString())
-                                    setTodaysReportData(reportData.find((data) => (data.createdAt.substring(0, 10) === e.target.value.toString())
-                                    ))
+                                    setNextSearchDate(getDate(e.target.value.toString()))
+                                    // setDataForReport(reportData.find((data) => (data.createdAt.substring(0, 10) === e.target.value.toString())
+                                    // ))
                                 }} />
                             </Row>
                         </Col>
@@ -250,26 +244,26 @@ const AdminReportDetailsComponent = ({ getExpenses, getOrders, getReport, getRep
                                 <tbody>
                                     {ordersData
                                         .filter((data) => {
-                                            return (searchDate === '')
+                                            return (searchDate === ''&&nextSearchDate==='')
                                                 ? true
-                                                : (searchDate !== '')
-                                                    ? (data.orderPlacedAt.substring(0, 10) === searchDate && getHour(data.orderPlacedAt) > 6) ||
-                                                    (data.orderPlacedAt.substring(0, 10) === nextDate(searchDate).substring(0, 10) && getHour(data.orderPlacedAt) < 6) ||
-                                                    (convertToDateObj(searchDate).getTime() < convertToDateObj(data.orderPlacedAt.substring(0, 10)).getTime()
-                                                        && convertToDateObj(nextSearchDate).getTime() >= convertToDateObj(data.orderPlacedAt.substring(0, 10)).getTime())
+                                                : (searchDate !== ''&&nextSearchDate!=='')
+                                                    ? (getDate(data.createdAt) === searchDate && getHour(data.createdAt) > 6) ||
+                                                    (getDate(data.createdAt) === nextDate(nextSearchDate).substring(0, 10) && getHour(data.createdAt) < 6) ||
+                                                    (convertToDateObj(searchDate).getTime() < convertToDateObj(getDate(data.createdAt)).getTime()
+                                                        && convertToDateObj(nextSearchDate).getTime() >= convertToDateObj(getDate(data.createdAt)).getTime())
                                                     : null
                                         }).map((orderData, idx) => {
                                             return (
                                                 <tr key={idx}>
                                                     <td>{idx + 1}</td>
                                                     <td><Link to={`/admin/order-details/${orderData._id}`}>{orderData._id} </Link></td>
-                                                    <td>{convertToDateString(orderData.orderPlacedAt)}</td>
-                                                    <td>{toTime((orderData.orderPlacedAt))}</td>
+                                                    <td>{getDateStr(orderData.createdAt)}</td>
+                                                    <td>{toTime((orderData.createdAt))}</td>
                                                     <td className="text-end">{orderData.orderTotal.cartSubtotal}</td>
                                                 </tr>)
                                         })
                                     }
-                                    {todaysReportData && dataForReport ?
+                                    {dataForReport ?
                                         <tr>
                                             <td className="bg-success text-light" colSpan={4}><b>Total Sale:  </b></td>
                                             <td className="bg-success text-light text-end" colSpan={1}><b>{dataForReport.ordersSum}</b></td>
@@ -293,23 +287,23 @@ const AdminReportDetailsComponent = ({ getExpenses, getOrders, getReport, getRep
                                             return (searchDate === '')
                                                 ? true
                                                 : (searchDate !== '')
-                                                    ? (data.date.substring(0, 10) === searchDate && getHour(data.date) > 6) ||
-                                                    (data.date.substring(0, 10) === nextDate(searchDate).substring(0, 10) && getHour(data.date) < 6) ||
-                                                    (convertToDateObj(searchDate).getTime() < convertToDateObj(data.date.substring(0, 10)).getTime()
-                                                        && convertToDateObj(nextSearchDate).getTime() > convertToDateObj(data.date.substring(0, 10)).getTime())
+                                                    ? (nextDate(data.date) === searchDate && getHour(data.date) > 6) ||
+                                                    (nextDate(data.date) === nextDate(nextSearchDate).substring(0, 10) && getHour(data.date) < 6) ||
+                                                    (convertToDateObj(searchDate).getTime() < convertToDateObj(nextDate(data.date)).getTime()
+                                                        && convertToDateObj(nextSearchDate).getTime() >= convertToDateObj(nextDate(data.date)).getTime())
 
                                                     : null
                                         }).map((expense, idx) => {
                                             return (
                                                 <tr key={idx}>
                                                     <td>{idx + 1}</td>
-                                                    <td>{convertToDateString(expense.date)}</td>
+                                                    <td>{getDateStr(expense.date)}</td>
                                                     <td>{expense.name}</td>
                                                     <td className="text-end">{expense.totalAmount}</td>
                                                 </tr>)
                                         })
                                     }
-                                    {todaysReportData && dataForReport ?
+                                    {dataForReport ?
                                         <tr>
                                             <td className="bg-danger  text-light" colSpan={2}><b className="">Total Expenses:</b></td>
                                             <td className="bg-danger  text-light text-end" colSpan={2}><b className="">{dataForReport.expensesSum}</b></td>

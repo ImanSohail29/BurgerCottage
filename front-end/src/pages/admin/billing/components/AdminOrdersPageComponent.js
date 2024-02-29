@@ -1,8 +1,7 @@
 import { Row, Col, Table, Button, Form, InputGroup, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
-
 import { useEffect, useRef, useState } from "react";
-
+import { getDate} from "../../utils";
 import { logout } from "../../../../redux/slices/userSlice";
 import { useDispatch } from "react-redux";
 import useSound from 'use-sound'
@@ -69,7 +68,7 @@ const AdminOrdersPageComponent = ({ getOrders, socketIOClient }) => {
                 <th>#</th>
                 <th>order Id <input type="text" className="form-control" onChange={e => setSearchId(e.target.value.toUpperCase())} /></th>
                 <th>User</th>
-                <th>Date <input type="date" className="form-control" onChange={e => setSearchDate(e.target.value.toString())} /></th>
+                <th>Date <input type="date" className="form-control" onChange={e => setSearchDate(getDate(e.target.value.toString()))} /></th>
                 <th>Time</th>
                 <th>Total</th>
                 <th>Done</th>
@@ -87,7 +86,7 @@ const AdminOrdersPageComponent = ({ getOrders, socketIOClient }) => {
                   return ( searchDate === '')
                     ? true
                     : (searchDate !== '')
-                    ? order.createdAt.substring(0, 10) === searchDate
+                    ? getDate(order.createdAt) === searchDate
                     : null
                 }
                 )
@@ -119,7 +118,7 @@ const AdminOrdersPageComponent = ({ getOrders, socketIOClient }) => {
                           </>
                         ) : null}
                       </td>
-                      <td>{order.createdAt.substring(0, 10)}</td>
+                      <td>{getDate(order.createdAt)}</td>
                       <td>{toTime(order.createdAt)}</td>
                       <td>{order.orderTotal.cartSubtotal}</td>
                       <td>
@@ -162,7 +161,7 @@ const AdminOrdersPageComponent = ({ getOrders, socketIOClient }) => {
                           </>
                         ) : null}
                       </td>
-                      <td>{order.createdAt.substring(0, 10)}</td>
+                      <td>{getDate(order.createdAt)}</td>
                       <td>{toTime(order.createdAt)}</td>
                       <td>{order.orderTotal.cartSubtotal}</td>
                       <td>
@@ -204,7 +203,7 @@ const AdminOrdersPageComponent = ({ getOrders, socketIOClient }) => {
                         </>
                       ) : null}
                     </td>
-                    <td>{order.createdAt.substring(0, 10)}</td>
+                    <td>{getDate(order.createdAt)}</td>
                     <td>{toTime(order.createdAt)}</td>
                     <td>{order.orderTotal.cartSubtotal}</td>
                     <td>

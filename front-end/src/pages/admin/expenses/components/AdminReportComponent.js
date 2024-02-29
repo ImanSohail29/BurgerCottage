@@ -2,6 +2,7 @@ import { Row, Col, Table, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 import { useEffect, useState } from "react";
+import { getDate} from "../../utils";
 
 import { logout } from "../../../../redux/slices/userSlice";
 import { useDispatch } from "react-redux";
@@ -44,7 +45,7 @@ const AdminReportComponent = ({ getReport }) => {
           <tbody>
             {reportData.map((data, idx) => (
               idx === (reportData.length - 1) ? (
-                <LinkContainer to={`/admin/report-details/${data.createdAt.substring(0,10)}`}>
+                <LinkContainer to={`/admin/report-details/${(data.createdAt).substring(0,10)}`}>
                   <tr key={idx} className="table-success">
                     <td>{idx + 1}</td>
                     <td className="font-weight-bold" style={{ fontWeight: "bold" }}>{data.date}</td>
@@ -61,7 +62,7 @@ const AdminReportComponent = ({ getReport }) => {
                 </LinkContainer>
 
               ) : (
-                <LinkContainer to={`/admin/report-details/${data.createdAt.substring(0,10)}`}>
+                <LinkContainer to={`/admin/report-details/${(data.createdAt).substring(0,10)}`}>
                 <tr key={idx}>
                   <td>{idx + 1}</td>
                   <td>{data.date}</td>
