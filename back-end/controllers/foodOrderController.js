@@ -88,10 +88,10 @@ const createOrder = async (req, res, next) => {
             }
             sendSMS("Customer Info: " + JSON.stringify(order.customerInfo) + "\n\n" + "Cart Items: " + JSON.stringify(cartItems) + " " + "Total number of items: " + cart.itemsCount + "  " + "Subtotal: " + cart.cartSubtotal + "  service mode: " + order.serviceMode + "  Payment Method: " + order.paymentMethod)
             const dateTimeNow = new Date()
-            const dateNow = dateTimeNow.toDateString()
             if (dateTimeNow.getHours() < 6) {
                 dateTimeNow.setDate(dateTimeNow.getDate() - 1)
             }
+            const dateNow = dateTimeNow.toDateString()
             const todaysReport = await Report.findOne({ date: dateNow })
             const yesterdaysReport1 = await Report.find().sort({ "$natural": -1 }).limit(2)
             const yesterdaysReport = yesterdaysReport1[1]
@@ -149,10 +149,11 @@ const createOrder = async (req, res, next) => {
             }
             sendSMS("Customer Info: " + JSON.stringify(order.customerInfo) + "\n\n" + "Cart Items: " + JSON.stringify(cartItems) + " " + "Total number of items: " + cart.itemsCount + "  " + "Subtotal: " + cart.cartSubtotal + "  service mode: " + order.serviceMode + "  Payment Method: " + order.paymentMethod)
             const dateTimeNow = new Date()
-            const dateNow = dateTimeNow.toDateString()
+            
             if (dateTimeNow.getHours() < 6) {
                 dateTimeNow.setDate(dateTimeNow.getDate() - 1)
             }
+            const dateNow = dateTimeNow.toDateString()
             const todaysReport = await Report.findOne({ date: dateNow })
             const yesterdaysReport1 = await Report.find().sort({ "$natural": -1 }).limit(2)
             const yesterdaysReport = yesterdaysReport1[1]
@@ -241,10 +242,11 @@ const createOrderCustomer = async (req, res, next) => {
             }
             sendSMS("Customer Info: " + JSON.stringify(order.customerInfo) + "\n\n" + "Cart Items: " + JSON.stringify(cartItems) + " " + "Total number of items: " + cart.itemsCount + "  " + "Subtotal: " + cart.cartSubtotal + "  service mode: " + order.serviceMode + "  Payment Method: " + order.paymentMethod)
             const dateTimeNow = new Date()
-            const dateNow = dateTimeNow.toDateString()
+            
             if (dateTimeNow.getHours() < 6) {
                 dateTimeNow.setDate(dateTimeNow.getDate() - 1)
             }
+            const dateNow = dateTimeNow.toDateString()
             const todaysReport = await Report.findOne({ date: dateNow })
             const yesterdaysReport1 = await Report.find().sort({ "$natural": -1 }).limit(2)
             const yesterdaysReport = yesterdaysReport1[1]
@@ -302,10 +304,11 @@ const createOrderCustomer = async (req, res, next) => {
             }
             sendSMS("Customer Info: " + JSON.stringify(order.customerInfo) + "\n\n" + "Cart Items: " + JSON.stringify(cartItems) + " " + "Total number of items: " + cart.itemsCount + "  " + "Subtotal: " + cart.cartSubtotal + "  service mode: " + order.serviceMode + "  Payment Method: " + order.paymentMethod)
             const dateTimeNow = new Date()
-            const dateNow = dateTimeNow.toDateString()
+            
             if (dateTimeNow.getHours() < 6) {
                 dateTimeNow.setDate(dateTimeNow.getDate() - 1)
             }
+            const dateNow = dateTimeNow.toDateString()
             const todaysReport = await Report.findOne({ date: dateNow })
             const yesterdaysReport1 = await Report.find().sort({ "$natural": -1 }).limit(2)
             const yesterdaysReport = yesterdaysReport1[1]
@@ -383,10 +386,11 @@ const createOrderAdmin = async (req, res, next) => {
             })
             const createdOrder = await order.save();
             const dateTimeNow = new Date()
-            const dateNow = dateTimeNow.toDateString()
+            
             if (dateTimeNow.getHours() < 6) {
                 dateTimeNow.setDate(dateTimeNow.getDate() - 1)
             }
+            const dateNow = dateTimeNow.toDateString()
             const todaysReport = await Report.findOne({ date: dateNow })
             const yesterdaysReport1 = await Report.find().sort({ "$natural": -1 }).limit(2)
             const yesterdaysReport = yesterdaysReport1[1]
@@ -436,10 +440,11 @@ const createOrderAdmin = async (req, res, next) => {
             })
             const createdOrder = await order.save();
             const dateTimeNow = new Date()
-            const dateNow = dateTimeNow.toDateString()
+            
             if (dateTimeNow.getHours() < 6) {
                 dateTimeNow.setDate(dateTimeNow.getDate() - 1)
             }
+            const dateNow = dateTimeNow.toDateString()
             const todaysReport = await Report.findOne({ date: dateNow })
             const yesterdaysReport1 = await Report.find().sort({ "$natural": -1 }).limit(2)
             const yesterdaysReport = yesterdaysReport1[1]

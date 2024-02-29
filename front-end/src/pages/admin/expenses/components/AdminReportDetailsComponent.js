@@ -17,7 +17,7 @@ const AdminReportDetailsComponent = ({ getExpenses, getOrders, getReport, getRep
     const [reportData, setReportData] = useState([]);
     const [todaysReportData, setTodaysReportData] = useState({});
     const [searchDate, setSearchDate] = useState(date);
-    const [nextSearchDate, setNextSearchDate] = useState(nextDate(date).substring(0,10));
+    const [nextSearchDate, setNextSearchDate] = useState(date);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -58,9 +58,9 @@ const AdminReportDetailsComponent = ({ getExpenses, getOrders, getReport, getRep
         console.log("Hi i am here")
         console.log("searchDate: "+searchDate)
         console.log("nextSearchDate: "+nextSearchDate)
-        console.log("reportData: "+reportData)
-        console.log("todaysReportData: "+todaysReportData)
-        console.log("SumOfOrdersWRTPaymentMethod: "+SumOfOrdersWRTPaymentMethod)
+        console.log("reportData: "+JSON.stringify(reportData))
+        console.log("todaysReportData: "+JSON.stringify(todaysReportData))
+        console.log("SumOfOrdersWRTPaymentMethod: "+JSON.stringify(SumOfOrdersWRTPaymentMethod))
     }, []);
     useEffect(() => {
         getReport()
@@ -138,9 +138,9 @@ const AdminReportDetailsComponent = ({ getExpenses, getOrders, getReport, getRep
         console.log("Hi i am here")
         console.log("searchDate: "+searchDate)
         console.log("nextSearchDate: "+nextSearchDate)
-        console.log("reportData: "+reportData)
-        console.log("todaysReportData: "+todaysReportData)
-        console.log("SumOfOrdersWRTPaymentMethod: "+SumOfOrdersWRTPaymentMethod)
+        console.log("reportData: "+JSON.stringify(reportData))
+        console.log("todaysReportData: "+JSON.stringify(todaysReportData))
+        console.log("SumOfOrdersWRTPaymentMethod: "+JSON.stringify(SumOfOrdersWRTPaymentMethod))
 
     }, [ordersData,searchDate, nextSearchDate]);
 
