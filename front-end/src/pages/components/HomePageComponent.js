@@ -63,6 +63,13 @@ const HomePageComponent = () => {
                             </Card.Body>
                         </Card>
                     </Link>
+                    <Link to={"/admin/users"} style={{ textDecoration: 'none', textAlign: "center" }}>
+                        <Card className="bg-danger text-white p-5 m-4 bg-opacity-50 border-start"  >
+                            <Card.Body>
+                                <Card.Title style={{ fontSize: "2em" }}>Customers Data</Card.Title>
+                            </Card.Body>
+                        </Card>
+                    </Link>
                 </Row>
             </Container>
         </div>
