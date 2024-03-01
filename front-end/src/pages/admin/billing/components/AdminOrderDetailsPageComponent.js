@@ -16,7 +16,7 @@ import { logout } from "../../../../redux/slices/userSlice";
 import CartItemComponent from "../../../../components/CartItemComponent";
 import "./../../../../style/AdminOrderDetails.css"
 import StiReport from "./StiReport";
-import { getDate} from "../../utils";
+import { getDate,getDateStr } from "../../utils";
 
 
 const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone, markAsPaid, markAsConfirmed, discount }) => {
@@ -26,6 +26,7 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
   const [userInfo, setUserInfo] = useState({});
   const [paymentMethod, setPaymentMethod] = useState("");
   const [orderData, setorderData] = useState({});
+  const [orderDataForReceipt, setorderDataForReceipt] = useState({});
   const [isPaid, setIsPaid] = useState(false);
   const [isDelivered, setIsDelivered] = useState(false);
   const [isConfirmed, setIsConfirmed] = useState(false);
@@ -58,6 +59,24 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
     getOrder(orderId)
       .then((order) => {
         setorderData(order)
+        
+     
+        setorderDataForReceipt(
+          {
+            "orderId": order._id,
+            "MOP": order.paymentMethod,
+            "dateTime": getDateStr(order.createdAt)+", "+toTime(order.createdAt),
+            "itemsName":order.cart.cartItems.map(item=>{return(item.name)}),
+            "itemsQuantity":order.cart.cartItems.map(item=>{return(item.quantity)}),
+            "itemRate":order.cart.cartItems.map(item=>{return(Number(item.size.price))}),
+            "itemTotalRate":order.cart.cartItems.map(item=>{return(item.size.price*item.quantity)}),
+            "subTotal":order.cart.cartItems.reduce((sum,item)=>sum+(item.size.price*item.quantity),0),
+            "totalQuantityOfAllItems":order.cart.itemsCount,
+            "discountInPercentage":order.discount.figure,
+            "discountInAmount":order.discountAmount,
+            "netTotal":order.cart.cartSubtotal,
+          }
+        )
         setUserInfo(order.customerInfo);
         setPaymentMethod(order.paymentMethod);
         setServiceMode(order.serviceMode)
@@ -102,10 +121,9 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
     cartItems.length > 0 ? (
       <>
         <Container fluid>
-
           <Row className="mt-4">
             <h1 className="text-center">Order Details</h1>
-
+{console.log(orderDataForReceipt)}
             <Col sm={4} xl={3}>
               <ListGroup>
                 <ListGroup.Item>
@@ -153,27 +171,27 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
                   Total price: <span className="fw-bold">Rs {cartSubtotal}/-</span>
                 </ListGroup.Item>)}
                 <ListGroup.Item>
-                <ListGroup.Item>
-                      <p>Payment Method: <b>{paymentMethod}</b></p>
+                  <ListGroup.Item>
+                    <p>Payment Method: <b>{paymentMethod}</b></p>
 
-                      <Alert variant={isPaid ? "success" : "danger"}>
-                        {isPaid ? <>Paid on {getDate(isPaid) + ", Time: " + toTime(isPaid)}</> : <>Not paid yet</>}
+                    <Alert variant={isPaid ? "success" : "danger"}>
+                      {isPaid ? <>Paid on {getDate(isPaid) + ", Time: " + toTime(isPaid)}</> : <>Not paid yet</>}
+                    </Alert>
+                    <p>Service Mode: <b>{serviceMode}</b></p>
+                    {serviceMode === "delivery" ? (
+                      <Alert
+
+                        variant={isDelivered ? "success" : "danger"}
+                      >
+                        {isDelivered ? (
+                          <>Delivered at {getDate(isDelivered) + ", Time: " + toTime(isDelivered)}</>
+                        ) : (
+                          <>Not delivered</>
+                        )}
                       </Alert>
-                        <p>Service Mode: <b>{serviceMode}</b></p>
-                        {serviceMode === "delivery" ? (
-                          <Alert
-                            
-                            variant={isDelivered ? "success" : "danger"}
-                          >
-                            {isDelivered ? (
-                              <>Delivered at {getDate(isDelivered) + ", Time: " + toTime(isDelivered)}</>
-                            ) : (
-                              <>Not delivered</>
-                            )}
-                          </Alert>
-                        ) : ("")}                 
-                </ListGroup.Item>
-                
+                    ) : ("")}
+                  </ListGroup.Item>
+
 
                   {/* <div className="d-grid gap-2">
                 <Button size="lg" className="danger" disabled={isConfirmed} onClick={() =>
@@ -259,10 +277,10 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
               </ListGroup>
 
             </Col>
-            
+
             <Col sm={3} xl={4}>
               <Row className="justify-content-md-center">
-              {orderData ? (<StiReport orderData={orderData}></StiReport>) : ("")}
+                {orderData ? (<StiReport orderData={orderData}></StiReport>) : ("")}
               </Row>
             </Col>
             <Col xl={5}>

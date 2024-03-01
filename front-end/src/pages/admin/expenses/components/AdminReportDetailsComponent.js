@@ -287,10 +287,10 @@ const AdminReportDetailsComponent = ({ getExpenses, getOrders, getReport, getRep
                                             return (searchDate === '')
                                                 ? true
                                                 : (searchDate !== '')
-                                                    ? (nextDate(data.date) === searchDate && getHour(data.date) > 6) ||
-                                                    (nextDate(data.date) === nextDate(nextSearchDate) && getHour(data.date) < 6) ||
-                                                    (convertToDateObj(searchDate).getTime() < convertToDateObj(nextDate(data.date)).getTime()
-                                                        && convertToDateObj(nextSearchDate).getTime() >= convertToDateObj(nextDate(data.date)).getTime())
+                                                    ? (getDate(data.date) === searchDate && getHour(data.date) > 6) ||
+                                                    (getDate(data.date) === nextDate(nextSearchDate) && getHour(data.date) < 6) ||
+                                                    (convertToDateObj(searchDate).getTime() < convertToDateObj(getDate(data.date)).getTime()
+                                                        && convertToDateObj(nextSearchDate).getTime() >= convertToDateObj(getDate(data.date)).getTime())
 
                                                     : null
                                         }).map((expense, idx) => {
