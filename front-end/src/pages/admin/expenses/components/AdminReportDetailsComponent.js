@@ -92,11 +92,10 @@ const AdminReportDetailsComponent = ({ getExpenses, getOrders, getReport, getRep
                 }
                 )
                 .catch((er) =>
-                    dispatch(logout())
 
-                    // console.log(
-                    //   er.response.data.message ? er.response.data.message : er.response.data
-                    // )
+                    console.log(
+                      er.response.data.message ? er.response.data.message : er.response.data
+                    )
                 );
             let orderSumCash = 0;
             let orderSumOnline = 0;

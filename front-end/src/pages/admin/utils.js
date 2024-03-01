@@ -12,8 +12,8 @@ export const convertToDateString = (str) => {
 }
 export const getDateStr = (str) => {
     const date = new Date(str)
-    console.log(str)
-    console.log(date.toDateString().substring(0,16))
+    // console.log(str)
+    // console.log(date.toDateString().substring(0,16))
 
     return date.toDateString().substring(0,16)
 }
@@ -51,7 +51,7 @@ export const toTime = (timeString) => {
 export const getHour = (timeString) => {
     const date = new Date(timeString)
     let n = date.getHours()
-    console.log(timeString)
+    // console.log(timeString)
     return n
 }
 export const checkPhoneNumber = (phoneNumberString) => {
