@@ -104,7 +104,7 @@ const AdminReportDetailsComponent = ({ getExpenses, getOrders, getReport, getRep
             let orderSumEasyPaisa = 0;
             const sumOfOrdersWRT = ordersData.map((orderData) => {
                 if ((getDate(orderData.createdAt) === searchDate && getHour(orderData.createdAt) > 6) ||
-                    (getDate(orderData.createdAt) === nextDate(nextSearchDate).substring(0, 10) && getHour(orderData.createdAt) < 6) ||
+                    (getDate(orderData.createdAt) === nextDate(nextSearchDate) && getHour(orderData.createdAt) < 6) ||
                     (convertToDateObj(searchDate).getTime() < convertToDateObj(getDate(orderData.createdAt)).getTime()
                         && convertToDateObj(nextSearchDate).getTime() >= convertToDateObj(getDate(orderData.createdAt)).getTime())) {
                     if (orderData.paymentMethod == "cash") {
@@ -248,7 +248,7 @@ const AdminReportDetailsComponent = ({ getExpenses, getOrders, getReport, getRep
                                                 ? true
                                                 : (searchDate !== ''&&nextSearchDate!=='')
                                                     ? (getDate(data.createdAt) === searchDate && getHour(data.createdAt) > 6) ||
-                                                    (getDate(data.createdAt) === nextDate(nextSearchDate).substring(0, 10) && getHour(data.createdAt) < 6) ||
+                                                    (getDate(data.createdAt) === nextDate(nextSearchDate) && getHour(data.createdAt) < 6) ||
                                                     (convertToDateObj(searchDate).getTime() < convertToDateObj(getDate(data.createdAt)).getTime()
                                                         && convertToDateObj(nextSearchDate).getTime() >= convertToDateObj(getDate(data.createdAt)).getTime())
                                                     : null
@@ -288,7 +288,7 @@ const AdminReportDetailsComponent = ({ getExpenses, getOrders, getReport, getRep
                                                 ? true
                                                 : (searchDate !== '')
                                                     ? (nextDate(data.date) === searchDate && getHour(data.date) > 6) ||
-                                                    (nextDate(data.date) === nextDate(nextSearchDate).substring(0, 10) && getHour(data.date) < 6) ||
+                                                    (nextDate(data.date) === nextDate(nextSearchDate) && getHour(data.date) < 6) ||
                                                     (convertToDateObj(searchDate).getTime() < convertToDateObj(nextDate(data.date)).getTime()
                                                         && convertToDateObj(nextSearchDate).getTime() >= convertToDateObj(nextDate(data.date)).getTime())
 

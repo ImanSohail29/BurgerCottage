@@ -16,17 +16,22 @@ export const getDateStr = (str) => {
 }
 export const getDate = (str) => {
     const date = new Date(str)
-    return date.toISOString().substring(0,10)
+    const options = {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      }
+    return date.toLocaleDateString("en-CA");
 }
 export const nextDate = (dateStr) => {
     const nextDate = new Date(dateStr)
     nextDate.setDate(nextDate.getUTCDate() + 1)
-    return nextDate.toUTCString()
+    return nextDate.toLocaleDateString("en-CA");
 }
 export const previousDate = (dateStr) => {
     const nextDate = new Date(dateStr)
     nextDate.setDate(nextDate.getUTCDate() - 1)
-    return nextDate.toUTCString()
+    return nextDate.toLocaleDateString("en-CA");
 }
 export const convertToDateObj = (dateStr) => {
     const dateObj = new Date(dateStr)
@@ -42,7 +47,8 @@ export const toTime = (timeString) => {
 }
 export const getHour = (timeString) => {
     const date = new Date(timeString)
-    let n = date.getUTCHours()
+    let n = date.getHours()
+    console.log(timeString)
     return n
 }
 export const checkPhoneNumber = (phoneNumberString) => {
