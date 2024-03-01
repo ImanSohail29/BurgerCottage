@@ -1,10 +1,10 @@
 {
   "ReportVersion": "2020.4.1.0",
-  "ReportGuid": "52afb030b8924a33ac9269752af05872",
+  "ReportGuid": "bf4704cf97df439ca284437f1292c7f9",
   "ReportName": "Report",
   "ReportAlias": "Report",
   "ReportCreated": "/Date(0+0500)/",
-  "ReportChanged": "/Date(1708783963080+0500)/",
+  "ReportChanged": "/Date(1709308323768+0500)/",
   "EngineVersion": "EngineV2",
   "CalculationMode": "Interpretation",
   "ReportUnit": "HundredthsOfInch",
@@ -44,331 +44,106 @@
         "Ident": "StiDataTableSource",
         "Name": "root",
         "Alias": "root",
-        "Key": "15479f438d984a8c81765e6515289817",
+        "Key": "278453dff2034fec9b29b224f51e8a72",
         "Columns": {
           "0": {
-            "Name": "__v",
+            "Name": "orderId",
             "Index": -1,
-            "NameInSource": "__v",
-            "Alias": "__v",
-            "Type": "System.Decimal"
+            "NameInSource": "orderId",
+            "Alias": "orderId",
+            "Type": "System.String"
           },
           "1": {
-            "Name": "_id",
+            "Name": "MOP",
             "Index": -1,
-            "NameInSource": "_id",
-            "Alias": "_id",
+            "NameInSource": "MOP",
+            "Alias": "MOP",
             "Type": "System.String"
           },
           "2": {
-            "Name": "cart",
+            "Name": "dateTime",
             "Index": -1,
-            "NameInSource": "cart",
-            "Alias": "cart",
+            "NameInSource": "dateTime",
+            "Alias": "dateTime",
             "Type": "System.String"
           },
           "3": {
-            "Name": "createdAt",
+            "Name": "items",
             "Index": -1,
-            "NameInSource": "createdAt",
-            "Alias": "createdAt",
-            "Type": "System.DateTime"
+            "NameInSource": "items",
+            "Alias": "items",
+            "Type": "System.String"
           },
           "4": {
-            "Name": "customerInfo",
+            "Name": "subTotal",
             "Index": -1,
-            "NameInSource": "customerInfo",
-            "Alias": "customerInfo",
-            "Type": "System.String"
+            "NameInSource": "subTotal",
+            "Alias": "subTotal",
+            "Type": "System.Decimal"
           },
           "5": {
-            "Name": "discount",
+            "Name": "totalQuantityOfAllItems",
             "Index": -1,
-            "NameInSource": "discount",
-            "Alias": "discount",
-            "Type": "System.String"
+            "NameInSource": "totalQuantityOfAllItems",
+            "Alias": "totalQuantityOfAllItems",
+            "Type": "System.Decimal"
           },
           "6": {
-            "Name": "estimatedDeliveryTimeMinutes",
+            "Name": "discountInPercentage",
             "Index": -1,
-            "NameInSource": "estimatedDeliveryTimeMinutes",
-            "Alias": "estimatedDeliveryTimeMinutes",
+            "NameInSource": "discountInPercentage",
+            "Alias": "discountInPercentage",
             "Type": "System.Decimal"
           },
           "7": {
-            "Name": "estimatedReadyTimeMinutes",
+            "Name": "discountInAmount",
             "Index": -1,
-            "NameInSource": "estimatedReadyTimeMinutes",
-            "Alias": "estimatedReadyTimeMinutes",
+            "NameInSource": "discountInAmount",
+            "Alias": "discountInAmount",
             "Type": "System.Decimal"
           },
           "8": {
-            "Name": "isConfirmed",
+            "Name": "netTotal",
             "Index": -1,
-            "NameInSource": "isConfirmed",
-            "Alias": "isConfirmed",
-            "Type": "System.Boolean"
-          },
-          "9": {
-            "Name": "isDelivered",
-            "Index": -1,
-            "NameInSource": "isDelivered",
-            "Alias": "isDelivered",
-            "Type": "System.Boolean"
-          },
-          "10": {
-            "Name": "isDone",
-            "Index": -1,
-            "NameInSource": "isDone",
-            "Alias": "isDone",
-            "Type": "System.Boolean"
-          },
-          "11": {
-            "Name": "isPaid",
-            "Index": -1,
-            "NameInSource": "isPaid",
-            "Alias": "isPaid",
-            "Type": "System.Boolean"
-          },
-          "12": {
-            "Name": "orderPlacedAt",
-            "Index": -1,
-            "NameInSource": "orderPlacedAt",
-            "Alias": "orderPlacedAt",
-            "Type": "System.DateTime"
-          },
-          "13": {
-            "Name": "orderTotal",
-            "Index": -1,
-            "NameInSource": "orderTotal",
-            "Alias": "orderTotal",
-            "Type": "System.String"
-          },
-          "14": {
-            "Name": "paidAt",
-            "Index": -1,
-            "NameInSource": "paidAt",
-            "Alias": "paidAt",
-            "Type": "System.DateTime"
-          },
-          "15": {
-            "Name": "paymentMethod",
-            "Index": -1,
-            "NameInSource": "paymentMethod",
-            "Alias": "paymentMethod",
-            "Type": "System.String"
-          },
-          "16": {
-            "Name": "serviceMode",
-            "Index": -1,
-            "NameInSource": "serviceMode",
-            "Alias": "serviceMode",
-            "Type": "System.String"
-          },
-          "17": {
-            "Name": "updatedAt",
-            "Index": -1,
-            "NameInSource": "updatedAt",
-            "Alias": "updatedAt",
-            "Type": "System.DateTime"
-          },
-          "18": {
-            "Name": "user",
-            "Index": -1,
-            "NameInSource": "user",
-            "Alias": "user",
-            "Type": "System.String"
+            "NameInSource": "netTotal",
+            "Alias": "netTotal",
+            "Type": "System.Decimal"
           }
         },
         "NameInSource": "demo.root"
       },
       "1": {
         "Ident": "StiDataTableSource",
-        "Name": "root_cart",
-        "Alias": "root_cart",
-        "Key": "002ead7061fc4acaa4ac043904c44cc4",
+        "Name": "root_items",
+        "Alias": "root_items",
+        "Key": "eeb12b370646495f987a1447788ca008",
         "Columns": {
           "0": {
-            "Name": "cartItems",
-            "Index": -1,
-            "NameInSource": "cartItems",
-            "Alias": "cartItems",
-            "Type": "System.String"
-          },
-          "1": {
-            "Name": "cartSubtotal",
-            "Index": -1,
-            "NameInSource": "cartSubtotal",
-            "Alias": "cartSubtotal",
-            "Type": "System.Decimal"
-          },
-          "2": {
-            "Name": "itemsCount",
-            "Index": -1,
-            "NameInSource": "itemsCount",
-            "Alias": "itemsCount",
-            "Type": "System.Decimal"
-          },
-          "3": {
-            "Name": "relationId",
-            "Index": -1,
-            "NameInSource": "relationId",
-            "Alias": "relationId",
-            "Type": "System.String"
-          }
-        },
-        "NameInSource": "demo.root_cart"
-      },
-      "2": {
-        "Ident": "StiDataTableSource",
-        "Name": "root_cart_cartItems",
-        "Alias": "root_cart_cartItems",
-        "Key": "c7f8d854a32e46609563b9df8fa324fa",
-        "Columns": {
-          "0": {
-            "Name": "image",
-            "Index": -1,
-            "NameInSource": "image",
-            "Alias": "image",
-            "Type": "System.String"
-          },
-          "1": {
             "Name": "name",
             "Index": -1,
             "NameInSource": "name",
             "Alias": "name",
             "Type": "System.String"
           },
-          "2": {
-            "Name": "productId",
-            "Index": -1,
-            "NameInSource": "productId",
-            "Alias": "productId",
-            "Type": "System.String"
-          },
-          "3": {
+          "1": {
             "Name": "quantity",
             "Index": -1,
             "NameInSource": "quantity",
             "Alias": "quantity",
-            "Type": "System.Decimal"
-          },
-          "4": {
-            "Name": "relationId",
-            "Index": -1,
-            "NameInSource": "relationId",
-            "Alias": "relationId",
-            "Type": "System.String"
-          },
-          "5": {
-            "Name": "selectedAddOns",
-            "Index": -1,
-            "NameInSource": "selectedAddOns",
-            "Alias": "selectedAddOns",
-            "Type": "System.String"
-          },
-          "6": {
-            "Name": "size",
-            "Index": -1,
-            "NameInSource": "size",
-            "Alias": "size",
-            "Type": "System.String"
-          }
-        },
-        "NameInSource": "demo.root_cart_cartItems"
-      },
-      "3": {
-        "Ident": "StiDataTableSource",
-        "Name": "root_cart_cartItems_image",
-        "Alias": "root_cart_cartItems_image",
-        "Key": "649153b9667f49f09f066b52fb3c66fb",
-        "Columns": {
-          "0": {
-            "Name": "_id",
-            "Index": -1,
-            "NameInSource": "_id",
-            "Alias": "_id",
-            "Type": "System.String"
-          },
-          "1": {
-            "Name": "path",
-            "Index": -1,
-            "NameInSource": "path",
-            "Alias": "path",
             "Type": "System.String"
           },
           "2": {
-            "Name": "relationId",
+            "Name": "rate",
             "Index": -1,
-            "NameInSource": "relationId",
-            "Alias": "relationId",
-            "Type": "System.String"
-          }
-        },
-        "NameInSource": "demo.root_cart_cartItems_image"
-      },
-      "4": {
-        "Ident": "StiDataTableSource",
-        "Name": "root_cart_cartItems_size",
-        "Alias": "root_cart_cartItems_size",
-        "Key": "10ba7b9648cd492a98666279d29b0f7b",
-        "Columns": {
-          "0": {
-            "Name": "price",
-            "Index": -1,
-            "NameInSource": "price",
-            "Alias": "price",
-            "Type": "System.Decimal"
-          },
-          "1": {
-            "Name": "relationId",
-            "Index": -1,
-            "NameInSource": "relationId",
-            "Alias": "relationId",
-            "Type": "System.String"
-          },
-          "2": {
-            "Name": "value",
-            "Index": -1,
-            "NameInSource": "value",
-            "Alias": "value",
-            "Type": "System.String"
-          }
-        },
-        "NameInSource": "demo.root_cart_cartItems_size"
-      },
-      "5": {
-        "Ident": "StiDataTableSource",
-        "Name": "root_customerInfo",
-        "Alias": "root_customerInfo",
-        "Key": "ad36a201e4784fc2a18ad48565006b2e",
-        "Columns": {
-          "0": {
-            "Name": "address",
-            "Index": -1,
-            "NameInSource": "address",
-            "Alias": "address",
-            "Type": "System.String"
-          },
-          "1": {
-            "Name": "email",
-            "Index": -1,
-            "NameInSource": "email",
-            "Alias": "email",
-            "Type": "System.String"
-          },
-          "2": {
-            "Name": "name",
-            "Index": -1,
-            "NameInSource": "name",
-            "Alias": "name",
+            "NameInSource": "rate",
+            "Alias": "rate",
             "Type": "System.String"
           },
           "3": {
-            "Name": "phoneNumber",
+            "Name": "totalRate",
             "Index": -1,
-            "NameInSource": "phoneNumber",
-            "Alias": "phoneNumber",
+            "NameInSource": "totalRate",
+            "Alias": "totalRate",
             "Type": "System.String"
           },
           "4": {
@@ -379,139 +154,7 @@
             "Type": "System.String"
           }
         },
-        "NameInSource": "demo.root_customerInfo"
-      },
-      "6": {
-        "Ident": "StiDataTableSource",
-        "Name": "root_discount",
-        "Alias": "root_discount",
-        "Key": "4300eca039ff4857b46cfed9c59657c2",
-        "Columns": {
-          "0": {
-            "Name": "figure",
-            "Index": -1,
-            "NameInSource": "figure",
-            "Alias": "figure",
-            "Type": "System.Decimal"
-          },
-          "1": {
-            "Name": "relationId",
-            "Index": -1,
-            "NameInSource": "relationId",
-            "Alias": "relationId",
-            "Type": "System.String"
-          }
-        },
-        "NameInSource": "demo.root_discount"
-      },
-      "7": {
-        "Ident": "StiDataTableSource",
-        "Name": "root_orderTotal",
-        "Alias": "root_orderTotal",
-        "Key": "6cf9179a5bc84dccb7b24eddd5466b84",
-        "Columns": {
-          "0": {
-            "Name": "cartSubtotal",
-            "Index": -1,
-            "NameInSource": "cartSubtotal",
-            "Alias": "cartSubtotal",
-            "Type": "System.Decimal"
-          },
-          "1": {
-            "Name": "itemsCount",
-            "Index": -1,
-            "NameInSource": "itemsCount",
-            "Alias": "itemsCount",
-            "Type": "System.Decimal"
-          },
-          "2": {
-            "Name": "relationId",
-            "Index": -1,
-            "NameInSource": "relationId",
-            "Alias": "relationId",
-            "Type": "System.String"
-          }
-        },
-        "NameInSource": "demo.root_orderTotal"
-      },
-      "8": {
-        "Ident": "StiDataTableSource",
-        "Name": "root_user",
-        "Alias": "root_user",
-        "Key": "d4d8ff97abfe47b3b0b7bedb22a817d3",
-        "Columns": {
-          "0": {
-            "Name": "__v",
-            "Index": -1,
-            "NameInSource": "__v",
-            "Alias": "__v",
-            "Type": "System.Decimal"
-          },
-          "1": {
-            "Name": "_id",
-            "Index": -1,
-            "NameInSource": "_id",
-            "Alias": "_id",
-            "Type": "System.String"
-          },
-          "2": {
-            "Name": "address",
-            "Index": -1,
-            "NameInSource": "address",
-            "Alias": "address",
-            "Type": "System.String"
-          },
-          "3": {
-            "Name": "createdAt",
-            "Index": -1,
-            "NameInSource": "createdAt",
-            "Alias": "createdAt",
-            "Type": "System.DateTime"
-          },
-          "4": {
-            "Name": "isAdmin",
-            "Index": -1,
-            "NameInSource": "isAdmin",
-            "Alias": "isAdmin",
-            "Type": "System.Boolean"
-          },
-          "5": {
-            "Name": "joiningdate",
-            "Index": -1,
-            "NameInSource": "joiningdate",
-            "Alias": "joiningdate",
-            "Type": "System.DateTime"
-          },
-          "6": {
-            "Name": "name",
-            "Index": -1,
-            "NameInSource": "name",
-            "Alias": "name",
-            "Type": "System.String"
-          },
-          "7": {
-            "Name": "phoneNumber",
-            "Index": -1,
-            "NameInSource": "phoneNumber",
-            "Alias": "phoneNumber",
-            "Type": "System.String"
-          },
-          "8": {
-            "Name": "relationId",
-            "Index": -1,
-            "NameInSource": "relationId",
-            "Alias": "relationId",
-            "Type": "System.String"
-          },
-          "9": {
-            "Name": "updatedAt",
-            "Index": -1,
-            "NameInSource": "updatedAt",
-            "Alias": "updatedAt",
-            "Type": "System.DateTime"
-          }
-        },
-        "NameInSource": "demo.root_user"
+        "NameInSource": "demo.root_items"
       }
     },
     "Databases": {
@@ -519,113 +162,7 @@
         "Ident": "StiJsonDatabase",
         "Name": "demo",
         "Alias": "demo",
-        "PathData": "resource://demo"
-      }
-    },
-    "Relations": {
-      "0": {
-        "Name": "root",
-        "ChildColumns": {
-          "0": "relationId"
-        },
-        "ParentColumns": {
-          "0": "cart"
-        },
-        "NameInSource": "root_cart",
-        "Alias": "root",
-        "ParentSource": "root",
-        "ChildSource": "root_cart"
-      },
-      "1": {
-        "Name": "root_cart",
-        "ChildColumns": {
-          "0": "relationId"
-        },
-        "ParentColumns": {
-          "0": "cartItems"
-        },
-        "NameInSource": "root_cart_cartItems",
-        "Alias": "root_cart",
-        "ParentSource": "root_cart",
-        "ChildSource": "root_cart_cartItems"
-      },
-      "2": {
-        "Name": "root_cart_cartItems",
-        "ChildColumns": {
-          "0": "relationId"
-        },
-        "ParentColumns": {
-          "0": "image"
-        },
-        "NameInSource": "root_cart_cartItems_image",
-        "Alias": "root_cart_cartItems",
-        "ParentSource": "root_cart_cartItems",
-        "ChildSource": "root_cart_cartItems_image"
-      },
-      "3": {
-        "Name": "root_cart_cartItems",
-        "ChildColumns": {
-          "0": "relationId"
-        },
-        "ParentColumns": {
-          "0": "size"
-        },
-        "NameInSource": "root_cart_cartItems_size",
-        "Alias": "root_cart_cartItems",
-        "ParentSource": "root_cart_cartItems",
-        "ChildSource": "root_cart_cartItems_size"
-      },
-      "4": {
-        "Name": "root",
-        "ChildColumns": {
-          "0": "relationId"
-        },
-        "ParentColumns": {
-          "0": "customerInfo"
-        },
-        "NameInSource": "root_customerInfo",
-        "Alias": "root",
-        "ParentSource": "root",
-        "ChildSource": "root_customerInfo"
-      },
-      "5": {
-        "Name": "root",
-        "ChildColumns": {
-          "0": "relationId"
-        },
-        "ParentColumns": {
-          "0": "discount"
-        },
-        "NameInSource": "root_discount",
-        "Alias": "root",
-        "ParentSource": "root",
-        "ChildSource": "root_discount"
-      },
-      "6": {
-        "Name": "root",
-        "ChildColumns": {
-          "0": "relationId"
-        },
-        "ParentColumns": {
-          "0": "orderTotal"
-        },
-        "NameInSource": "root_orderTotal",
-        "Alias": "root",
-        "ParentSource": "root",
-        "ChildSource": "root_orderTotal"
-      },
-      "7": {
-        "Name": "root",
-        "ChildColumns": {
-          "0": "relationId"
-        },
-        "ParentColumns": {
-          "0": "user"
-        },
-        "NameInSource": "root_user",
-        "Alias": "root",
-        "ParentSource": "root",
-        "ChildSource": "root_user"
+        "PathData": "C:\\Users\\sohailakbar.CMPUNJAB\\Downloads\\demo.json"
       }
     }
   },
@@ -709,13 +246,13 @@
                 "Ident": "StiInteraction"
               },
               "Text": {
-                "Value": "{root._id}"
+                "Value": "{root.orderId}"
               },
               "Font": "Verdana;9;;",
               "Border": ";;;;;;;solid:Black",
               "Brush": "solid:White",
               "TextBrush": "solid:0,32,96",
-              "Type": "DataColumn"
+              "Type": "Expression"
             },
             "1": {
               "Ident": "StiText",
@@ -757,7 +294,7 @@
                 "Ident": "StiInteraction"
               },
               "Text": {
-                "Value": "MOP : {root.paymentMethod}"
+                "Value": "MOP : {root.MOP}"
               },
               "HorAlignment": "Right",
               "Font": "Verdana;10;;",
@@ -790,7 +327,7 @@
                 "Ident": "StiInteraction"
               },
               "Text": {
-                "Value": "{root.orderPlacedAt}"
+                "Value": "{root.dateTime}"
               },
               "Font": "Verdana;10;;",
               "Border": ";;;;;;;solid:Black",
@@ -800,7 +337,7 @@
                 "Ident": "StiDateFormatService",
                 "StringFormat": "dd/MM/yyyy"
               },
-              "Type": "DataColumn"
+              "Type": "Expression"
             },
             "6": {
               "Ident": "StiText",
@@ -839,7 +376,7 @@
             "8": {
               "Ident": "StiText",
               "Name": "Text9",
-              "ClientRectangle": "181.67,58.33,53.33,15.35",
+              "ClientRectangle": "171.67,58.33,53.33,15.35",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -948,7 +485,7 @@
                 "Ident": "StiInteraction"
               },
               "Text": {
-                "Value": "{root_cart_cartItems.name}"
+                "Value": "{root_items.name}"
               },
               "CanBreak": true,
               "Font": "Verdana;;;",
@@ -962,54 +499,66 @@
             },
             "2": {
               "Ident": "StiText",
-              "Name": "Rate1",
-              "ClientRectangle": "191.67,2.33,53.33,16.67",
+              "Name": "Text25",
+              "GrowToHeight": true,
+              "ClientRectangle": "190,1.94,53.33,15.35",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
               "Text": {
-                "Value": "{root_cart_cartItems_size.price}"
+                "Value": "{root_items.rate}"
               },
-              "HorAlignment": "Center",
+              "CanBreak": true,
               "Font": "Verdana;;;",
               "Border": ";;;;;;;solid:Black",
               "Brush": "solid:White",
               "TextBrush": "solid:0,32,96",
+              "TextOptions": {
+                "WordWrap": true
+              },
               "Type": "DataColumn"
             },
             "3": {
               "Ident": "StiText",
-              "Name": "Qty1",
-              "ClientRectangle": "241.33,2.33,46.67,16.67",
+              "Name": "Text26",
+              "GrowToHeight": true,
+              "ClientRectangle": "260,1.94,53.33,15.35",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
               "Text": {
-                "Value": "{root_cart_cartItems.quantity}"
+                "Value": "{root_items.quantity}"
               },
-              "HorAlignment": "Center",
+              "CanBreak": true,
               "Font": "Verdana;;;",
               "Border": ";;;;;;;solid:Black",
               "Brush": "solid:White",
               "TextBrush": "solid:0,32,96",
-              "Type": "Expression"
+              "TextOptions": {
+                "WordWrap": true
+              },
+              "Type": "DataColumn"
             },
             "4": {
               "Ident": "StiText",
-              "Name": "Total1",
-              "ClientRectangle": "285,2.33,83.33,16.67",
+              "Name": "Text27",
+              "GrowToHeight": true,
+              "ClientRectangle": "330,1.94,53.33,15.35",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
               "Text": {
-                "Value": "{root_cart_cartItems_size.price*root_cart_cartItems.quantity}"
+                "Value": "{root_items.totalRate}"
               },
-              "HorAlignment": "Right",
+              "CanBreak": true,
               "Font": "Verdana;;;",
               "Border": ";;;;;;;solid:Black",
               "Brush": "solid:White",
               "TextBrush": "solid:0,32,96",
-              "Type": "Expression"
+              "TextOptions": {
+                "WordWrap": true
+              },
+              "Type": "DataColumn"
             },
             "5": {
               "Ident": "StiHorizontalLinePrimitive",
@@ -1025,7 +574,7 @@
               "EndCap": ";;;"
             }
           },
-          "DataSourceName": "root_cart_cartItems"
+          "DataSourceName": "root_items"
         },
         "3": {
           "Ident": "StiReportSummaryBand",
@@ -1040,7 +589,7 @@
             "0": {
               "Ident": "StiText",
               "Name": "Text11",
-              "ClientRectangle": "110,67,115.97,16.67",
+              "ClientRectangle": "110,87,115.97,16.67",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -1072,19 +621,19 @@
             "2": {
               "Ident": "StiText",
               "Name": "SumofTotal1",
-              "ClientRectangle": "278,0,92.33,15.97",
+              "ClientRectangle": "268,0,92.33,15.97",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
               "Text": {
-                "Value": "{Sum(root_cart_cartItems_size.price*root_cart_cartItems.quantity)}"
+                "Value": "{root.subTotal}"
               },
               "HorAlignment": "Right",
               "Font": ";10;Bold;",
               "Border": ";;;;;;;solid:Black",
               "Brush": "solid:White",
               "TextBrush": "solid:0,32,96",
-              "Type": "Expression"
+              "Type": "DataColumn"
             },
             "3": {
               "Ident": "StiText",
@@ -1094,24 +643,24 @@
                 "Ident": "StiInteraction"
               },
               "Text": {
-                "Value": "{Sum(root_cart_cartItems.quantity)}"
+                "Value": "{root.totalQuantityOfAllItems}"
               },
               "HorAlignment": "Right",
               "Font": ";10;Bold;",
               "Border": ";;;;;;;solid:Black",
               "Brush": "solid:White",
               "TextBrush": "solid:0,32,96",
-              "Type": "Expression"
+              "Type": "DataColumn"
             },
             "4": {
               "Ident": "StiText",
               "Name": "SumofTotal2",
-              "ClientRectangle": "225.97,67,142.36,16.67",
+              "ClientRectangle": "225.97,87,142.36,16.67",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
               "Text": {
-                "Value": "{Sum(root_cart_cartItems_size.price*root_cart_cartItems.quantity)}"
+                "Value": "{root.netTotal}"
               },
               "HorAlignment": "Right",
               "Font": "Verdana;9;Bold;",
@@ -1224,12 +773,12 @@
             "11": {
               "Ident": "StiText",
               "Name": "Text18",
-              "ClientRectangle": "225.97,47.01,142.36,16.67",
+              "ClientRectangle": "305.97,47.01,42.36,16.67",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
               "Text": {
-                "Value": "{root_discount.root.discount}"
+                "Value": "{root.discountInPercentage}"
               },
               "HorAlignment": "Right",
               "Font": "Verdana;9;;",
@@ -1263,7 +812,7 @@
                 "Ident": "StiInteraction"
               },
               "Text": {
-                "Value": "{Sum(root_cart_cartItems_size.price*root_cart_cartItems.quantity)}"
+                "Value": "{root.subTotal}"
               },
               "HorAlignment": "Right",
               "Font": "Verdana;9;;",
@@ -1273,6 +822,74 @@
               "Type": "Expression"
             },
             "14": {
+              "Ident": "StiText",
+              "Name": "Text22",
+              "ClientRectangle": "100,67.01,125.97,16.67",
+              "Interaction": {
+                "Ident": "StiInteraction"
+              },
+              "Text": {
+                "Value": "Discount in Amount:"
+              },
+              "HorAlignment": "Right",
+              "Font": "Verdana;9;;",
+              "Border": ";;;;;;;solid:Black",
+              "Brush": "solid:White",
+              "TextBrush": "solid:0,32,96",
+              "Type": "Expression"
+            },
+            "15": {
+              "Ident": "StiText",
+              "Name": "Text23",
+              "ClientRectangle": "330,67.01,22.36,16.67",
+              "Interaction": {
+                "Ident": "StiInteraction"
+              },
+              "Text": {
+                "Value": "{root.discountInAmount}"
+              },
+              "HorAlignment": "Right",
+              "Font": "Verdana;9;;",
+              "Border": ";;;;;;;solid:Black",
+              "Brush": "solid:White",
+              "TextBrush": "solid:0,32,96",
+              "Type": "DataColumn"
+            },
+            "16": {
+              "Ident": "StiText",
+              "Name": "Text24",
+              "ClientRectangle": "315.97,67.01,14.03,16.67",
+              "Interaction": {
+                "Ident": "StiInteraction"
+              },
+              "Text": {
+                "Value": "-"
+              },
+              "HorAlignment": "Right",
+              "Font": "Verdana;9;;",
+              "Border": ";;;;;;;solid:Black",
+              "Brush": "solid:White",
+              "TextBrush": "solid:0,32,96",
+              "Type": "Expression"
+            },
+            "17": {
+              "Ident": "StiText",
+              "Name": "Text28",
+              "ClientRectangle": "350,47.01,15.97,16.67",
+              "Interaction": {
+                "Ident": "StiInteraction"
+              },
+              "Text": {
+                "Value": "%"
+              },
+              "HorAlignment": "Right",
+              "Font": "Verdana;9;;",
+              "Border": ";;;;;;;solid:Black",
+              "Brush": "solid:White",
+              "TextBrush": "solid:0,32,96",
+              "Type": "Expression"
+            },
+            "18": {
               "Ident": "StiHorizontalLinePrimitive",
               "Name": "HorizontalLinePrimitive1",
               "Guid": "1708cfd0ef1d2383c6b92153c1c195e0",

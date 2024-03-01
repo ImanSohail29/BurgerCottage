@@ -66,7 +66,7 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
             "orderId": order._id,
             "MOP": order.paymentMethod,
             "dateTime": getDateStr(order.createdAt)+", "+toTime(order.createdAt),
-            "itemsName":order.cart.cartItems.map(item=>{return(item.name)}),
+            "items":order.cart.cartItems.map(item=>{return({"name":item.name,"quantity":item.quantity,"rate":Number(item.size.price),"totalRate":(item.size.price*item.quantity)})}),
             "itemsQuantity":order.cart.cartItems.map(item=>{return(item.quantity)}),
             "itemRate":order.cart.cartItems.map(item=>{return(Number(item.size.price))}),
             "itemTotalRate":order.cart.cartItems.map(item=>{return(item.size.price*item.quantity)}),
@@ -280,7 +280,7 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
 
             <Col sm={3} xl={4}>
               <Row className="justify-content-md-center">
-                {orderData ? (<StiReport orderData={orderData}></StiReport>) : ("")}
+                {orderData ? (<StiReport orderData={orderDataForReceipt}></StiReport>) : ("")}
               </Row>
             </Col>
             <Col xl={5}>

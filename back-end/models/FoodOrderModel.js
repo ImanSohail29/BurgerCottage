@@ -41,6 +41,9 @@ const FoodOrderModel=mongoose.Schema({
     discountAmount:{
         type:Number,default:0
     },
+    amountSaved:{
+        type:Number,default:0
+    },
     orderPlacedAt:{
         type:Date,default:Date.now()
     },
