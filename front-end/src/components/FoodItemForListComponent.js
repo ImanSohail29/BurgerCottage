@@ -4,7 +4,7 @@ import { LinkContainer } from "react-router-bootstrap"
 import { faCartArrowDown } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const FoodItemForListComponent = ({ foodItemId, name, description, size, image, discount, dispatch, addToCartReduxAction }) => {
+const FoodItemForListComponent = ({ foodItemId, name, description, size, image, discount,category, dispatch, addToCartReduxAction }) => {
     const cursorP = { cursor: "pointer" }
     const [quantity, setQuantity] = useState(1)
     const [defaultSize, setDefaultSize] = useState()
@@ -45,9 +45,15 @@ const FoodItemForListComponent = ({ foodItemId, name, description, size, image, 
                     </Card.ImgOverlay>
                 </Row>
             </LinkContainer>
-            <Button className="bg-success" onClick={() => dispatch(
-                addToCartReduxAction({ id: foodItemId, quantity, size: defaultSize, instructions, sameProduct: defaultSameProduct, selectedAddOns: defaultSelectedAddOns })
-            )
+            <Button className="bg-success" onClick={() => {
+                if (discount.figure > 0 && category !== "Deals") {
+                    defaultSize.price = Math.ceil((Number(defaultSize.price)) - (((Number(defaultSize.price)) * discount.figure) / 100))
+                }
+                console.log(defaultSize.price)
+                dispatch(
+                    addToCartReduxAction({ id: foodItemId, quantity, size: defaultSize, instructions, sameProduct: defaultSameProduct, selectedAddOns: defaultSelectedAddOns })
+                )
+            }
             }><FontAwesomeIcon icon={faCartArrowDown} ></FontAwesomeIcon></Button>
         </Card>
     )

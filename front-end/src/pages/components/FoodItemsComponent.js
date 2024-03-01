@@ -161,6 +161,7 @@ const FoodItemsComponent = ({ getFoodItems, categories, addProductApiRequest, di
                                                 description={foodItem.description}
                                                 size={foodItem.size}
                                                 discount={discountFigure}
+                                                category={foodItem.category}
                                                 dispatch={dispatch}
                                                 addToCartReduxAction={addToCartReduxAction}
                                             >
