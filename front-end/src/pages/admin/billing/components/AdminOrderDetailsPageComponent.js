@@ -132,8 +132,9 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
                 <ListGroup.Item>
                   <span className="fst-italic"> {orderPlacedAt}/-</span>
                 </ListGroup.Item>
+                {userInfo ?(
                 <ListGroup.Item>
-                  {userInfo ? (
+                   
                     <>
                       {console.log(userInfo)}
                       <h5>Customer Information</h5>
@@ -141,10 +142,11 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
                       {userInfo.address ? (<div><b>Address</b>: {userInfo.address}{" "}</div>) : ("")}
                       {userInfo.email ? (<div><b>Email</b>: {userInfo.email}{" "}</div>) : ("")}
                       {userInfo.phoneNumber ? (<div><b>Phone</b>: {userInfo.phoneNumber}</div>) : ("")}
-                    </>) : (
-                    ""
-                  )}
+                    </>
                 </ListGroup.Item>
+                ) : (
+                  ""
+                )}
                 {discounted ? (
                   <ListGroup.Item>
                     Items price (after tax):{" "}

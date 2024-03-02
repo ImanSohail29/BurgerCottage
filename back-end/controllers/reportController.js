@@ -37,4 +37,12 @@ const getReportFromDateToDate = async (req, res, next) => {
         next(error)
     }
 }
-module.exports = { getReport, getReportByDate,getReportFromDateToDate }
+const deleteAllReports = async (req, res, next) => {
+    try {
+        const Reports = await Report.deleteMany({}).orFail();
+        res.json({ message: "reports deleted" });
+      } catch (err) {
+        next(err);
+      }
+}
+module.exports = { getReport, getReportByDate,getReportFromDateToDate,deleteAllReports }

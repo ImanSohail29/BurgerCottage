@@ -36,7 +36,11 @@ const AdminExpensesComponent = ({ getExpenses, deleteExpense }) => {
 
 
     return (
-
+        <>
+        <LinkContainer to={"/admin/create-new-expense"}>
+            <Button variant="primary" className="ms-2" size="lg">Create new Expense</Button>
+        </LinkContainer>
+        {
         expenses.length > 0 ? (
             <Row className="m-5 animate-bottom">
                 <Col md={12}>
@@ -88,10 +92,15 @@ const AdminExpensesComponent = ({ getExpenses, deleteExpense }) => {
                 </Col>
             </Row>
         ) : (
+            <>
             <Col style={{ textAlign: "center", justifyContent: "center" }}><h1 className="loader"></h1></Col>
+           </>
         )
+}
+        </>
 
     )
+        
 
 
 

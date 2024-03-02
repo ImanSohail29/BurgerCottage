@@ -1,10 +1,11 @@
 const express = require('express')
 const router = express.Router()
 const { verifyIsLoggedIn, verifyIsAdmin } = require('../middlewares/verifyAuthToken')
-const {getUserOrders, getOrder,getOrdersAsc, createOrder,createOrderAdmin,createOrderCustomer, updateOrderToPaid, updateOrderToDelivered,updateOrderToDone, getOrders, getOrderForAnalysis, getFoodOrderTotalByDate, updateOrderToConfirmed} = require("../controllers/foodOrderController")
+const {getUserOrders, getOrder,getOrdersAsc, createOrder,createOrderAdmin,createOrderCustomer, updateOrderToPaid, updateOrderToDelivered,updateOrderToDone, getOrders, getOrderForAnalysis, getFoodOrderTotalByDate, updateOrderToConfirmed, deleteAllOrders} = require("../controllers/foodOrderController")
 router.post("/", createOrder);
 router.get("/user/:orderId", getOrder);
 router.get("/admin/bydate", getFoodOrderTotalByDate);
+router.delete("/deleteAll",deleteAllOrders)
 
 // user routes
 router.use(verifyIsLoggedIn)

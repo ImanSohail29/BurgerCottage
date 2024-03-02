@@ -173,6 +173,8 @@ const FoodItemDetailComponent = ({
                       <ListGroup.Item>
                         <h4>{product.name}</h4>
                       </ListGroup.Item>
+                      <ListGroup.Item>{product.description}</ListGroup.Item>
+
                       {/* <ListGroup.Item>
                         <Rating
                           readonly
@@ -183,8 +185,11 @@ const FoodItemDetailComponent = ({
                       </ListGroup.Item> */}
                       {(discount.figure > 0) && (product.category !== "Deals") ? (
                         <>
+                         <ListGroup.Item>
+                            Original Price:  <s><span className="">Rs{Math.ceil((Number(size.price)) + Number(addOnAmount))}/-</span></s>
+                          </ListGroup.Item>
                           <ListGroup.Item>
-                            Price:  <span className="fw-bold">Rs{Math.ceil((Number(size.price) - (Number(size.price) * Number(discount.figure)) / 100) + Number(addOnAmount))}/-</span>
+                            Price After Discount:  <span className="fw-bold text-danger">Rs{Math.ceil((Number(size.price) - (Number(size.price) * Number(discount.figure)) / 100) + Number(addOnAmount))}/-</span>
                           </ListGroup.Item>
                         </>
                       ) : (
@@ -226,7 +231,6 @@ const FoodItemDetailComponent = ({
                       ) : ("")}
 
 
-                      <ListGroup.Item>{product.description}</ListGroup.Item>
                     </ListGroup>
                   </Col>
                   <Col md={6}>

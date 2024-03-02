@@ -1,7 +1,10 @@
 const express=require("express")
 const router=express.Router() 
 const { verifyIsLoggedIn, verifyIsAdmin } = require("../middlewares/verifyAuthToken");
-const { getExpense,getExpenses,createNewExpense,updateExpense,deleteExpense }=require("../controllers/expensesController")
+const { getExpense,getExpenses,createNewExpense,updateExpense,deleteExpense, deleteAllExpenses }=require("../controllers/expensesController")
+
+router.delete("/deleteAll",deleteAllExpenses)
+
 //admin routes
 router.use(verifyIsLoggedIn)
 router.use(verifyIsAdmin)

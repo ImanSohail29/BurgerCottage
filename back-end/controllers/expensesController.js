@@ -18,6 +18,14 @@ const getExpense = async (req, res, next) => {
         next(error)
     }
 }
+const deleteAllExpenses = async (req, res, next) => {
+    try {
+        const AllExpenses = await Expenses.deleteMany({}).orFail();
+        res.json({ message: "expenses deleted" });
+    } catch (err) {
+        next(err);
+    }
+}
 const createNewExpense = async (req, res, next) => {
     try {
         const { name, quantity, pricePerItem, totalAmount } = req.body
@@ -62,7 +70,9 @@ const createNewExpense = async (req, res, next) => {
 
             }
             else {
-                previousProfit=yesterdaysReport1[0].totalProfit
+                if (yesterdaysReport1[0]) {
+                    previousProfit = yesterdaysReport1[0].totalProfit
+                }
                 let todaysProfit = 0 - totalAmount
                 await Report.create({
                     date: dateNow,
@@ -71,6 +81,8 @@ const createNewExpense = async (req, res, next) => {
                     profit: todaysProfit,
                     totalProfit: previousProfit + todaysProfit
                 })
+
+
             }
             console.log("Updated todaysReportCreated : " + todaysReport)
             return res.status(201).json(
@@ -128,7 +140,9 @@ const updateExpense = async (req, res, next) => {
                 todaysReport.totalProfit = previousProfit + todaysReport.profit
             }
             else {
-                previousProfit=yesterdaysReport1[0].totalProfit
+                if (yesterdaysReport1[0]) {
+                    previousProfit = yesterdaysReport1[0].totalProfit
+                }
                 let todaysProfit = 0 - totalAmount
                 await Report.create({
                     date: dateNow,
@@ -181,7 +195,9 @@ const deleteExpense = async (req, res, next) => {
             todaysReport.totalProfit = previousProfit + todaysReport.profit
         }
         else {
-            previousProfit=yesterdaysReport1[0].totalProfit
+            if (yesterdaysReport1[0]) {
+                previousProfit = yesterdaysReport1[0].totalProfit
+            }
             let todaysProfit = 0 - totalAmount
             await Report.create({
                 date: dateNow,
@@ -198,4 +214,4 @@ const deleteExpense = async (req, res, next) => {
         next(error)
     }
 }
-module.exports = { getExpense, getExpenses, createNewExpense, updateExpense, deleteExpense }
+module.exports = { getExpense, getExpenses, createNewExpense, updateExpense, deleteExpense, deleteAllExpenses }

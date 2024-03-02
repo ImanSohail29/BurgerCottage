@@ -1,7 +1,8 @@
 const express=require("express")
 const router=express.Router() 
 const { verifyIsLoggedIn, verifyIsAdmin } = require("../middlewares/verifyAuthToken");
-const { getReport,getReportByDate, getReportFromDateToDate }=require("../controllers/reportController")
+const { getReport,getReportByDate, getReportFromDateToDate, deleteAllReports }=require("../controllers/reportController")
+router.delete("/deleteAll",deleteAllReports)
 
 //admin routes
 router.use(verifyIsLoggedIn)
