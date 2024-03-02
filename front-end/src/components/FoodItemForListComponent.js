@@ -45,16 +45,21 @@ const FoodItemForListComponent = ({ foodItemId, name, description, size, image, 
                     </Card.ImgOverlay>
                 </Row>
             </LinkContainer>
-            <Button className="bg-success" onClick={() => {
-                if (discount.figure > 0 && category !== "Deals") {
-                    defaultSize.price = Math.ceil((Number(defaultSize.price)) - (((Number(defaultSize.price)) * discount.figure) / 100))
-                }
-                console.log(defaultSize.price)
-                dispatch(
-                    addToCartReduxAction({ id: foodItemId, quantity, size: defaultSize, instructions, sameProduct: defaultSameProduct, selectedAddOns: defaultSelectedAddOns })
+            <Row className="m-1">
+            {size.map((sizeItem,idx)=>{
+                return(
+                    <Button className="bg-danger border border-dark border-1" style={{width:"fit-content",maxWidth:"80px",height:"fit-content",padding:"2px"}} onClick={() => {
+                        if (discount.figure > 0 && category !== "Deals") {
+                            defaultSize.price = Math.ceil((Number(defaultSize.price)) - (((Number(defaultSize.price)) * discount.figure) / 100))
+                        }
+                        dispatch(
+                            addToCartReduxAction({ id: foodItemId, quantity, size: sizeItem, instructions, sameProduct: defaultSameProduct, selectedAddOns: defaultSelectedAddOns })
+                        )
+                    }
+                    }><small style={{fontSize:"0.7rem",fontWeight:"700",lineHeight:"0.1rem"}}>{"Rs."+sizeItem.price+"/-"}</small><small style={{fontSize:"0.7rem",fontWeight:"100",color:"yellow",lineHeight:"0.1rem"}}><br/>{sizeItem.value}</small></Button>
                 )
-            }
-            }><FontAwesomeIcon icon={faCartArrowDown} ></FontAwesomeIcon></Button>
+            })}
+            </Row>
         </Card>
     )
 };

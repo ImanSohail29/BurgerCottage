@@ -52,7 +52,9 @@
   opacity: 93%  !important;
   color: rgb(255, 255, 255)  !important;
 }
-
+.btn:hover{
+  filter: brightness(1.5) !important;
+}
 .loader {
     position: absolute;
     left: 50%;
