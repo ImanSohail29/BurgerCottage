@@ -120,7 +120,6 @@ const AdminCreateProductPageComponent = ({ categories, createProductApiRequest, 
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="formBasicCategory">
                             <Form.Label>Category
-                                <CloseButton></CloseButton>(<small>remove selected</small>)
                             </Form.Label>
                             <Form.Select required name="category" aria-label="Default select example">
                                 <option value="">Choose category</option>
@@ -160,11 +159,11 @@ const AdminCreateProductPageComponent = ({ categories, createProductApiRequest, 
                                     </thead>
                                     <tbody>
                                         {sizeTable.map((item, idx) => (
-                                            <tr key={idx}>
+                                            <tr  key={idx}>
                                                 <td>{idx + 1}</td>
                                                 <td>{item.value}</td>
                                                 <td>{item.price}</td>
-                                                <td>
+                                                <td data-bs-theme="dark">
                                                     <CloseButton onClick={() => deleteSize(idx)} />
                                                 </td>
                                             </tr>

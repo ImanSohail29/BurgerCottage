@@ -75,6 +75,7 @@ const AdminOrderDetailsPageComponent = ({ getOrder, markAsDelivered, markAsDone,
             "discountInPercentage":order.discount.figure,
             "discountInAmount":order.discountAmount,
             "netTotal":order.cart.cartSubtotal,
+            "customerInfo":order.customerInfo,
           }
         )
         setUserInfo(order.customerInfo);

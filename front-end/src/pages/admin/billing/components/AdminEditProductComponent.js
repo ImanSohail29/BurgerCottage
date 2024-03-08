@@ -200,7 +200,7 @@ const AdminEditProductComponent = ({ fetchProduct, categories, updateProductApiR
                                                 <td>{idx + 1}</td>
                                                 <td>{item.value}</td>
                                                 <td>{item.price}</td>
-                                                <td>
+                                                <td data-bs-theme="dark">
                                                     <CloseButton onClick={() => deleteSize(idx)} />
                                                 </td>
                                             </tr>
